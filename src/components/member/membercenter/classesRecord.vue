@@ -18,16 +18,18 @@
 		 </template>
 	</div>
 	<div class="classesrecord_paging tc">
-		<template>
+		<!--<template>
 			<el-pagination v-bind:current-Page="pageIndex" v-bind:page-size="pageSize" :total="total"
         layout="sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSizes"
         v-on:size-change="sizeChange" v-on:current-change="pageIndexChange"></el-pagination>
-		</template>
+		</template>-->
+		<page @newNOdeEvents="parentLisen"></page>
 	</div>
 </div>
 </template>
 
 <script>
+import page from '../page.vue'
 export default {
      data() {
         return {
@@ -50,20 +52,28 @@ export default {
             followersNumber:3333,
             playNumber:333333,
           }],
-          pageIndex:1,
+          /*pageIndex:1,
           pageSize:10,
           total:40,
-          pageSizes:[10,20,50,100],
+          pageSizes:[10,20,50,100],*/
+          pageIndex:1,
+          pageSize:10,
         }
       },
+      components:{page},
       methods: {
-      sizeChange: function (pageSize) {   //每页显示条数
+      /*sizeChange: function (pageSize) {   //每页显示条数
 	      this.pageSize = pageSize;
 	      this.fetchData();
 	    },
 	   pageIndexChange: function (pageIndex) {   //第几页
 	      this.pageIndex = pageIndex;
 	      this.fetchData();
+	    },*/
+	    parentLisen:function(pageIndex,pageSize){
+	    	this.pageIndex=pageIndex;
+	    	this.pageSize=pageSize;
+	    	this.fetchData();
 	    },
 	    fetchData:function(){
 	    	alert(this.pageSize);
