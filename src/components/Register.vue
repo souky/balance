@@ -1,5 +1,5 @@
 <template>
-<div id="register" class="main_body" >
+<div id="register" class="main_body tc" >
 	<div class="page2" >
 		<div class="logo">
 			<div class="img">
@@ -190,7 +190,7 @@ export default {
 	#register .page1{width:1200px;margin: auto;}
 	#register .page2{width:100%;height:100%}
 	#register .main{background-color: white;width:1200px;height:600px;margin: auto;}
-	#register .top{width:146px;height:36px;color: #272727;font-size:36px;
+	#register .top{height:36px;color: #272727;font-size:36px;
 	               margin: auto;padding-top:38px ; margin-bottom: 39.8px;}
 	#register .middle2{width:491px;height:60px;font-size: 16px; line-height:30px;margin: auto;
 	                font-family: .PingFangSC-Regular; margin-bottom:36px }
