@@ -6,11 +6,11 @@
 			</router-link>
 			
 			<router-link to="allClass">
-			<div class="leftItems l">所有课程</div>
+				<div class="leftItems l">所有课程</div>
 			</router-link>
 			
 			<router-link to="allFile">
-			<div class="leftItems l">所有教辅</div>
+				<div class="leftItems l">所有教辅</div>
 			</router-link>
 			
 			<router-link to="liveRoom">
@@ -18,7 +18,7 @@
 			</router-link>
 			
 			<router-link to="memberCenter">
-			<div class="leftItems l">个人中心</div>
+				<div class="leftItems l">个人中心</div>
 			</router-link>
 			
 		</div>
@@ -27,8 +27,9 @@
 				<el-input placeholder="搜索内容" icon="search" v-model="searchKey" :on-icon-click="handleIconClick"></el-input>
 			</div>
 			<div class="l rightItems">登录</div>
-			<div class="l rightItems">注册</div>
-			
+			<router-link to="register">
+				<div class="l rightItems">注册</div>
+			</router-link>
 		</div>
 		<div class="logoImg">
 			<img src="../../static/img/header/logo.png" />
