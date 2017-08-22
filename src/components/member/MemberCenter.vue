@@ -12,20 +12,20 @@
 		</div>
 
 		<div class="member_center_leftNav_button member_center_leftNav_button_top member_center_leftNav_button_padding" @click="personaldata">
-			<div class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>个人资料</p>
+			<div v-show="personaldataStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>个人资料</p>
 		</div>
 		<div class="member_center_leftNav_button member_center_leftNav_button_bottom" @click="accountsecurity">
-			<p>账号安全</p>
+			<div v-show="accountsecurityStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>账号安全</p>
 		</div>
 
 		<div class="member_center_leftNav_button member_center_leftNav_button_top member_center_leftNav_button_padding" @click="classesrecord">
-			<p>我的开课记录</p>
+			<div v-show="classesrecordStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的开课记录</p>
 		</div>
 		<div class="member_center_leftNav_button member_center_leftNav_button_top" @click="studyrecord">
-			<p>我的学习记录</p>
+			<div v-show="studyrecordStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的学习记录</p>
 		</div>
 		<div class="member_center_leftNav_button member_center_leftNav_button_bottom" @click="orderrecord">
-			<p>我的预约记录</p>
+			<div v-show="orderrecordStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的预约记录</p>
 		</div>
 	</div>
 	<div class="member_center_content l">
@@ -45,24 +45,42 @@ export default {
       	sex:'女',
       	class:'五年级',
       	school:'苏州二中',
-      }
+      },
+      personaldataStyle:true,
+      accountsecurityStyle:false,
+      classesrecordStyle:false,
+      studyrecordStyle:false,
+      orderrecordStyle:false,
     }
+  },
+  created:function(){
+  	this.personaldata();
   },
   methods:{
   	personaldata:function(){
   		this.$router.push({path:'/personaldata'});
+  		this.personaldataStyle=true;
+  		this.accountsecurityStyle=this.classesrecordStyle=this.studyrecordStyle=this.orderrecordStyle=false;
   	},
   	accountsecurity:function(){
   		this.$router.push({path:'/accountsecurity'});
+  		this.accountsecurityStyle=true;
+  		this.personaldataStyle=this.classesrecordStyle=this.studyrecordStyle=this.orderrecordStyle=false;
   	},
   	classesrecord:function(){
   		this.$router.push({path:'/classesrecord'});
+  		this.classesrecordStyle=true;
+  		this.accountsecurityStyle=this.personaldataStyle=this.studyrecordStyle=this.orderrecordStyle=false;
   	},
   	studyrecord:function(){
   		this.$router.push({path:'/studyrecord'});
+  		this.studyrecordStyle=true;
+  		this.personaldataStyle=this.accountsecurityStyle=this.classesrecordStyle=this.orderrecordStyle=false;
   	},
   	orderrecord:function(){
   		this.$router.push({path:'/orderrecord'});
+  		this.orderrecordStyle=true;
+  		this.personaldataStyle=this.accountsecurityStyle=this.studyrecordStyle=this.classesrecordStyle=false;
   	}
   }
 }

@@ -36,6 +36,9 @@ export default new Router({
       name: '用户中心',
       component: MemberCenter,
       children:[{
+        path:'/',
+        component:PersonalData,
+      },{
         path:'/personaldata',
         component:PersonalData,
       },{
