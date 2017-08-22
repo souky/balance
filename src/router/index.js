@@ -12,6 +12,10 @@ import ClassesRecord from '@/components/member/membercenter/classesRecord.vue'
 import StudyRecord from '@/components/member/membercenter/studyRecord.vue'
 import OrderRecord from '@/components/member/membercenter/orderRecord.vue'
 
+import LiveRoom from '@/components/live/LiveRoom'
+import AllClass from '@/components/class/AllClass'
+import AllFile from '@/components/file/AllFile'
+
 Vue.use(Router)
 
 export default new Router({
@@ -55,5 +59,20 @@ export default new Router({
         component: OrderRecord, 
       }]
     },
+    {
+      path: '/liveRoom',
+      name: '直播间',
+      component: LiveRoom
+    },
+    {
+      path: '/allClass',
+      name: '所有课程',
+      component: AllClass
+    },
+    {
+      path: '/allFile',
+      name: '所有教辅',
+      component: AllFile
+    }
   ]
 })
