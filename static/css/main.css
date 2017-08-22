@@ -11,6 +11,9 @@
 #header .leftPart .router-link-active .leftItems{
 	color: #6ED56C;
 }
+#header .rightPart .router-link-active .rightItems{
+	color: #6ED56C;
+}
 #header .leftPart .leftItems{
 	width:100px;
 	height:60px;
