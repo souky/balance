@@ -1,6 +1,6 @@
 <template>
 
-<div id="Login" class="Login-container">
+<div id="Login" class="Login-container main_body">
 	<el-button type="text" @click="dialogFormVisible = true">登陆</el-button>
 	<el-dialog title="请先登陆" :visible.sync="dialogFormVisible" :close-on-click-modal = "dialogClose" @close="resetForm('ruleForm')">
 	    <div class="loginBody">
