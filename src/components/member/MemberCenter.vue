@@ -163,4 +163,39 @@ export default {
 	font-size: 12px;
 	margin-left: 3px;
 }
+
+.el-input__inner:focus{border-color: #6ED56C;}
+.el-textarea__inner:focus{border-color:#6ED56C;}
+.el-radio__inner{width:22px;height:22px;}
+.el-radio__inner:hover{border-color: #6ED56C;}
+.el-radio__input.is-checked .el-radio__inner{border-color:#6ED56C;background: #fff;}
+.el-radio__inner::after{background: #E0E0E0;transform: translate(-50%,-50%) scale(1);width:12px;height:12px;}
+.el-radio__input.is-checked .el-radio__inner::after{background: #6ED56C;}
+.el-select .el-input__inner:focus{border-color: #6ED56C;}
+.el-select .el-input__inner:hover{border-color: #6ED56C;}
+.el-select .el-input__inner:active{border-color: #6ED56C;}
+
+.el-pager li.active{background:#6ED56C;border-color:#6ED56C;}
+.el-pager li.active:hover{color:#fff;}
+.el-pager li:hover{color:#6ED56C}
+.el-pagination button:hover{color:#6ED56C}
+.el-pagination__editor:focus{border-color:#6ED56C}
+
+.el-checkbox__inner:hover{border-color:#6ED56C}
+.el-checkbox__input.is-checked .el-checkbox__inner{background:#6ED56C;border-color:#6ED56C;}
+
+.el-icon-information{color:#6ED56C;}
+
+.el-select-dropdown__item.selected.hover{background:#6ED56C;}
+.el-select-dropdown__item.selected{background:#6ED56C;}
+.el-button--primary{color:#fff;background-color:#6ED56C !important;border-color:#6ED56C !important;}
+.el-button--primary:hover{background-color:#6EC400;border-color:#6EC400;}
+.el-button:active{color:#6ED56C;border-color:#6ED56C;}
+.el-button:hover{color:#000;border-color:#6ED56C;}
+.el-button:focus{color:#fff;border-color:#6ED56C;}
+.avatar-uploader .el-upload {border: 1px dashed #d9d9d9;border-radius: 6px;cursor: pointer;position: relative;overflow: hidden;}
+.avatar-uploader .el-upload:hover {border-color: #20a0ff;}
+.avatar-uploader-icon {font-size: 28px;color: #8c939d;width: 133px;height: 160px;line-height: 160px;text-align: center;}
+.avatar {width: 133px;height: 160px;display: block;}
+
 </style>
