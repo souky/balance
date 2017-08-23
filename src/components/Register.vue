@@ -154,7 +154,7 @@ export default {
   	//注册提交
   	
   	submitForm(userForm){
-  	    conl
+  	
   		 //验证整个userForm,并上传到后台
   		 this.$refs[userForm].validate((valid) => {
   		    
