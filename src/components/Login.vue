@@ -70,9 +70,9 @@
     	// },
     	submitForm(formName) {
 	        this.$refs[formName].validate((valid) => {
-
-	          if (valid) {
-	             
+           console.log(valid);
+            if (valid) {
+	             alert(1)
 	          } else {
 	            console.log('error submit!!');
 	            return false;
@@ -84,7 +84,7 @@
       	},
     	forget(){
     		this.dialogFormVisible = false;
-    		this.$router.push({path:'/forgive'})
+    		this.$router.push({path:'/Forget'})
     	},
     	register(){
     		this.dialogFormVisible = false;
