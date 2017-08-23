@@ -1,11 +1,11 @@
 <template>
 <div id="register" class="main_body tc" >
-	<div class="page2" >
-		<div class="logo">
+	<div class="page2" v-show="showpage2">
+		<!--<div class="logo">
 			<div class="img">
 			 <img src="../../static/img/register/logo.png" class="image">
 		    </div>
-		</div>
+		</div>-->
 		<div class="main">
 			<div class="top">
 				注册成功
@@ -20,68 +20,54 @@
 				你的账号是James，您可前往账户中进一步修改资料或修改密码
 			</div>
 			<div class="bottom">
-				<el-button type="primary" @click="submitForm('ruleForm')">完成返回首页</el-button>
+				<el-button type="primary" @click="firstpage('val')">完成返回首页</el-button>
 			</div>
 		</div>
 	</div>
 	
 	
-	<div class="page1" v-show=false>
-		<div class="img">
+	<div class="page1" v-show="showpage1">
+		<!-- <div class="img">
 			 <img src="../../static/img/register/logo.png" class="image">
-		</div>
+		</div>-->
 		<div class="content">
 		     <div class="title">
 			 	注  册
 			 	<div class="dengru">我已注册，现在就去<a href="" @click="login()">登入</a></div>
 			</div>
-			<div class="form">
-		    	<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-				        <div class="psition">
-						    <div class="fleft">
-								<el-form-item label="账户名" prop="account" :label-width="formLabelWidth">
-								    <el-input v-model="ruleForm.account" auto-complete="off" placeholder="请输入文字"></el-input>
+           <el-form  :model="userForm" :rules="rules" ref="userForm" label-width="100px" class="demo-userForm">
+								<el-form-item class="fleft psition" label="账户名" prop="account" >
+								    <el-input v-model="userForm.account" auto-complete="off" placeholder="请输入文字"></el-input>
 								</el-form-item> 
-						    </div>
-						    <div class="fright">可用字母，数字，下划线，请以字母开通</div>
-				        </div>
-				         <div class="psition">
-				        	<div class="fleft clear">
-								     <el-form-item label="姓名" prop="name" :label-width="formLabelWidth" >
-								       <el-input v-model="ruleForm.name" auto-complete="off" placeholder="请输入文字">></el-input>
-								     </el-form-item>
-							</div>	
-							<div class="fright">请输入真实的姓名，用于审核身份</div>
-				        </div>
-								     <el-form-item label="学校" prop="school" :label-width="formLabelWidth" class="clear">
-								       <el-input v-model="ruleForm.school" auto-complete="off" placeholder="请输入文字">></el-input>
-								     </el-form-item>
-						<div class="psition">	
-							<div class="fleft clear">
-								     <el-form-item label="班主任" prop="teacher" :label-width="formLabelWidth">
-								       <el-input v-model="ruleForm.teacher" auto-complete="off" placeholder="请输入文字">></el-input>
-								     </el-form-item>
-							 </div>	
-							 <div class="fright">请输入真实的姓名，用于审核身份</div>
-				        </div>
-				        <div class="psition">
-				        	<div class="fleft clear">
-								     <el-form-item label="设置密码" prop="psw" :label-width="formLabelWidth" >
-								       <el-input v-model="ruleForm.psw" auto-complete="off" placeholder="请输入文字">></el-input>
-								     </el-form-item>
-							</div>
-							<div class="fright">密码长度8-16位，且必须数字，字母，字符任意两种以上组合</div>	
-						</div>			     
-								     <el-form-item label="确认密码" prop="confirpsw" :label-width="formLabelWidth" class="clear">
-								       <el-input v-model="ruleForm.confirpsw" auto-complete="off" placeholder="请输入文字">></el-input>
-								     </el-form-item>
+						        <div class="fright">6-18个字符，可用字母，数字，下划线，请以字母开通</div>
+                                <el-form-item class="fleft psition clear"  label="姓名" prop="name"  >
+								    <el-input v-model="userForm.name" auto-complete="off" placeholder="请输入文字"></el-input>
+								</el-form-item>
+								<div class="fright">请输入真实的姓名，用于审核身份</div>
+								<el-form-item label="学校" prop="school"  class="clear">
+								    <el-input v-model="userForm.school" auto-complete="off" placeholder="请输入文字"></el-input>
+								</el-form-item>
+                                <el-form-item class="fleft psition clear"  label="班主任" prop="teacher" >
+								    <el-input v-model="userForm.teacher" auto-complete="off" placeholder="请输入文字"></el-input>
+								</el-form-item>
+                                <div class="fright">请输入真实的姓名，用于审核身份</div>
+                                <el-form-item class="fleft psition clear" label="设置密码" prop="psw"  >
+								    <el-input v-model="userForm.psw" auto-complete="off" placeholder="请输入文字"></el-input>
+								</el-form-item>
+                                <div class="fright">密码长度8-16位，且必须数字，字母，字符任意两种以上组合</div>
+                                <el-form-item label="确认密码" prop="checkpsw"  class="clear">
+								    <el-input v-model="userForm.checkpsw" auto-complete="off" placeholder="请输入文字"></el-input>
+								</el-form-item>
+								<!--<el-form-item>
+									<el-button class="button" type="primary" @click="submitForm('userForm')">立即注册</el-button>
+                             </el-form-item>-->
 						<div class="button">		     
 								     
-								       <el-button type="primary" @click="submitForm('ruleForm')">立即注册</el-button>
+								       <el-button type="primary" @click="submitForm('userForm')">立即注册</el-button>
 								  
-						</div>		    
-			    </el-form>
-		    </div> 
+						</div> 
+			</el-form>
+		    
 	    </div>
 	</div>    
 </div>
@@ -89,36 +75,125 @@
 
 <script>
 export default {
+
+	
+	
   data () {
+  	var validatename = (rule, value, callback) => {
+  		if(!value){
+  			callback(new Error('请输入姓名'));
+  		}	
+  	};
+  	var validateaccount = (rule, value, callback) => {
+  		if(value===''){
+  			callback(new Error('请输入账户名'));
+  		}else if(value.length < 6 || value.length > 18 ){
+  			callback(new Error('账户名6-18字符'));	
+  		}else{
+  			callback();
+  		}	
+  	};
+  	var validatepsw = (rule, value, callback) => {
+  		 if (value === '') {
+          callback(new Error('请输入密码'));
+        }else if (value.length < 8 || value.length > 18 ){
+          callback(new Error('账户名8-18字符'));
+        }
+        else {
+          if (this.userForm.checkpsw !== '') {
+            this.$refs.userForm.validateField('checkpsw');
+          }
+          callback();
+        }	
+  	};
+  	var validatecheckpsw = (rule, value, callback) => {
+  		if(value===''){
+  			callback(new Error('请再次输入密码'));
+  		}else if(value !== this.userForm.psw){
+  			callback(new Error('两次输入密码不一致'));	
+  		}else{
+  			callback();
+  		}	
+  	};
+  	
+  	
     return {
-      ruleForm:{
+      showpage2:false,	
+      showpage1:true,	
+      userForm:{
       	account:'',
       	name:'',
       	school:'',
       	teacher:'',
       	psw:'',
-      	confirpsw:'',
+      	checkpsw:'',
       },
       rules:{
       	account:[
-      	{required:true,message:'请输入账户名',trigger:'blur'},
-      	{min:6,max:18,message:'可用字母，数字，下划线，请以字母开通'}
+      	{validator: validateaccount, trigger:'blur'}
       	],
       	name:[
-      	{required:true,message:'请输入真实的姓名，用于审核身份'}
+      	{validator: validatename, trigger:'blur'}
       	],
       	teacher:[
-      	{required:true,message:'请输入真实的姓名，用于审核身份'}
+      	{validator: validatename, trigger:'blur'}
       	],
-      	psw:[{required:true,message:'请输入密码',trigger:'blur'},
-      	{min:8,max:16,message:'密码长度8-16位，且必须数字，字母，字符任意两种以上组合'}
+      	psw:[
+      	{validator: validatepsw, trigger:'blur'}
+      	],
+      	checkpsw:[
+      	{validator: validatecheckpsw, trigger:'blur'}
       	],
       }
     }
   },
   methods:{
-  	login:function(){},
-  	submitForm:function(){}
+  	
+  	
+   
+  	//注册提交
+  	
+  	submitForm(userForm){
+  	    conl
+  		 //验证整个userForm,并上传到后台
+  		 this.$refs[userForm].validate((valid) => {
+  		    
+           if (valid) {
+            alert('submit!');
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });	
+  	},
+  	
+  	login(){},
+  	backfirstpage(){},
+  	
+  	//初始化个人首页
+  	
+  	initUserData(obj,data){
+    		this.user = data.result;
+    		
+    	},
+    	
+    
+    //验证提交时后台返回的code
+    
+  	ajax_handle(obj,data){
+    		if(data.code=="10000"){
+    			this.notify_jr(this,this.infoTitles,'注册成功','success');
+    			initUser(this,this.initUserData);
+    			if(this.Login){
+    				this.postHttp(this,data,"logout",null);
+						this.$router.push({ path: '/login' });
+    			}
+    		}else{
+    			this.notify_jr(this,this.infoTitles,data.message,'error');
+    			return false
+    			
+    		}
+    	},
   	
   },
 }
@@ -173,6 +248,7 @@ export default {
 		position:relative;
 	}
 	#register .fleft{float:left;}
+	
 	#register .fright{
 		float:left;
 		text-align: left;
