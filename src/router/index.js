@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Index from '@/components/Index'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
+import Forget from '@/components/Forget'
 
 import MemberCenter from '@/components/member/MemberCenter'
 import PersonalData from '@/components/member/membercenter/personaldata.vue'
@@ -24,6 +25,11 @@ export default new Router({
       path: '/',
       name: '首页',
       component: Index
+    },
+    {
+      path: '/Forget',
+      name: '忘记密码',
+      component: Forget
     },
     {
       path: '/login',
