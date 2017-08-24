@@ -18,16 +18,13 @@
 		 </template>
 	</div>
 	<div class="classesrecord_paging tc">
-		<template>
-			<el-pagination v-bind:current-Page="pageIndex" v-bind:page-size="pageSize" :total="total"
-        layout="sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSizes"
-        v-on:size-change="sizeChange" v-on:current-change="pageIndexChange"></el-pagination>
-		</template>
+		<page :totalNumber="total" @newNOdeEvents="parentLisen"></page>
 	</div>
 </div>
 </template>
 
 <script>
+import page from '../page.vue'
 export default {
      data() {
         return {
@@ -52,22 +49,25 @@ export default {
           }],
           pageIndex:1,
           pageSize:10,
-          total:40,
-          pageSizes:[10,20,50,100],
+          total:60,
         }
       },
+      created:function(){
+      	this.getdata();
+      },
+      components:{page},
       methods: {
-      sizeChange: function (pageSize) {   //每页显示条数
-	      this.pageSize = pageSize;
-	      this.fetchData();
-	    },
-	   pageIndexChange: function (pageIndex) {   //第几页
-	      this.pageIndex = pageIndex;
-	      this.fetchData();
+      	getdata:function(){
+
+      	},
+	    parentLisen:function(pageIndex,pageSize){
+	    	this.pageIndex=pageIndex;
+	    	this.pageSize=pageSize;
+	    	this.fetchData();
 	    },
 	    fetchData:function(){
-	    	alert(this.pageSize);
-	    	alert(this.pageIndex);
+	    	alert("开课"+this.pageSize);
+	    	alert("开课"+this.pageIndex);
 	    },
 	    classesrecordOrder:function(e){
 	    	if(e==1){
@@ -94,18 +94,17 @@ export default {
 	font-size: 16px;
 	color: #999999;
 }
-.mt36{
+#classesrecord .mt36{
 	margin-top: 36px;
 	font-size: 16px;
 }
-.classesrecord_table{
+#classesrecord .classesrecord_table{
 	margin: 0 auto;
 	margin-top: 20px;
 	width: 90%;
 }
-.classesrecord_paging{
+#classesrecord .classesrecord_paging{
 	margin-top: 40px;
-	margin-right: 40px;
 	margin-bottom: 40px;
 }
 </style>

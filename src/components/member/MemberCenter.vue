@@ -51,12 +51,40 @@ export default {
       classesrecordStyle:false,
       studyrecordStyle:false,
       orderrecordStyle:false,
+      dataObj:'',
     }
   },
   created:function(){
+  	this.getdata();
   	this.personaldata();
   },
+  updated:function(){
+  	this.getactive();
+  },
   methods:{
+  	getdata:function(){
+
+  	},
+  	getactive:function(){
+  		var test = window.location.hash;
+  		let test1 = test.substring(1,test.length);
+  		this.dataObj = test1;
+  		if(this.dataObj=='/personaldata'){
+  			this.personaldata();
+  		}
+  		if(this.dataObj=='/accountsecurity'){
+  			this.accountsecurity();
+  		}
+  		if(this.dataObj=='/classesrecord'){
+  			this.classesrecord();
+  		}
+  		if(this.dataObj=='/studyrecord'){
+  			this.studyrecord();
+  		}
+  		if(this.dataObj=='/orderrecord'){
+  			this.orderrecord();
+  		}
+  	},
   	personaldata:function(){
   		this.$router.push({path:'/personaldata'});
   		this.personaldataStyle=true;
@@ -191,11 +219,17 @@ export default {
 .el-button--primary{color:#fff;background-color:#6ED56C !important;border-color:#6ED56C !important;}
 .el-button--primary:hover{background-color:#6EC400;border-color:#6EC400;}
 .el-button:active{color:#6ED56C;border-color:#6ED56C;}
-.el-button:hover{color:#000;border-color:#6ED56C;}
+.el-button:hover{border-color:#6ED56C;}
 .el-button:focus{color:#fff;border-color:#6ED56C;}
 .avatar-uploader .el-upload {border: 1px dashed #d9d9d9;border-radius: 6px;cursor: pointer;position: relative;overflow: hidden;}
-.avatar-uploader .el-upload:hover {border-color: #20a0ff;}
+.avatar-uploader .el-upload:hover {border-color: #6ED56C;}
 .avatar-uploader-icon {font-size: 28px;color: #8c939d;width: 133px;height: 160px;line-height: 160px;text-align: center;}
 .avatar {width: 133px;height: 160px;display: block;}
 
+.el-date-table td.current:not(.disabled), .el-date-table td.end-date, .el-date-table td.start-date{background-color: #6ED56C!important}
+.el-date-table td.today:before{border-top:.5em solid #6ED56C;}
+.el-picker-panel__link-btn{color:#6ED56C;}
+.el-date-table td.today{color:#6ED56C;}
+.el-time-panel__content::after, .el-time-panel__content::before{background-color:#6ED56C;}
+.el-time-panel__btn.confirm{color:#6ED56C;}
 </style>
