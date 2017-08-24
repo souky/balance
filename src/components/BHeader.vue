@@ -46,7 +46,7 @@
 					</div>
 					 <el-dropdown-menu slot="dropdown" size="middles">
 					    <el-dropdown-item>
-					    	<router-link to="memberCenter">
+					    	<router-link to="personaldata">
 								<div class="menuStyle">
 									个人中心
 								</div>

@@ -66,20 +66,11 @@ export default {
   		var test = window.location.hash;
   		let test1 = test.substring(1,test.length);
   		this.dataObj = test1;
-  		if(this.dataObj=='/personaldata'){
-  			this.personaldata();
-  		}
-  		if(this.dataObj=='/accountsecurity'){
+  		if(this.dataObj=='/accountSecurity'){
   			this.accountsecurity();
   		}
-  		if(this.dataObj=='/classesrecord'){
-  			this.classesrecord();
-  		}
-  		if(this.dataObj=='/studyrecord'){
-  			this.studyrecord();
-  		}
-  		if(this.dataObj=='/orderrecord'){
-  			this.orderrecord();
+  		if(this.dataObj=='/personaldata'){
+  			this.personaldata();
   		}
   	},
   	personaldata:function(){

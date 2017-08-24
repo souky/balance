@@ -81,11 +81,9 @@ export default {
     },
     created:function(){
       this.getdata();
-      
     },
     methods: {
       getdata:function(){
-        alert(1);
         this.$emit('newfind');
       },
     	accountSecurityControlButton:function(){

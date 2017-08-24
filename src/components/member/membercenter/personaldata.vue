@@ -90,7 +90,7 @@ export default {
     },
     methods: {
       getdata(){
-
+      	this.$emit('newfind');
       },
       onSubmit() {
        alert(1);
