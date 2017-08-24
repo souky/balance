@@ -58,7 +58,7 @@ export default {
   	this.getdata();
   	this.personaldata();
   },
-  updated:function(){
+  beforeUpdate:function(){
   	this.getactive();
   },
   methods:{

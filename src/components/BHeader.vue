@@ -138,10 +138,10 @@ export default {
           }
     }
   },
-  //钩子函数判断当前是否登陆
+  //钩子函数判断当前是否登陆,获取登陆信息
   created: function () {
     // `this` 指向 vm 实例
-    console.log('a is: ' + 123)
+    console.log('a is: ' + 123);
   },
   methods:{
   	handleIconClick(ev){
@@ -154,13 +154,9 @@ export default {
 	             var userName = this.ruleForm.loginName;
 		    	 var psw = this.ruleForm.passWord;
 		    	 var data = {userName:userName,psw:psw};
-		    	 // this.postHttp(this,data,'login',login_press);
-		    	 // 没用的瞎XX写的
-		    	 setTimeout(() => {
-		    	 	  this.loading = false;
-		    	 	  this.dialogFormVisible = false;
-			          this.$router.go(0)
-			        }, 1000);
+		    	 this.postHttp(this,data,'login',login_press);
+		    	
+		    	 
 	         } else {
 	            console.log('error submit!!');
 	            return false;
@@ -191,7 +187,9 @@ function login_press(obj,data){
 	      type:'error'
 	    });
   	}else{
-  		obj.$router.push({ path: '/home' });
+  		obj.loading = false;
+		obj.dialogFormVisible = false;
+		obj.$router.go(0)
   	}
   	
   }
