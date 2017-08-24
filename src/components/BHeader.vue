@@ -26,11 +26,48 @@
 			<div class="l search">
 				<el-input placeholder="搜索内容" icon="search" v-model="searchKey" :on-icon-click="handleIconClick"></el-input>
 			</div>
-			<div class="l rightItems" @click="dialogFormVisible = true">登录</div>
-			
-			<router-link to="register">
+			<!-- 未登录 -->
+			<div v-if="isshow" class="inline__box">
+				<div class="l rightItems" @click="dialogFormVisible = true">登录</div>
+				<router-link to="register">
 				<div class="l rightItems">注册</div>
-			</router-link>
+				</router-link>
+			</div>
+			<div v-else class="inline__box">
+				<div class="l rightItems">
+					<el-badge :is-dot="notic" class="item">
+					  <img src="../../static/img/header/message.png" />
+					</el-badge>
+				</div>
+				<el-dropdown trigger="click">
+					<div class="l personRight el-dropdown-link">
+						<img v-bind:src="person.img" style="width:30px;height:30px;border-radius:15px;vertical-align:middle" />
+						<span>{{person.name}}</span>
+					</div>
+					 <el-dropdown-menu slot="dropdown" size="middles">
+					    <el-dropdown-item>
+					    	<router-link to="memberCenter">
+								<div class="menuStyle">
+									个人中心
+								</div>
+							</router-link>
+					    </el-dropdown-item>
+					    <el-dropdown-item>
+					    	<router-link to="accountSecurity">
+								<div class="menuStyle">
+									账户信息
+								</div>
+							</router-link>
+					    </el-dropdown-item>
+					    <el-dropdown-item>
+					    	<div class="menuStyle">
+									退出
+							</div>
+					    </el-dropdown-item>
+					  </el-dropdown-menu>
+				</el-dropdown>
+			</div>
+			<!-- 已登路 -->
 		</div>
 		<div class="logoImg">
 			<img src="../../static/img/header/logo.png" />
@@ -76,11 +113,18 @@ export default {
     return {
       msg: '顶部导航栏',
       searchKey:'',
+      isshow:false,//登陆注册显示开关
+      notic:true,//消息红点
+      person:{
+      	id:'',
+      	name:'James',
+      	img:'../../static/img/toux1.png'
+	  },
       dialogFormVisible: false,
       dialogClose:false,
       loading:false,
-      	ruleForm:{
-      		loginName:'',
+      ruleForm:{
+      		loginName:'123',
 	        passWord:'',
 	        checked:false
       	},
@@ -94,6 +138,11 @@ export default {
           }
     }
   },
+  //钩子函数判断当前是否登陆
+  created: function () {
+    // `this` 指向 vm 实例
+    console.log('a is: ' + 123)
+  },
   methods:{
   	handleIconClick(ev){
   		console.log(ev);
@@ -105,8 +154,8 @@ export default {
 	             var userName = this.ruleForm.loginName;
 		    	 var psw = this.ruleForm.passWord;
 		    	 var data = {userName:userName,psw:psw};
-		    	 // this.postHttp(thiss,data,'login',login_press);
-		    	 // 没用的瞎几把写的
+		    	 // this.postHttp(this,data,'login',login_press);
+		    	 // 没用的瞎XX写的
 		    	 setTimeout(() => {
 		    	 	  this.loading = false;
 		    	 	  this.dialogFormVisible = false;
@@ -119,8 +168,7 @@ export default {
 	        });
 	     },
 	resetForm(formName) {
-			
-            this.$refs[formName].resetFields();
+		this.$refs[formName].resetFields();
       	},
     forget(){
     		this.dialogFormVisible = false;
@@ -164,6 +212,11 @@ function login_press(obj,data){
 #Login .el-input--normal .el-input__inner{height: 40px;line-height: 40px;width: 360px;border-radius: 3px;margin-bottom: 19px;color: #272727}
 #Login .el-checkbox__label{color:#5B5B5B}
 #Login .el-checkbox__input.is-checked .el-checkbox__inner {background: #6ED56C;border-color: #6ED56C;}
-
-
+.inline__box{display: inline-block;}
+.inline__box .rightItems img{vertical-align: middle;}
+.inline__box .el-badge__content.is-fixed.is-dot{top:22px;right:8px;}
+#header .rightPart .personRight {height:60px;text-align: center;cursor: pointer;font-size:16px;color:#fff;margin-right: 30px;}
+.menuStyle{text-decoration: none;color: #6ED56C;font-size: 16px;text-align: center;}
+.el-dropdown-menu__item a{text-decoration: none}
+.el-dropdown-menu--middles{width: 130px}
 </style>
