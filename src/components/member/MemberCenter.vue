@@ -51,12 +51,40 @@ export default {
       classesrecordStyle:false,
       studyrecordStyle:false,
       orderrecordStyle:false,
+      dataObj:'',
     }
   },
   created:function(){
+  	this.getdata();
   	this.personaldata();
   },
+  updated:function(){
+  	this.getactive();
+  },
   methods:{
+  	getdata:function(){
+
+  	},
+  	getactive:function(){
+  		var test = window.location.hash;
+  		let test1 = test.substring(1,test.length);
+  		this.dataObj = test1;
+  		if(this.dataObj=='/personaldata'){
+  			this.personaldata();
+  		}
+  		if(this.dataObj=='/accountsecurity'){
+  			this.accountsecurity();
+  		}
+  		if(this.dataObj=='/classesrecord'){
+  			this.classesrecord();
+  		}
+  		if(this.dataObj=='/studyrecord'){
+  			this.studyrecord();
+  		}
+  		if(this.dataObj=='/orderrecord'){
+  			this.orderrecord();
+  		}
+  	},
   	personaldata:function(){
   		this.$router.push({path:'/personaldata'});
   		this.personaldataStyle=true;

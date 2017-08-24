@@ -23,8 +23,9 @@
 			 <el-form-item label="学校">
 			    <p>{{form.school}}</p>
 			 </el-form-item>
-			 <el-form-item label="年纪">
+			 <el-form-item label="年级">
 			    <el-select v-model="form.class">
+			    	<el-option v-for="item in Sclass" :key="item.id" :label="item.className" :value="item.id"></el-option>
 			    </el-select>
 			 </el-form-item>
 			 <el-form-item label="性别">
@@ -35,6 +36,7 @@
 			 </el-form-item>
 			 <el-form-item label="班主任">
 			    <el-select v-model="form.teacher">
+			    	<el-option v-for="item in Steacher" :key="item.id" :label="item.teacherName" :value="item.id"></el-option>
 			    </el-select>
 			 </el-form-item>
 			 <el-form-item label="学号">
@@ -72,10 +74,24 @@ export default {
        		email:'',
        		
        },
+       Sclass:[{
+       	id:1,
+       	className:123,
+       }],
+       Steacher:[{
+       	id:1,
+       	teacherName:321,
+       }],
        imageUrl:'../../../static/img/toux1.png',
       }
     },
+    created:function(){
+      this.getdata();
+    },
     methods: {
+      getdata(){
+
+      },
       onSubmit() {
        alert(1);
       },
@@ -84,15 +100,17 @@ export default {
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
+        const isPNG = file.type === 'image/png';
+        const isIMG = isJPG||isPNG;
         const isLt2M = file.size / 1024 / 1024 < 2;
 
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
+        if (!isIMG) {
+          this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!');
         }
         if (!isLt2M) {
           this.$message.error('上传头像图片大小不能超过 2MB!');
         }
-        return isJPG && isLt2M;
+        return isIMG && isLt2M;
       }
     }
   }
