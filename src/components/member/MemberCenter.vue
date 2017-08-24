@@ -29,7 +29,7 @@
 		</div>
 	</div>
 	<div class="member_center_content l">
-		<router-view></router-view>
+		<router-view @newfind="getactive"></router-view>
 	</div>
 	<div class="cl"></div>
 </div>
@@ -57,9 +57,6 @@ export default {
   created:function(){
   	this.getdata();
   	this.personaldata();
-  },
-  updated:function(){
-  	this.getactive();
   },
   methods:{
   	getdata:function(){
