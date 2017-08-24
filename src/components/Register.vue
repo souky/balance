@@ -20,7 +20,7 @@
 				你的账号是James，您可前往账户中进一步修改资料或修改密码
 			</div>
 			<div class="bottom">
-				<el-button type="primary" @click="firstpage('val')">完成返回首页</el-button>
+				<el-button type="primary" @click="backfirstpage('val')">完成返回首页</el-button>
 			</div>
 		</div>
 	</div>
@@ -33,7 +33,7 @@
 		<div class="content">
 		     <div class="title">
 			 	注  册
-			 	<div class="dengru">我已注册，现在就去<a href="" @click="login()">登入</a></div>
+			 	<div class="dengru">我已注册，现在就去<a class="pointer" herf="" @click="login()">登入</a></div>
 			</div>
            <el-form  :model="userForm" :rules="rules" ref="userForm" label-width="100px" class="demo-userForm">
 								<el-form-item class="fleft psition" label="账户名" prop="account" >
@@ -44,12 +44,28 @@
 								    <el-input v-model="userForm.name" auto-complete="off" placeholder="请输入文字"></el-input>
 								</el-form-item>
 								<div class="fright">请输入真实的姓名，用于审核身份</div>
-								<el-form-item label="学校" prop="school"  class="clear">
-								    <el-input v-model="userForm.school" auto-complete="off" placeholder="请输入文字"></el-input>
+								 <!--<div class="clear school">
+								
+								 </div>-->
+								<el-form-item label="学校" prop="schools"  class="clear">
+									
+								    <!--<el-input v-model="userForm.school" auto-complete="off" placeholder="请输入文字">-->
+								    <el-select  v-model="value" placeholder="请选择">
+								        <el-option  v-for="item in schools" :key="item.value" :label="item.label" v-model="item.value">
+								        </el-option>
+								    </el-select>
+                                </el-form-item>
+								
+								
+                                <el-form-item class="fleft psition clear"  label="班主任" prop="teachers" >
+								    <!--<el-input v-model="userForm.teacher" auto-complete="off" placeholder="请输入文字"></el-input>-->
+								    <el-select  v-model="value" placeholder="请选择">
+								        <el-option  v-for="item in teachers" :label="item.label" :key="item.value" v-model="item.value">
+								        </el-option>
+								    </el-select>
 								</el-form-item>
-                                <el-form-item class="fleft psition clear"  label="班主任" prop="teacher" >
-								    <el-input v-model="userForm.teacher" auto-complete="off" placeholder="请输入文字"></el-input>
-								</el-form-item>
+								
+								
                                 <div class="fright">请输入真实的姓名，用于审核身份</div>
                                 <el-form-item class="fleft psition clear" label="设置密码" prop="psw"  >
 								    <el-input v-model="userForm.psw" auto-complete="off" placeholder="请输入文字"></el-input>
@@ -80,9 +96,14 @@ export default {
 	
   data () {
   	var validatename = (rule, value, callback) => {
+  		var pattern = /^[\w\u4e00-\u9fa5]{3,10}$/g
   		if(!value){
   			callback(new Error('请输入姓名'));
-  		}	
+  		}else if(!pattern.test(value)){
+  			callback(new Error('请输入3-10个字母/汉字/数字/下划线'))
+  		}else{
+  			callback()
+  		}
   	};
   	var validateaccount = (rule, value, callback) => {
   		if(value===''){
@@ -118,13 +139,15 @@ export default {
   	
   	
     return {
+      value:'',	
+      schools:[{value:'选项1',label:'苏州大学'},{value:'选项2',label:'江南大学'}],
+      teachers:[{value:'选项1',label:'李老师'},{value:'选项2',label:'王老师'}], 
       showpage2:false,	
       showpage1:true,	
       userForm:{
       	account:'',
       	name:'',
-      	school:'',
-      	teacher:'',
+      
       	psw:'',
       	checkpsw:'',
       },
@@ -135,9 +158,9 @@ export default {
       	name:[
       	{validator: validatename, trigger:'blur'}
       	],
-      	teacher:[
-      	{validator: validatename, trigger:'blur'}
-      	],
+      	//teacher:[
+      	//{validator: validatename, trigger:'blur'}
+      	//],
       	psw:[
       	{validator: validatepsw, trigger:'blur'}
       	],
@@ -159,7 +182,13 @@ export default {
   		 this.$refs[userForm].validate((valid) => {
   		    
            if (valid) {
-            alert('submit!');
+           	 var data = userForm ;
+          
+           	//this.posthttp(this,data,"",ajax_handle(obj,data){});
+			 alert(2);	
+             this.showpage1 = false;
+           	 this.showpage2 = true;
+            //alert('submit!');
           } else {
             console.log('error submit!!');
             return false;
@@ -167,8 +196,15 @@ export default {
         });	
   	},
   	
-  	login(){},
-  	backfirstpage(){},
+  	login(){
+  		this.$router.push({path:'/login'});
+  	},
+  	backfirstpage(){
+  		 this.$router.push({path:'/'});
+  		 this.showpage1 = true;
+  		 this.showpage2 = false;
+  		
+  	},
   	
   	//初始化个人首页
   	
@@ -200,6 +236,9 @@ export default {
 </script>
 
 <style>
+	#register  a:hover   {color:white;}
+	#register .pointer{cursor: pointer;}
+	#register .el-select{width:330px;}
 	html {
 		width:100%;
 	    height:100%
@@ -270,5 +309,6 @@ export default {
 	               margin: auto;padding-top:38px ; margin-bottom: 39.8px;}
 	#register .middle2{width:491px;height:60px;font-size: 16px; line-height:30px;margin: auto;
 	                font-family: .PingFangSC-Regular; margin-bottom:36px }
+	#register .school{margin-left:0px ;}               
   
 </style>
