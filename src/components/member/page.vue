@@ -17,7 +17,7 @@ export default {
       },
       props:['totalNumber'],
       created:function(){
-      	this.totalNumber=this.total;
+      	
       },
       methods: {
       sizeChange: function (pageSize,pageIndex) {   //每页显示条数

@@ -23,6 +23,56 @@ Vue.prototype.$axios = axios
 /* 时间转化 */
 Vue.prototype.timeF = require('moment')
 
+/* 
+ * 封装ajax
+ * obj : 全局this
+ * data : ajax传入后台data数据
+ * address : ajax接口地址
+ * fn : 成功返回方法  带参数  obj,data  obj : this data : response
+ * */
+Vue.prototype.postHttp = function(obj,data,address,fn){
+	obj.$axios.post(baseUrl+address,querystring.stringify(data),{withCredentials : true}).then(response => {
+  		if(response.data.code == "60000" || response.data.code == "50000"){
+  			//obj.$router.push({ path: '/login' });
+  			obj.dialogFormVisible = true;
+  			obj.$notify({
+		      title: '提示',
+		      message:'请先登录',
+		      offset: 100,
+		      duration:1500,
+		      type:'warning'
+		    });
+  		}else{
+  			fn(obj,response.data);
+  		}
+    },response => {
+		obj.$notify({
+	      title: '网络错误',
+	      message: '网络错误',
+	      offset: 100,
+	      duration:1500,
+	      type:'error'
+	    });
+	})
+}
+
+/* 
+ * 封装提示
+ * obj : 全局this
+ * title : 标题
+ * message : 提示内容
+ * type : 提示类型  success warning error
+ * */
+Vue.prototype.notify_jr = function(obj,title,message,type){
+	obj.$notify({
+      title: title,
+      message: message,
+      offset: 100,
+      duration:1500,
+      type:type
+    });
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

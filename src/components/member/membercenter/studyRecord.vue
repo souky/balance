@@ -60,8 +60,14 @@ export default{
           	total:60,
 		}
 	},
+	created:function(){
+      this.getdata();
+    },
 	components:{page},
 	methods:{
+		getdata(){
+
+		},
 		choiseType:function(type,event){
 			var obj = event.currentTarget;
 			var reg = new RegExp('(\\s|^)active(\\s|$)'); 
@@ -71,6 +77,18 @@ export default{
 		  		e.className = e.className.replace(reg,' ');
 		  	}
 		  	obj.className += ' active';
+		  	if(type=='all'){
+		  		alert(1)
+		  	}
+		  	if(type=='studing'){
+		  		alert(2)
+		  	}
+		  	if(type=='studed'){
+		  		alert(3)
+		  	}
+		  	if(type=='over'){
+		  		alert(4)
+		  	}
 		},
 		parentLisen:function(pageIndex,pageSize){
 	    	this.pageIndex=pageIndex;
@@ -88,40 +106,40 @@ export default{
 #studyrecord{
 	overflow: hidden;
 }
-.studyrecord_header{
+#studyrecord .studyrecord_header{
 	margin-top: 34px;
 	margin-left: 59px;
 }
-.ml42{
+#studyrecord .ml42{
 	margin-left: 42px;
 }
-.all:hover{
+#studyrecord .all:hover{
 	color:#6ED56C;
 }
-.studing:hover{
+#studyrecord .studing:hover{
 	color:#6ED56C;
 }
-.studed:hover{
+#studyrecord .studed:hover{
 	color:#6ED56C;
 }
-.over:hover{
+#studyrecord .over:hover{
 	color:#6ED56C; 
 }
-.studyrecord_header_title{
+#studyrecord .studyrecord_header_title{
 	width: 80px;
 	text-align:center;
 }
-.active{
+#studyrecord .studyrecord_header .active{
 	height: 30px;
 	color:#6ED56C; 
 	border-bottom:3px solid #6ED56C;
 }
-.studyrecord_body{
+#studyrecord .studyrecord_body{
 	margin: 0 auto;
 	margin-top: 20px;
 	width: 90%;
 }
-.studyrecord_paging{
+#studyrecord .studyrecord_paging{
 	margin-top: 40px;
 	margin-bottom: 40px;
 }

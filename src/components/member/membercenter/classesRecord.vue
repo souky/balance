@@ -52,8 +52,14 @@ export default {
           total:60,
         }
       },
+      created:function(){
+      	this.getdata();
+      },
       components:{page},
       methods: {
+      	getdata:function(){
+
+      	},
 	    parentLisen:function(pageIndex,pageSize){
 	    	this.pageIndex=pageIndex;
 	    	this.pageSize=pageSize;
@@ -88,16 +94,16 @@ export default {
 	font-size: 16px;
 	color: #999999;
 }
-.mt36{
+#classesrecord .mt36{
 	margin-top: 36px;
 	font-size: 16px;
 }
-.classesrecord_table{
+#classesrecord .classesrecord_table{
 	margin: 0 auto;
 	margin-top: 20px;
 	width: 90%;
 }
-.classesrecord_paging{
+#classesrecord .classesrecord_paging{
 	margin-top: 40px;
 	margin-bottom: 40px;
 }
