@@ -34,11 +34,38 @@
 				</router-link>
 			</div>
 			<div v-else class="inline__box">
-				<div class="l rightItems">
-					<el-badge :is-dot="notic" class="item">
-					  <img src="../../static/img/header/message.png" />
-					</el-badge>
-				</div>
+				<el-dropdown trigger="click">
+					<div class="l rightItems">
+						<el-badge :is-dot="isnotic" class="item">
+						  <img src="../../static/img/header/message.png" />
+						</el-badge>
+					</div>
+					 <el-dropdown-menu slot="dropdown">
+					    <el-dropdown-item disabled>
+					    	系统消息
+					    </el-dropdown-item>
+					    <el-dropdown-item divided v-for="item in notic">
+					    	<div @click="">
+						    	<div class="notic_left">
+						    		<el-badge :is-dot="item.unread" class="item">
+									  <img src="../../static/img/header/shi.png" />
+									</el-badge>
+						    	</div>
+						    	<div class="notic_right inline__box">
+							    	<p class="notic_title">{{item.title}} <span>{{item.date}}</span></p>
+							    	<P class="notic_detail">{{item.detail}}</P>
+						    	</div>
+					    	</div>
+					    </el-dropdown-item>
+					    <el-dropdown-item divided>
+					    	<router-link to="personaldata">
+								<div class="allNotic">
+									查看所有消息>>
+								</div>
+							</router-link>
+					    </el-dropdown-item>
+					 </el-dropdown-menu>
+				</el-dropdown>
 				<el-dropdown trigger="click">
 					<div class="l personRight el-dropdown-link">
 						<img v-bind:src="person.img" style="width:30px;height:30px;border-radius:15px;vertical-align:middle" />
@@ -60,7 +87,7 @@
 							</router-link>
 					    </el-dropdown-item>
 					    <el-dropdown-item>
-					    	<div class="menuStyle">
+					    	<div class="menuStyle" @click="loginOut">
 									退出
 							</div>
 					    </el-dropdown-item>
@@ -114,7 +141,37 @@ export default {
       msg: '顶部导航栏',
       searchKey:'',
       isshow:false,//登陆注册显示开关
-      notic:true,//消息红点
+      isnotic:true,//notic开关
+      notic:[
+	      {
+	      	unread:true,
+	      	id:'123',
+	      	date:"08/15 21:15",
+	      	title:"直播提醒",
+	      	detail:"《厉害了!百年荷兰抗洪教材》将于19：15开始，感谢您的预约感谢感谢感谢真的感谢"
+	      },
+	      {
+	      	unread:true,
+	      	id:'123',
+	      	date:"08/15 21:15",
+	      	title:"直播提醒",
+	      	detail:"《厉害了!百年荷兰抗洪教材》将于19：15开始，感谢您的预约感谢感谢感谢真的感谢"
+	      },
+	      {
+	      	unread:false,
+	      	id:'123',
+	      	date:"08/15 21:15",
+	      	title:"直播提醒",
+	      	detail:"《厉害了!百年荷兰抗洪教材》将于19：15开始，感谢您的预约感谢感谢感谢真的感谢"
+	      },
+	      {
+	      	unread:false,
+	      	id:'123',
+	      	date:"08/15 21:15",
+	      	title:"直播提醒",
+	      	detail:"《厉害了!百年荷兰抗洪教材》将于19：15开始，感谢您的预约感谢感谢感谢真的感谢"
+	      }
+      ],//消息红点
       person:{
       	id:'',
       	name:'James',
@@ -143,9 +200,16 @@ export default {
     // `this` 指向 vm 实例
     console.log('a is: ' + 123);
   },
+  beforeCompile:{
+
+  },
   methods:{
   	handleIconClick(ev){
   		console.log(ev);
+  	},
+  	//退出登陆操作
+  	loginOut(){
+  		this.$router.go(0)
   	},
   	submitForm(formName) {
 	        this.$refs[formName].validate((valid) => {
@@ -213,8 +277,15 @@ function login_press(obj,data){
 .inline__box{display: inline-block;}
 .inline__box .rightItems img{vertical-align: middle;}
 .inline__box .el-badge__content.is-fixed.is-dot{top:22px;right:8px;}
+.inline__box .el-dropdown-menu__item.is-disabled{color: #272727;}
 #header .rightPart .personRight {height:60px;text-align: center;cursor: pointer;font-size:16px;color:#fff;margin-right: 30px;}
 .menuStyle{text-decoration: none;color: #6ED56C;font-size: 16px;text-align: center;}
 .el-dropdown-menu__item a{text-decoration: none}
 .el-dropdown-menu--middles{width: 130px}
+.notic_left{width: 60px;height: 60px;padding: 15px;display: inline-block;}
+.notic_left img{width: 60px;height: 60px;}
+.notic_title{font-size: 14px;color: #272727;}
+.notic_title span{margin-left: 20px;color: #2A2A2A}
+.notic_detail{color: #7D7C55;font-size:14px;max-width: 412px;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;line-height: 20px}
+.allNotic{color:#272727;font-size: 16px;line-height: 40px;text-align: center;}
 </style>
