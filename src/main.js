@@ -77,6 +77,10 @@ Vue.prototype.notify_jr = function(obj,title,message,type){
     });
 }
 
+/*设置cookie*/
+
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

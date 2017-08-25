@@ -125,6 +125,7 @@
 </template>
 
 <script>
+import {setCookie,getCookie} from '../assets/cookie.js'
 export default {
   data () {
   	var validatePass = (rule, value, callback) => {
@@ -198,10 +199,14 @@ export default {
   //钩子函数判断当前是否登陆,获取登陆信息
   created: function () {
     // `this` 指向 vm 实例
-    console.log('a is: ' + 123);
-  },
-  beforeCompile:{
+   
 
+  },
+  mounted:function(){
+  	console.log(getCookie('cname'));
+  	this.postHttp(this,{},"auth/user/getLoginUser",function(obj,data){
+  		console.log(data.result);
+  	})
   },
   methods:{
   	handleIconClick(ev){
@@ -249,6 +254,7 @@ function login_press(obj,data){
 	      type:'error'
 	    });
   	}else{
+  		setCookie("cname",obj.isshow,1000*60);
   		obj.loading = false;
 		obj.dialogFormVisible = false;
 		obj.$router.go(0)
