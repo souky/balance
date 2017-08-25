@@ -148,7 +148,7 @@ export default {
 	      	id:'123',
 	      	date:"08/15 21:15",
 	      	title:"直播提醒",
-	      	detail:"《厉害了!百年荷兰抗洪教材》将于19：15开始，感谢您的预约感谢感谢感谢真的感谢"
+	      	detail:"《语文》将于19：15开始，感谢您的预约"
 	      },
 	      {
 	      	unread:true,
@@ -219,9 +219,7 @@ export default {
 		    	 var psw = this.ruleForm.passWord;
 		    	 var data = {userName:userName,psw:psw};
 		    	 this.postHttp(this,data,'login',login_press);
-		    	
-		    	 
-	         } else {
+		    } else {
 	            console.log('error submit!!');
 	            return false;
 	          }

@@ -12,6 +12,9 @@ import AccountSecurity from '@/components/member/membercenter/accountSecurity.vu
 import ClassesRecord from '@/components/member/membercenter/classesRecord.vue'
 import StudyRecord from '@/components/member/membercenter/studyRecord.vue'
 import OrderRecord from '@/components/member/membercenter/orderRecord.vue'
+import Notic from '@/components/member/notic'//个人消息中心
+
+
 
 import LiveRoom from '@/components/live/LiveRoom'
 import AllClass from '@/components/class/AllClass'
@@ -69,6 +72,11 @@ export default new Router({
       path: '/liveRoom',
       name: '直播间',
       component: LiveRoom
+    },
+    {
+      path: '/notic',
+      name: '信息中心',
+      component: Notic
     },
     {
       path: '/allClass',
