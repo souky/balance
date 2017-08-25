@@ -11,20 +11,20 @@
 			<p>{{use.school}}</p>
 		</div>
 
-		<div class="member_center_leftNav_button member_center_leftNav_button_top member_center_leftNav_button_padding" @click="personaldata">
+		<div class="member_center_leftNav_button member_center_leftNav_button_top member_center_leftNav_button_padding" @click="personaldataS('personaldata')">
 			<div v-show="personaldataStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>个人资料</p>
 		</div>
-		<div class="member_center_leftNav_button member_center_leftNav_button_bottom" @click="accountsecurity">
+		<div class="member_center_leftNav_button member_center_leftNav_button_bottom" @click="personaldataS('accountsecurity')">
 			<div v-show="accountsecurityStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>账号安全</p>
 		</div>
 
-		<div class="member_center_leftNav_button member_center_leftNav_button_top member_center_leftNav_button_padding" @click="classesrecord">
+		<div class="member_center_leftNav_button member_center_leftNav_button_top member_center_leftNav_button_padding" @click="personaldataS('classesrecord')">
 			<div v-show="classesrecordStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的开课记录</p>
 		</div>
-		<div class="member_center_leftNav_button member_center_leftNav_button_top" @click="studyrecord">
+		<div class="member_center_leftNav_button member_center_leftNav_button_top" @click="personaldataS('studyrecord')">
 			<div v-show="studyrecordStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的学习记录</p>
 		</div>
-		<div class="member_center_leftNav_button member_center_leftNav_button_bottom" @click="orderrecord">
+		<div class="member_center_leftNav_button member_center_leftNav_button_bottom" @click="personaldataS('orderrecord')">
 			<div v-show="orderrecordStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的预约记录</p>
 		</div>
 	</div>
@@ -51,12 +51,14 @@ export default {
       classesrecordStyle:false,
       studyrecordStyle:false,
       orderrecordStyle:false,
-      dataObj:'',
+      datOabj:'',
     }
   },
   created:function(){
   	this.getdata();
-  	this.personaldata();
+  	var test = window.location.hash;
+  	let test1 = test.substring(2,test.length);
+  	this.personaldataS(test1);
   },
   methods:{
   	getdata:function(){
@@ -67,36 +69,34 @@ export default {
   		let test1 = test.substring(1,test.length);
   		this.dataObj = test1;
   		if(this.dataObj=='/accountSecurity'){
-  			this.accountsecurity();
+  			this.personaldataS('accountsecurity');
   		}
   		if(this.dataObj=='/personaldata'){
-  			this.personaldata();
+  			this.personaldataS('personaldata');
   		}
   	},
-  	personaldata:function(){
-  		this.$router.push({path:'/personaldata'});
-  		this.personaldataStyle=true;
-  		this.accountsecurityStyle=this.classesrecordStyle=this.studyrecordStyle=this.orderrecordStyle=false;
-  	},
-  	accountsecurity:function(){
-  		this.$router.push({path:'/accountsecurity'});
-  		this.accountsecurityStyle=true;
-  		this.personaldataStyle=this.classesrecordStyle=this.studyrecordStyle=this.orderrecordStyle=false;
-  	},
-  	classesrecord:function(){
-  		this.$router.push({path:'/classesrecord'});
-  		this.classesrecordStyle=true;
-  		this.accountsecurityStyle=this.personaldataStyle=this.studyrecordStyle=this.orderrecordStyle=false;
-  	},
-  	studyrecord:function(){
-  		this.$router.push({path:'/studyrecord'});
-  		this.studyrecordStyle=true;
-  		this.personaldataStyle=this.accountsecurityStyle=this.classesrecordStyle=this.orderrecordStyle=false;
-  	},
-  	orderrecord:function(){
-  		this.$router.push({path:'/orderrecord'});
-  		this.orderrecordStyle=true;
-  		this.personaldataStyle=this.accountsecurityStyle=this.studyrecordStyle=this.classesrecordStyle=false;
+  	personaldataS:function(val){
+  		this.$router.push({path:"/"+val});
+  		if(val=='accountsecurity'){
+  			this.accountsecurityStyle=true;
+  			this.personaldataStyle=this.classesrecordStyle=this.studyrecordStyle=this.orderrecordStyle=false;
+  		}
+  		if(val=='personaldata'){
+  			this.personaldataStyle=true;
+  			this.accountsecurityStyle=this.classesrecordStyle=this.studyrecordStyle=this.orderrecordStyle=false;
+  		}
+  		if(val=='classesrecord'){
+  			this.classesrecordStyle=true;
+  			this.accountsecurityStyle=this.personaldataStyle=this.studyrecordStyle=this.orderrecordStyle=false;
+  		}
+  		if(val=='studyrecord'){
+  			this.studyrecordStyle=true;
+  			this.personaldataStyle=this.accountsecurityStyle=this.classesrecordStyle=this.orderrecordStyle=false;
+  		}
+  		if(val=='orderrecord'){
+  			this.orderrecordStyle=true;
+  			this.personaldataStyle=this.accountsecurityStyle=this.studyrecordStyle=this.classesrecordStyle=false;
+  		}
   	}
   }
 }

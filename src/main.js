@@ -23,6 +23,9 @@ Vue.prototype.$axios = axios
 /* 时间转化 */
 Vue.prototype.timeF = require('moment')
 
+var querystring = require('querystring');
+var baseUrl = "192.168.128.213:8080/balanced-education/study/"
+
 /* 
  * 封装ajax
  * obj : 全局this
