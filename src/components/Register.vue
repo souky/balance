@@ -211,6 +211,7 @@ export default {
   	initUserData(obj,data){
     		this.user = data.result;
     		
+    		
     	},
     	
     
