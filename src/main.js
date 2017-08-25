@@ -49,6 +49,7 @@ Vue.prototype.postHttp = function(obj,data,address,fn){
   			fn(obj,response.data);
   		}
     },response => {
+    	obj.loading = false;
 		obj.$notify({
 	      title: '网络错误',
 	      message: '网络错误',

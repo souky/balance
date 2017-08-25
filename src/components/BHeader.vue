@@ -140,7 +140,7 @@ export default {
     return {
       msg: '顶部导航栏',
       searchKey:'',
-      isshow:false,//登陆注册显示开关
+      isshow:true,//登陆注册显示开关
       isnotic:true,//notic开关
       notic:[
 	      {
@@ -236,7 +236,7 @@ export default {
     	},
     register(){
     		this.dialogFormVisible = false;
-    		this.$router.push({path:'/'})
+    		this.$router.push({path:'/register'})
     	}
   }
 }
