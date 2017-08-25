@@ -56,9 +56,16 @@ export default {
   },
   created:function(){
   	this.getdata();
-  	this.personaldata();
+  	//this.personaldata();
+  	this.fetchData();
   },
+  /*watch:{
+  	// '$route': 'fetchData'
+  },*/
   methods:{
+  	/*fetchData:function(){
+  		alert(1);
+  	},*/
   	getdata:function(){
 
   	},
