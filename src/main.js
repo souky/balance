@@ -24,7 +24,7 @@ Vue.prototype.$axios = axios
 Vue.prototype.timeF = require('moment')
 
 var querystring = require('querystring');
-var baseUrl = "192.168.128.213:8080/balanced-education/study/"
+var baseUrl = "http://192.168.128.213:8080/balanced-education/study/"
 
 /* 
  * 封装ajax
