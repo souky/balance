@@ -12,8 +12,8 @@
 	  name: 'app',
    	components: {BHeader},
     mounted:function(){
-      var height = document.documentElement.clientHeight;
-      document.getElementById("app").style.height = height+"px";
+//    var height = document.documentElement.clientHeight;
+//    document.getElementById("app").style.height = height+"px";
   },
 	}
 </script>
