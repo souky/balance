@@ -41,29 +41,30 @@
 		</div>
 		<div class="live_body">
 			<p class="live_body_title">直播列表</p>
-			<div class="live_body_title_hr"></div>
-			<div class="live_body_content" v-for="tab in tabs">
-				<div class="live_body_content_bar l ml10 mt10">
-					<div class="l live_body_content_bar_img" style="background-color:red;"></div>
-					<div class="l ml10">
-						<p class="mt15 live_body_content_bar_p">{{tab.title}}</p>
-						<div class="mt10 live_body_content_bar_vp">
-							<p class="l">课程名：</p><p class="l">{{tab.name}}</p> <p class="l ml20">学校：</p><p class="l">{{tab.school}}</p>
-						</div>
-						<div class="cl"></div>
-						<div class="mt10 live_body_content_bar_vp">
-							<p class="l">大纲进度：</p><p class="l">{{tab.progress}}</p>
-						</div>
-						<div class="cl"></div>
-						<div class="mt20 live_body_content_bar_vp">
-							<p class="l">{{tab.time}}</p><p class="l ml20 live_body_content_bar_color">{{tab.state}}</p>
-						</div>
-						<div class="cl"></div>
-						<div class="mt80 live_body_content_bar_vp">
-							<p class="l">教师：</p><p class="l">{{tab.teacherName}}</p><p class="l ml20">播放总{{tab.number}}次</p>
-							<button v-if="tab.buttonName=='观看直播'" class="l mt-5 live_new_button"><span>{{tab.buttonName}}</span></button>
-							<button v-if="tab.buttonName=='预约'" class="l mt-5 live_new_button live_new_button_red"><span>{{tab.buttonName}}</span></button>
-							<button v-if="tab.buttonName=='已预约'" class="l mt-5 live_new_button live_new_button_blue"><span>{{tab.buttonName}}</span></button>
+			<div class="fix">
+				<div class="live_body_content l" v-for="tab in tabs">
+					<div class="live_body_content_bar l">
+						<div class="l live_body_content_bar_img" style="background-color:red;"></div>
+						<div class="l ml10">
+							<p class="mt15 live_body_content_bar_p">{{tab.title}}</p>
+							<div class="mt10 live_body_content_bar_vp">
+								<p class="l">课程名：</p><p class="l">{{tab.name}}</p> <p class="l ml20">学校：</p><p class="l">{{tab.school}}</p>
+							</div>
+							<div class="cl"></div>
+							<div class="mt10 live_body_content_bar_vp">
+								<p class="l">大纲进度：</p><p class="l">{{tab.progress}}</p>
+							</div>
+							<div class="cl"></div>
+							<div class="mt20 live_body_content_bar_vp">
+								<p class="l">{{tab.time}}</p><p class="l ml20 live_body_content_bar_color">{{tab.state}}</p>
+							</div>
+							<div class="cl"></div>
+							<div class="mt80 live_body_content_bar_vp">
+								<p class="l">教师：</p><p class="l">{{tab.teacherName}}</p><p class="l ml20">播放总{{tab.number}}次</p>
+								<button v-if="tab.buttonName=='观看直播'" class="l mt-5 live_new_button"><span>{{tab.buttonName}}</span></button>
+								<button v-if="tab.buttonName=='预约'" class="l mt-5 live_new_button live_new_button_red"><span>{{tab.buttonName}}</span></button>
+								<button v-if="tab.buttonName=='已预约'" class="l mt-5 live_new_button live_new_button_blue"><span>{{tab.buttonName}}</span></button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -167,6 +168,7 @@ export default {
 	margin-top:90px;
 	border: 1px solid #E5E5E5;
 	border-radius: 3px;
+	background: #fff;
 }
 #live .live_select .el-form-item__content{
 	width: 200px;
@@ -194,26 +196,25 @@ export default {
 	width: 1200px;
 	margin: 0 auto;
 	margin-top: 40px;
+	background: #fff;
 }
 .live_body_title{
 	font-size: 24px;
 	color: #272727;
-}
-.live_body_title_hr{
-	width: 100%;
-	height: 2px;
-	background-color: #6ED56C;
-	margin-top: 10px;
+	padding-left:10px;
+	height:40px;
+	line-height: 40px;
+	border-bottom: 2px #6ED56C solid;
 }
 .live_body_content{
 	margin-top: 40px;
-	width: 100%;
+	background: #fff;
 }
 .live_body_content_bar{
 	width: 590px;
 	height: 274px;
 	background-color: #F5F5F5;
-	margin-bottom: 10px;
+	margin:10px 5px;
 }
 .live_body_content_bar_img{
 	height: 100%;
