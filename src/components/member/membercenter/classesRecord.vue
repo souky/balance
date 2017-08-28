@@ -58,7 +58,7 @@ export default {
       components:{page},
       methods: {
       	getdata:function(){
-
+      		this.$emit('newfind');
       	},
 	    parentLisen:function(pageIndex,pageSize){
 	    	this.pageIndex=pageIndex;

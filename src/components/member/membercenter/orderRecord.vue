@@ -11,7 +11,7 @@
 				</el-form-item>
 				<el-form-item class="l ml30" label="活动时间">
 				    <el-col :span="11">
-				      <el-date-picker v-model="form.date1" type="datetime" placeholder="选择开始日期时间" style="width: 100%;"></el-date-picker>
+				      <el-date-picker v-model="form.date1" type="datetime" placeholder="选择开始日期时间" style="width: 100%;" @change="dateChange1"></el-date-picker>
 				    </el-col>
 				    <el-col class="tc" :span="2">——</el-col>
 				    <el-col :span="11">
@@ -91,7 +91,7 @@ export default{
 	components:{page},
 	methods:{
 		getdata:function(){
-
+			this.$emit('newfind');
 		},
 		dateChange1(val) {
 		    this.form.date1=val;
