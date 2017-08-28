@@ -196,12 +196,7 @@ export default {
           }
     }
   },
-  //钩子函数判断当前是否登陆,获取登陆信息
-  created: function () {
-    // `this` 指向 vm 实例
-   
-
-  },
+  
   mounted:function(){
   	//判断cookie登陆信息初始化
   	if(getCookie('cname')!= null){

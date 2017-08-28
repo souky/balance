@@ -11,6 +11,10 @@
 	export default {
 	  name: 'app',
    	components: {BHeader},
+    mounted:function(){
+      var height = document.documentElement.clientHeight;
+      document.getElementById("app").style.height = height+"px";
+  },
 	}
 </script>
 
@@ -20,5 +24,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  background-color: #F9F9F9
 }
+
 </style>
