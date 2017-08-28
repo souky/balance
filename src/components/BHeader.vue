@@ -17,7 +17,7 @@
 				<div class="leftItems l">直播间</div>
 			</router-link>
 			
-			<router-link to="memberCenter">
+			<router-link to="personaldata">
 				<div class="leftItems l">个人中心</div>
 			</router-link>
 			

@@ -15,6 +15,9 @@ export default {
   	var dates = new Date();
   	var dateString = this.timeF(dates).format("YYYY-MM-DD HH:mm:ss");
   	this.msg = dateString;
+  	this.postHttp(this,{},"auth/user/getLoginUser",function(obj,data){
+  		
+  	})
   }
 }
 </script>
