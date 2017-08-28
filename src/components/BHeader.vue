@@ -58,7 +58,7 @@
 					    	</div>
 					    </el-dropdown-item>
 					    <el-dropdown-item divided>
-					    	<router-link to="personaldata">
+					    	<router-link to="notic">
 								<div class="allNotic">
 									查看所有消息>>
 								</div>
@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import {setCookie,getCookie} from '../assets/cookie.js'
+import {setCookie,getCookie,delCookie} from '../assets/cookie.js'
 export default {
   data () {
   	var validatePass = (rule, value, callback) => {
@@ -203,10 +203,14 @@ export default {
 
   },
   mounted:function(){
-  	console.log(getCookie('cname'));
-  	this.postHttp(this,{},"auth/user/getLoginUser",function(obj,data){
-  		console.log(data.result);
-  	})
+  	//判断cookie登陆信息初始化
+  	if(getCookie('cname')!= null){
+  		this.isshow = false;
+	  	this.postHttp(this,{},"auth/user/getLoginUser",function(obj,data){
+	});
+  	}else{
+  		this.isshow = false;
+  	}
   },
   methods:{
   	handleIconClick(ev){
@@ -214,7 +218,12 @@ export default {
   	},
   	//退出登陆操作
   	loginOut(){
-  		this.$router.go(0)
+  		//删除cookie
+  		delCookie('cname');
+  		//请求操作
+  		// this.postHttp(this,data,'loginOut',login_press);
+  		//页面跳转
+  		this.$router.go(0);
   	},
   	submitForm(formName) {
 	        this.$refs[formName].validate((valid) => {
@@ -223,6 +232,7 @@ export default {
 	             var userName = this.ruleForm.loginName;
 		    	 var psw = this.ruleForm.passWord;
 		    	 var data = {userName:userName,psw:psw};
+
 		    	 this.postHttp(this,data,'login',login_press);
 		    } else {
 	            console.log('error submit!!');
