@@ -1,9 +1,7 @@
 <template>
   <div id="app">
   	<b-header></b-header>
-  	<keep-alive>
     	<router-view></router-view>
-    </keep-alive>
   </div>
 </template>
 

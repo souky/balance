@@ -65,8 +65,8 @@ export default{
     },
 	components:{page},
 	methods:{
-		getdata(){
-
+		getdata:function(){
+			this.$emit('newfind');
 		},
 		choiseType:function(type,event){
 			var obj = event.currentTarget;

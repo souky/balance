@@ -74,6 +74,15 @@ export default {
   		if(this.dataObj=='/personaldata'){
   			this.personaldataS('personaldata');
   		}
+  		if(this.dataObj=='/classesrecord'){
+  			this.personaldataS('classesrecord');
+  		}
+  		if(this.dataObj=='/studyrecord'){
+  			this.personaldataS('studyrecord');
+  		}
+  		if(this.dataObj=='/orderrecord'){
+  			this.personaldataS('orderrecord');
+  		}
   	},
   	personaldataS:function(val){
   		this.$router.push({path:"/"+val});
