@@ -166,9 +166,8 @@ export default {
 	height: 141px;
 	margin:0 auto;
 	margin-top:90px;
-	border: 1px solid #E5E5E5;
 	border-radius: 3px;
-	background: #fff;
+	background:#fff;
 }
 #live .live_select .el-form-item__content{
 	width: 200px;
@@ -196,7 +195,6 @@ export default {
 	width: 1200px;
 	margin: 0 auto;
 	margin-top: 40px;
-	background: #fff;
 }
 .live_body_title{
 	font-size: 24px;
@@ -207,14 +205,14 @@ export default {
 	border-bottom: 2px #6ED56C solid;
 }
 .live_body_content{
-	margin-top: 40px;
-	background: #fff;
+	margin-top: 20px;
 }
 .live_body_content_bar{
 	width: 590px;
 	height: 274px;
-	background-color: #F5F5F5;
-	margin:10px 5px;
+	background-color: #ececec;
+	margin:0 5px;
+	box-shadow: 1px 1px 10px #c3c3c3;
 }
 .live_body_content_bar_img{
 	height: 100%;
@@ -225,7 +223,7 @@ export default {
 	font-size: 16px;
 }
 .live_body_content_bar_vp p{
-	color: #999999;
+	color: #666;
 	font-size: 14px;
 }
 .live_body_content_bar_color{
