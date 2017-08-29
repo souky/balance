@@ -131,11 +131,11 @@ export default {
   methods:{
   	dateChange1(val) {
 		this.form.date1=val;
-		this.form.date1=this.form.date1.substr(0, 16);
+		this.form.date1=this.form.date1.substring(0, 16);
 	},
 	dateChange2(val){
 		this.form.date2=val;
-		this.form.date2=this.form.date2.substr(0, 16);
+		this.form.date2=this.form.date2.substring(0, 16);
 	},
 	query:function(){
 		this.form.date1=(new Date(this.form.date1)).toLocaleString().slice(0, 15);
