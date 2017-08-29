@@ -4,15 +4,15 @@
 			<div class="selectItem">
 				<div class="itemList">
 					<span class="itemLabel">年级:</span>
-					<span v-for="(item,index) in Grade" :key="item.id" :class="active == index? 'active': ''" @click="setactive(index)">{{item.name}}</span>
+					<span v-for="(item,index) in Grade" :key="item.id" :class="active == index? 'active': ''" @click="chooseGrade(index)">{{item.name}}</span>
 				</div>
 				<div class="itemList">
 					<span class="itemLabel">学科:</span>
-					<span v-for="item in Subject" :key="item.id">{{item.name}}</span>
+					<span v-for="(item,index) in Subject" :key="item.id" :class="active2 == index? 'active': ''" @click="chooseSubject(index)">{{item.name}}</span>
 				</div>
 				<div class="itemList">
 					<span class="itemLabel">学校:</span>
-					<span v-for="item in School" :key="item.id">{{item.name}}</span>
+					<span v-for="(item,index) in School" :key="item.id" :class="active3 == index? 'active': ''" @click="chooseSchool(index)">{{item.name}}</span>
 				</div>
 			</div>
 			<el-row>
@@ -63,6 +63,8 @@ export default {
   data () {
     return {
     	active: 0,
+    	active2:0,
+    	active3:0,
       	Grade:[{
       		id:'0',
       		name:'全部'
@@ -161,10 +163,17 @@ export default {
   	}
   },
   methods:{
-		setactive(index) {
-			console.log(index);
+		chooseGrade(index) {
 	      this.active = index;
+	      //后台请求
+	    },
+	    chooseSubject(index){
+		  this.active2 = index;
+	    },
+	    chooseSchool(index){
+	      this.active3 = index;
 	    }
+
 	}
 }
 </script>
