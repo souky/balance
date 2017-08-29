@@ -207,14 +207,14 @@ export default {
 	border-bottom: 2px #6ED56C solid;
 }
 .live_body_content{
-	margin-top: 40px;
+	margin-top: 20px;
 	background: #fff;
 }
 .live_body_content_bar{
 	width: 590px;
 	height: 274px;
 	background-color: #F5F5F5;
-	margin:10px 5px;
+	margin:0 5px;
 }
 .live_body_content_bar_img{
 	height: 100%;
