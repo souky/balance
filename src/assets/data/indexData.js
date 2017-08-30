@@ -1,0 +1,101 @@
+/**
+ * @description 主页数据
+ */
+
+export default {
+    tableData:[
+    	{
+	  		name:'校长讲话',
+	  		sourceName:'第一小学-二年级一班',
+	  		startDate:'2017-07-19 09:00-09:45',
+	  		status:'1'
+  		},
+  		{
+	  		name:'校长讲话',
+	  		sourceName:'第一小学-二年级一班',
+	  		startDate:'2017-07-19 09:00-09:45',
+	  		status:'1'
+  		},
+  		{
+	  		name:'校长讲话',
+	  		sourceName:'第一小学-二年级一班',
+	  		startDate:'2017-07-19 09:00-09:45',
+	  		status:'1'
+  		},
+  		{
+	  		name:'校长讲话',
+	  		sourceName:'第一小学-二年级一班',
+	  		startDate:'2017-07-19 09:00-09:45',
+	  		status:'2'
+  		},
+  		{
+	  		name:'校长讲话',
+	  		sourceName:'第一小学-二年级一班',
+	  		startDate:'2017-07-19 09:00-09:45',
+	  		status:'2'
+  		}
+    ],
+    recommendList:[
+    	{
+  			src:'../../static/img/temp/fm1.png',
+  			name:'苏州中学三年级下册',
+  			sourceName:'苏州中学',
+  			count:'599'
+  		},
+  		{
+  			src:'../../static/img/temp/fm2.png',
+  			name:'苏州中学三年级下册',
+  			sourceName:'苏州中学',
+  			count:'599'
+  		},
+  		{
+  			src:'../../static/img/temp/fm3.png',
+  			name:'苏州中学三年级下册',
+  			sourceName:'苏州中学',
+  			count:'599'
+  		},
+  		{
+  			src:'../../static/img/temp/fm4.png',
+  			name:'苏州中学三年级下册',
+  			sourceName:'苏州中学',
+  			count:'599'
+  		},
+  		{
+  			src:'../../static/img/temp/fm4.png',
+  			name:'苏州中学三年级下册',
+  			sourceName:'苏州中学',
+  			count:'599'
+  		},
+  		{
+  			src:'../../static/img/temp/fm3.png',
+  			name:'苏州中学三年级下册',
+  			sourceName:'苏州中学',
+  			count:'899'
+  		},
+  		{
+  			src:'../../static/img/temp/fm2.png',
+  			name:'苏州中学三年级下册',
+  			sourceName:'苏州中学',
+  			count:'599'
+  		},
+  		{
+  			src:'../../static/img/temp/fm1.png',
+  			name:'苏州中学三年级下册',
+  			sourceName:'苏州中学',
+  			count:'599'
+  		},
+  		{
+  			src:'../../static/img/temp/fm1.png',
+  			name:'苏州中学三年级下册',
+  			sourceName:'苏州中学',
+  			count:'599'
+  		},
+  		{
+  			src:'../../static/img/temp/fm1.png',
+  			name:'苏州中学三年级下册',
+  			sourceName:'苏州中学',
+  			count:'599'
+  		}
+
+    ]
+}
