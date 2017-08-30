@@ -36,7 +36,7 @@
 				    </el-col>
 				</el-form-item>
 			</el-form>
-			<el-button class="l ml93 mt10" type="primary" @click="query">查询</el-button>
+			<el-button class="l ml93 query_button" type="primary" @click="query">查询</el-button>
 			<div class="cl"></div>
 		</div>
 		<div class="live_body">
@@ -131,11 +131,11 @@ export default {
   methods:{
   	dateChange1(val) {
 		this.form.date1=val;
-		this.form.date1=this.form.date1.substr(0, 16);
+		this.form.date1=this.form.date1.substring(0, 16);
 	},
 	dateChange2(val){
 		this.form.date2=val;
-		this.form.date2=this.form.date2.substr(0, 16);
+		this.form.date2=this.form.date2.substring(0, 16);
 	},
 	query:function(){
 		this.form.date1=(new Date(this.form.date1)).toLocaleString().slice(0, 15);
@@ -181,22 +181,22 @@ export default {
 #live .live_select_date_pagging{
 	width: 90px;
 }
-.el-button{
+#live .el-button{
 	padding: 6px 47px !important;
     border-radius: 25px !important;
 }
-.ml93{
+#live .ml93{
 	margin-left: 93px;
 }
-.mt10{
+#live .mt10{
 	margin-top: 10px;
 }
-.live_body{
+#live .live_body{
 	width: 1200px;
 	margin: 0 auto;
 	margin-top: 40px;
 }
-.live_body_title{
+#live .live_body_title{
 	font-size: 24px;
 	color: #272727;
 	padding-left:10px;
@@ -204,39 +204,39 @@ export default {
 	line-height: 40px;
 	border-bottom: 2px #6ED56C solid;
 }
-.live_body_content{
+#live .live_body_content{
 	margin-top: 20px;
 }
-.live_body_content_bar{
+#live .live_body_content_bar{
 	width: 590px;
 	height: 274px;
 	background-color: #ececec;
 	margin:0 5px;
 	box-shadow: 1px 1px 10px #c3c3c3;
 }
-.live_body_content_bar_img{
+#live .live_body_content_bar_img{
 	height: 100%;
 	width: 206px;
 }
-.live_body_content_bar_p{
+#live .live_body_content_bar_p{
 	color:#272727;
 	font-size: 16px;
 }
-.live_body_content_bar_vp p{
+#live .live_body_content_bar_vp p{
 	color: #666;
 	font-size: 14px;
 }
-.live_body_content_bar_color{
+#live .live_body_content_bar_color{
 	color: #6ED56C !important;
 }
-.mt80{
+#live .mt80{
 	margin-top: 120px;
 }
-.mt-5{
-	margin-top:-10px !important;
-	margin-left: 30px !important;
+#live .mt-5{
+	margin-top:-18px !important;
+	margin-left: 43px !important;
 }
-.live_new_button{
+#live .live_new_button{
 	display: inline-block;
     line-height: 1;
     white-space: nowrap;
@@ -253,21 +253,29 @@ export default {
     -webkit-user-select: none;
     -ms-user-select: none;
     font-size: 14px;
-    padding: 6px 47px;
+    width: 125px;
+    height: 35px;
     border-radius: 25px;
+
 }
-.live_new_button_red{
+#live .live_new_button_red{
 	 background: #F99BB7;
     border: 1px solid #F99BB7;
 }
-.live_new_button_blue{
+#live .live_new_button_blue{
 	 background: #6BC6FB;
     border: 1px solid #6BC6FB;
 }
-.live_foot{
+#live .live_foot{
 	overflow: hidden;
 	margin: 0 auto;
 	margin-bottom: 80px;
 }
-
+#live .query_button{
+	width: 200px;
+	height: 40px;
+}
+.live_body_content_bar_vp p{
+	line-height: 17px;
+}
 </style>
