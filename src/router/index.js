@@ -20,6 +20,7 @@ import Notic from '@/components/member/notic'//个人消息中心
 import LiveRoom from '@/components/live/LiveRoom'
 import AllClass from '@/components/class/AllClass'
 import AllFile from '@/components/file/AllFile'
+import Living from '@/components/live/living.vue'
 
 Vue.use(Router)
 
@@ -92,6 +93,10 @@ export default new Router({
     {
       path: '/allClassMore',
       component: allClassMore
+    },
+    {
+      path: '/living',
+      component: Living
     },
     {
       path: '/allFile',

@@ -43,11 +43,21 @@
 				    	<h3 class="mt10">课程大纲</h3>
 				    	<p class="mt10 allClass_body_tabs_download">点击下载课程视频进入学习</p>
 				    	<div class="mt10 allClass_body_tabs_first_content">
-				    		<p class="l">123131</p><p class="allClass_body_tabs_first_middle l"></p><p class="r">共45分钟</p>
-				    		<div class="cl"></div>
-				    		<p class="ml20 l">123131</p><p class="l"></p><p class="r">共45分钟</p>
-				    		<div class="cl"></div>
-				    		<p class="ml40 l">123131</p><p class="l"></p><p class="r">共45分钟</p>
+				    		<div class="mt10 allClass_body_tabs_first_middle cl" v-for="proper in propers">
+				    			<p class="l">{{proper.name}}</p>
+				    			<p class="r">{{proper.time}}</p>
+				    			<div class="cl"></div>
+				    			<div class="mt10 allClass_body_tabs_first_middle_body cl" v-for="child in proper.childs">
+				    				<p class="l allClass_body_tabs_first_middle_bodyVip">{{child.name}}</p>
+				    				<p class="r">{{child.time}}</p>
+				    				<div class="cl"></div>
+				    				<div class="mt10 allClass_body_tabs_first_middle_foot cl" v-for="grandchildren in child.grandchildrens">
+				    					<p class="l allClass_body_tabs_first_middle_bodyVVip">{{grandchildren.name}}</p>
+				    					<p class="r">{{grandchildren.time}}</p>
+				    					<div class="cl"></div>
+				    				</div>
+				    			</div>
+				    		</div>
 				    	</div>
 				    </el-tab-pane>
 				    <el-tab-pane label="授课老师" name="second">
@@ -76,7 +86,23 @@
 				    <el-tab-pane label="教辅下载" name="third">
 				    	<h3>教辅文件</h3>
 				    	<p class="mt10 allClass_body_tabs_download">点击下载课程视频进入学习</p>
-				    	
+				    	<div class="mt10 allClass_body_tabs_first_content">
+				    		<div class="mt10 allClass_body_tabs_first_middle cl" v-for="proper in propers">
+				    			<p class="l">{{proper.name}}</p>
+				    			<p class="r">{{proper.time}}</p>
+				    			<div class="cl"></div>
+				    			<div class="mt10 allClass_body_tabs_first_middle_body cl" v-for="child in proper.childs">
+				    				<p class="l allClass_body_tabs_first_middle_bodyVip">{{child.name}}</p>
+				    				<p class="r">{{child.time}}</p>
+				    				<div class="cl"></div>
+				    				<div class="mt10 allClass_body_tabs_first_middle_foot cl" v-for="grandchildren in child.grandchildrens">
+				    					<p class="l allClass_body_tabs_first_middle_bodyVVip">{{grandchildren.name}}</p>
+				    					<p class="r">{{grandchildren.time}}</p>
+				    					<div class="cl"></div>
+				    				</div>
+				    			</div>
+				    		</div>
+				    	</div>
 				    </el-tab-pane>
 				    <el-tab-pane label="教学交流" name="fourth">
 				    	<div class="allClass_body_tabs_fourth">
@@ -168,7 +194,55 @@ export default {
       		time:'24小时',
       		playNumber:'555',
       	}],
+      	propers:[{
+      		name:'测试数据1',
+      		time:'共45分钟',
+      		childs:[{
+      			name:'测试数据2',
+      			time:'共45分钟',
+      			grandchildrens:[{
+      				name:'测试数据3',
+      				time:'共45分钟',
+      			}],
+      		}],
+      	},{
+      		name:'2测试数据1',
+      		time:'共45分钟',
+      		childs:[{
+      			name:'2测试数据2',
+      			time:'共45分钟',
+      			grandchildrens:[{
+      				name:'2测试数据3',
+      				time:'共45分钟',
+      			}],
+      		},{
+      			name:'2测试数据2',
+      			time:'共45分钟',
+      			grandchildrens:[{
+      				name:'2测试数据3',
+      				time:'共45分钟',
+      			},{
+      				name:'2测试数据3',
+      				time:'共45分钟',
+      			},{
+      				name:'2测试数据3',
+      				time:'共45分钟',
+      			}],
+      		}],
+      	},{
+      		name:'3测试数据1',
+      		time:'共45分钟',
+      		childs:[{
+      			name:'3测试数据2',
+      			time:'共45分钟',
+      			grandchildrens:[{
+      				name:'3测试数据3',
+      				time:'共45分钟',
+      			}],
+      		}],
+      	}],
       	activeName: 'first',
+      	textarea:'',
         comments:[{
         	name:'James',
         	date:'2017-03-13',
@@ -383,13 +457,32 @@ export default {
 }
 .allClass_body_tabs_first_content{
 	width: 100%;
-}
-.ml40{
-	margin-left: 40px;
+	overflow: hidden;
 }
 .allClass_body_tabs_first_middle{
 	border-bottom:1px dashed #000;
 	width: 100%;
+	height: 17px;
+}
+.allClass_body_tabs_first_middle p{
+	height: 18px;
+	background-color: #fff;
+}
+.allClass_body_tabs_first_middle_body{
+	border-bottom:1px dashed #000;
+	width: 100%;
+	height: 17px;		
+}
+.allClass_body_tabs_first_middle_foot{
+	border-bottom:1px dashed #000;
+	width: 100%;
+	height: 17px;		
+}
+.allClass_body_tabs_first_middle_bodyVip{
+	padding-left: 20px;
+}
+.allClass_body_tabs_first_middle_bodyVVip{
+	padding-left: 40px;	
 }
 #allClass .el-button{
     border-radius: 25px !important;
