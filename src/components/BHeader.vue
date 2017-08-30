@@ -287,7 +287,7 @@ function login_press(obj,data){
 .inline__box .rightItems img{vertical-align: middle;}
 .inline__box .el-badge__content.is-fixed.is-dot{top:22px;right:8px;}
 .inline__box .el-dropdown-menu__item.is-disabled{color: #272727;}
-#header .rightPart .personRight {height:60px;text-align: center;cursor: pointer;font-size:16px;color:#fff;margin-right: 30px;}
+#header .rightPart .personRight {height:60px;text-align: center;cursor: pointer;font-size:16px;color:#666;margin-right: 30px;}
 .menuStyle{text-decoration: none;color: #6ED56C;font-size: 16px;text-align: center;}
 .el-dropdown-menu__item a{text-decoration: none}
 .el-dropdown-menu--middles{width: 130px}

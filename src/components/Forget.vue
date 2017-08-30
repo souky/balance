@@ -37,7 +37,6 @@ export default {
       console.log(heightOfset);
       document.getElementById("Forget").style.height = heightOfset+"px";
       document.getElementById("show_body").style.marginTop = heightPadding+"px";
-
   },
   methods:{
     login:function(){},
