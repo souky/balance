@@ -91,6 +91,7 @@ export default new Router({
     },
     {
       path: '/allClassMore',
+      name:'课程详情',
       component: allClassMore
     },
     {

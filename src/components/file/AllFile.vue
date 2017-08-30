@@ -64,7 +64,7 @@
 			</div>
 			<div class="fileList">
 				<el-row :gutter="20">
-				  <el-col :span="12" v-for="item in curriculum">
+				  <el-col :span="12" v-for="item in curriculum" :key="item.id">
 				  	<div class="file-content">
 				  		<div class="file-img inline__box">
 				  			<img v-if="item.type=='rar'" src="../../../static/img/defualt/rar.png" />
@@ -353,7 +353,7 @@ export default {
 #allFile .filetitle span{margin-right: 20px;display: inline-block;cursor: pointer;font-size: 16px}
 #allFile .fileList .el-col{margin-bottom: 20px}
 #allFile .fileList .file-content{height: 200px;background-color: #f5f5f5}
-#allFile .file-detail{padding:16px 10px 4px 18px;height: 164px;vertical-align: top}
+#allFile .file-detail{padding:16px 10px 4px 18px;height: 180px;vertical-align: top}
 #allFile .file-title{margin-bottom: 15px;font-size: 16px;color: #272727}
 #allFile .file-config{color: #999;font-size: 14px;margin-bottom:15px; }
 #allFile .file-config button{border:1px solid #6ED56C;border-radius: 25px;height: 35px;width: 125px;vertical-align: bottom;color: #fff;background-color: #6ed56c;font-size: 16px;outline: none;margin-left: 85px}
