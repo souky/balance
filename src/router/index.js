@@ -5,6 +5,7 @@ import Index from '@/components/Index'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Forget from '@/components/Forget'
+import allClassMore from '@/components/class/AllClassMore.vue'
 
 import MemberCenter from '@/components/member/MemberCenter'
 import PersonalData from '@/components/member/membercenter/personaldata.vue'
@@ -82,6 +83,10 @@ export default new Router({
       path: '/allClass',
       name: '所有课程',
       component: AllClass
+    },
+    {
+      path: '/allClassMore',
+      component: allClassMore
     },
     {
       path: '/allFile',
