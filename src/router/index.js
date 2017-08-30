@@ -25,6 +25,11 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/index',
+      name: '首页',
+      component: Index
+    },
+     {
       path: '/',
       name: '首页',
       component: Index

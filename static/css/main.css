@@ -6,7 +6,6 @@
 	background: #fff;
 	position: fixed;
 	z-index: 99999;
-	box-shadow: 1px 1px 10px #c3c3c3;
 }
 #header .leftPart .router-link-active .leftItems{
 	color: #6ED56C;

@@ -1,7 +1,7 @@
 <template>
-	<div id="header" class="fix">
+	<div id="header" class="fix box_s">
 		<div class="leftPart l fix">
-			<router-link to="home">
+			<router-link to="index">
 				<div class="leftItems l">首页</div>
 			</router-link>
 			
