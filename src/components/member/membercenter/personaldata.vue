@@ -86,7 +86,7 @@ export default {
       }
     },
     created:function(){
-      this.getdata();
+//    this.getdata();
     },
     methods: {
       getdata(){

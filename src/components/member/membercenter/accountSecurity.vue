@@ -119,7 +119,7 @@ export default {
 }
 #accountSecurity .accountSecurity_control{
 	margin-top: 39px;
-	height: 774px;
+	min-height:460px
 }
 #accountSecurity .accountSecurity_control_password{
 	margin: 0 auto;

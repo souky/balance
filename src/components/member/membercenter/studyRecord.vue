@@ -1,12 +1,12 @@
 <template>
 	<div id="studyrecord">
-		<div class="studyrecord_header">
+		<div class="studyrecord_header fix">
 			<div class="studyrecord_header_title active l" @click="choiseType('all',$event)"><p class="all">全部</p></div>
 			<div class="studyrecord_header_title l" @click="choiseType('studing',$event)"><p class="studing">正在学</p></div>
 			<div class="studyrecord_header_title l" @click="choiseType('studed',$event)"><p class="studed">未学</p></div>
 			<div class="studyrecord_header_title l" @click="choiseType('over',$event)"><p class="over">已学完</p></div>
+			<div class="line-cross l"></div>
 		</div>
-		<hr style="width:890px;background-color:#E5E5E5;">
 		<div class="studyrecord_body">
 		 <template>
 		    <el-table :data="tableData" style="width: 100%">
@@ -78,16 +78,16 @@ export default{
 		  	}
 		  	obj.className += ' active';
 		  	if(type=='all'){
-		  		alert(1)
+		  		//alert(1)
 		  	}
 		  	if(type=='studing'){
-		  		alert(2)
+		  		//alert(2)
 		  	}
 		  	if(type=='studed'){
-		  		alert(3)
+		  		//alert(3)
 		  	}
 		  	if(type=='over'){
-		  		alert(4)
+		  		//alert(4)
 		  	}
 		},
 		parentLisen:function(pageIndex,pageSize){
@@ -107,8 +107,8 @@ export default{
 	overflow: hidden;
 }
 #studyrecord .studyrecord_header{
-	margin-top: 34px;
-	margin-left: 59px;
+	width: 90%;
+	margin:34px auto 20px auto;
 }
 #studyrecord .ml42{
 	margin-left: 42px;
@@ -126,18 +126,31 @@ export default{
 	color:#6ED56C; 
 }
 #studyrecord .studyrecord_header_title{
-	width: 80px;
+	width: 10%;
+	height:30px;
+	line-height: 30px;
+	border-bottom: 2px #e5e5e5 solid;
 	text-align:center;
+	cursor:pointer;
+}
+#studyrecord .studyrecord_header{
+	position: relative;
 }
 #studyrecord .studyrecord_header .active{
 	height: 30px;
 	color:#6ED56C; 
-	border-bottom:3px solid #6ED56C;
+	border-bottom:2px solid #6ED56C;
+}
+#studyrecord .studyrecord_header .line-cross{
+	width:60%;
+	height:30px;
+	border-bottom:2px solid #e5e5e5;
+	z-index:0;
 }
 #studyrecord .studyrecord_body{
 	margin: 0 auto;
-	margin-top: 20px;
 	width: 90%;
+	min-height: 360px;
 }
 #studyrecord .studyrecord_paging{
 	margin-top: 40px;

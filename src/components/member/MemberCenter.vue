@@ -1,6 +1,6 @@
 <template>
 <div id="member_center" class="main_body">
-<div class="member_center_style">
+<div class="member_center_style fix">
 	<div class="member_center_leftNav tc l">
 		<div class="member_center_leftNav_header">
 			<div class="member_center_leftNav_header_logo">
@@ -12,31 +12,39 @@
 		</div>
 
 		<div class="member_center_leftNav_button member_center_leftNav_button_top member_center_leftNav_button_padding" @click="personaldataS('personaldata')">
-			<div v-show="personaldataStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>个人资料</p>
+			<div v-show="showPage == 'personaldata'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>个人资料</p>
 		</div>
 		<div class="member_center_leftNav_button member_center_leftNav_button_bottom" @click="personaldataS('accountsecurity')">
-			<div v-show="accountsecurityStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>账号安全</p>
+			<div v-show="showPage == 'accountsecurity'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>账号安全</p>
 		</div>
 
 		<div class="member_center_leftNav_button member_center_leftNav_button_top member_center_leftNav_button_padding" @click="personaldataS('classesrecord')">
-			<div v-show="classesrecordStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的开课记录</p>
+			<div v-show="showPage == 'classesrecord'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的开课记录</p>
 		</div>
 		<div class="member_center_leftNav_button member_center_leftNav_button_top" @click="personaldataS('studyrecord')">
-			<div v-show="studyrecordStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的学习记录</p>
+			<div v-show="showPage == 'studyrecord'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的学习记录</p>
 		</div>
 		<div class="member_center_leftNav_button member_center_leftNav_button_bottom" @click="personaldataS('orderrecord')">
-			<div v-show="orderrecordStyle" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的预约记录</p>
+			<div v-show="showPage == 'orderrecord'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的预约记录</p>
 		</div>
 	</div>
 	<div class="member_center_content l">
-		<router-view @newfind="getactive"></router-view>
+		<personal-data v-if="showPage == 'personaldata'"></personal-data>
+		<account-security  v-if="showPage == 'accountsecurity'"></account-security>
+		<classes-record  v-if="showPage == 'classesrecord'"></classes-record>
+		<study-record  v-if="showPage == 'studyrecord'"></study-record>
+		<order-record  v-if="showPage == 'orderrecord'"></order-record>
 	</div>
-	<div class="cl"></div>
 </div>
 </div>
 </template>
 
 <script>
+import PersonalData from '@/components/member/membercenter/personaldata.vue'
+import AccountSecurity from '@/components/member/membercenter/accountSecurity.vue'
+import ClassesRecord from '@/components/member/membercenter/classesRecord.vue'
+import StudyRecord from '@/components/member/membercenter/studyRecord.vue'
+import OrderRecord from '@/components/member/membercenter/orderRecord.vue'
 export default {
   data () {
     return {
@@ -46,14 +54,11 @@ export default {
       	class:'五年级',
       	school:'苏州二中',
       },
-      personaldataStyle:true,
-      accountsecurityStyle:false,
-      classesrecordStyle:false,
-      studyrecordStyle:false,
-      orderrecordStyle:false,
+      showPage:'personaldata',
       datOabj:'',
     }
   },
+  components: {PersonalData,AccountSecurity,ClassesRecord,StudyRecord,OrderRecord},
   created:function(){
   	this.getdata();
   	var test = window.location.hash;
@@ -64,47 +69,21 @@ export default {
   	getdata:function(){
 
   	},
-  	getactive:function(){
-  		var test = window.location.hash;
-  		let test1 = test.substring(1,test.length);
-  		this.dataObj = test1;
-  		if(this.dataObj=='/accountSecurity'){
-  			this.personaldataS('accountsecurity');
-  		}
-  		if(this.dataObj=='/personaldata'){
-  			this.personaldataS('personaldata');
-  		}
-  		if(this.dataObj=='/classesrecord'){
-  			this.personaldataS('classesrecord');
-  		}
-  		if(this.dataObj=='/studyrecord'){
-  			this.personaldataS('studyrecord');
-  		}
-  		if(this.dataObj=='/orderrecord'){
-  			this.personaldataS('orderrecord');
-  		}
-  	},
   	personaldataS:function(val){
-  		this.$router.push({path:"/"+val});
   		if(val=='accountsecurity'){
-  			this.accountsecurityStyle=true;
-  			this.personaldataStyle=this.classesrecordStyle=this.studyrecordStyle=this.orderrecordStyle=false;
+  			this.showPage = 'accountsecurity';
   		}
   		if(val=='personaldata'){
-  			this.personaldataStyle=true;
-  			this.accountsecurityStyle=this.classesrecordStyle=this.studyrecordStyle=this.orderrecordStyle=false;
+  			this.showPage = 'personaldata';
   		}
   		if(val=='classesrecord'){
-  			this.classesrecordStyle=true;
-  			this.accountsecurityStyle=this.personaldataStyle=this.studyrecordStyle=this.orderrecordStyle=false;
+  			this.showPage = 'classesrecord';
   		}
   		if(val=='studyrecord'){
-  			this.studyrecordStyle=true;
-  			this.personaldataStyle=this.accountsecurityStyle=this.classesrecordStyle=this.orderrecordStyle=false;
+  			this.showPage = 'studyrecord';
   		}
   		if(val=='orderrecord'){
-  			this.orderrecordStyle=true;
-  			this.personaldataStyle=this.accountsecurityStyle=this.studyrecordStyle=this.classesrecordStyle=false;
+  			this.showPage = 'orderrecord';
   		}
   	}
   }
@@ -122,6 +101,7 @@ export default {
 	background: #fff;
 	border: 1px solid #E5E5E5;
 	border-radius: 3px;
+	min-height:565px;
 }
 #member_center .member_center_style{
 	width: 1200px;

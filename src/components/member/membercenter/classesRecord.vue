@@ -88,6 +88,7 @@ export default {
 </script>
 
 <style>
+
 #classesrecord .classesrecord_title{
 	margin-top: 36px;
 	margin-left: 40px;
@@ -102,6 +103,7 @@ export default {
 	margin: 0 auto;
 	margin-top: 20px;
 	width: 90%;
+	min-height: 360px;
 }
 #classesrecord .classesrecord_paging{
 	margin-top: 40px;
