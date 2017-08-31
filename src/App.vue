@@ -1,7 +1,9 @@
 <template>
   <div id="app">
   	<b-header></b-header>
+  	<transition name="slide-fade">
     	<router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -26,5 +28,15 @@
   color: #2c3e50;
   background-color: #F9F9F9
 }
-
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(0px);
+  opacity: 0;
+}
 </style>

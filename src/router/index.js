@@ -25,6 +25,7 @@ import Living from '@/components/live/living.vue'
 Vue.use(Router)
 
 export default new Router({
+	mode:'history',
   routes: [
     {
       path: '/index',
@@ -53,24 +54,29 @@ export default new Router({
     },
     {
       path: '/memberCenter',
-      name: '用户中心',
       component: MemberCenter,
       children:[{
         path:'/',
+        name: '个人资料',
         component:PersonalData,
       },{
         path:'/personaldata',
+        name: '个人资料',
         component:PersonalData,
       },{
         path:'/accountsecurity',
+        name: '',
         component: AccountSecurity,
       },{
+        name: '',
         path:'/classesrecord',
         component: ClassesRecord,
       },{
+        name: '',
         path:'/studyrecord',
         component: StudyRecord,
       },{
+        name: '',
         path:'/orderrecord',
         component: OrderRecord, 
       }]
