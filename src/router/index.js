@@ -8,11 +8,11 @@ import Forget from '@/components/Forget'
 import allClassMore from '@/components/class/AllClassMore.vue'
 
 import MemberCenter from '@/components/member/MemberCenter'
-import PersonalData from '@/components/member/membercenter/personaldata.vue'
-import AccountSecurity from '@/components/member/membercenter/accountSecurity.vue'
-import ClassesRecord from '@/components/member/membercenter/classesRecord.vue'
-import StudyRecord from '@/components/member/membercenter/studyRecord.vue'
-import OrderRecord from '@/components/member/membercenter/orderRecord.vue'
+//import PersonalData from '@/components/member/membercenter/personaldata.vue'
+//import AccountSecurity from '@/components/member/membercenter/accountSecurity.vue'
+//import ClassesRecord from '@/components/member/membercenter/classesRecord.vue'
+//import StudyRecord from '@/components/member/membercenter/studyRecord.vue'
+//import OrderRecord from '@/components/member/membercenter/orderRecord.vue'
 import Notic from '@/components/member/notic'//个人消息中心
 
 
@@ -25,6 +25,7 @@ import Living from '@/components/live/living.vue'
 Vue.use(Router)
 
 export default new Router({
+	mode:'hash',
   routes: [
     {
       path: '/index',
@@ -53,27 +54,29 @@ export default new Router({
     },
     {
       path: '/memberCenter',
-      name: '用户中心',
       component: MemberCenter,
-      children:[{
-        path:'/',
-        component:PersonalData,
-      },{
-        path:'/personaldata',
-        component:PersonalData,
-      },{
-        path:'/accountsecurity',
-        component: AccountSecurity,
-      },{
-        path:'/classesrecord',
-        component: ClassesRecord,
-      },{
-        path:'/studyrecord',
-        component: StudyRecord,
-      },{
-        path:'/orderrecord',
-        component: OrderRecord, 
-      }]
+//    children:[
+//    {
+//      path:'/personaldata',
+//      name: '个人资料',
+//      component:PersonalData,
+//    },{
+//      path:'/accountsecurity',
+//      name: '',
+//      component: AccountSecurity,
+//    },{
+//      name: '',
+//      path:'/classesrecord',
+//      component: ClassesRecord,
+//    },{
+//      name: '',
+//      path:'/studyrecord',
+//      component: StudyRecord,
+//    },{
+//      name: '',
+//      path:'/orderrecord',
+//      component: OrderRecord, 
+//    }]
     },
     {
       path: '/liveRoom',

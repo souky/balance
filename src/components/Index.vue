@@ -54,32 +54,66 @@
 				<div class="title_more">查看更多</div>
 			</div>
 			<div class="record_main fix">
-				<div class="record_items fix">
+				<div v-for="e in recordList" class="record_items l fix">
 					<div class="items_left l">
-						<img src="../../static/img/temp/fm5.png" width="100%"/>
+						<img :src="e.src" width="100%"/>
 					</div>
 					<div class="items_right l">
 						<div class="items_name">
-							数学春季中学二年级数学
+							{{e.name}}
 						</div>
 						<div class="items_school">
-							学校: 苏州中学
+							学校: {{e.schoolName}}
 						</div>
 						<div class="items_teacher">
-							教师: 马老师
+							教师: {{e.teacherName}}
 						</div>
 						<div class="items_times">
-							课时: 18小时
+							课时: {{e.times}}
 						</div>
 						<div class="items_date">
-							开课时间: 2017年9月12日 10:00:00
+							开课时间: {{e.startDate}}
 						</div>
 						<div class="items_count">
-							总播放: 1000次
+							总播放: {{e.count}}次
+						</div>
+						<div class="cross">
+							最近学习: {{e.cross}}
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+		
+		<div class="last_update">
+			<div class="common_title">
+				最近更新
+				<div class="title_more">查看更多</div>
+				
+				<div v-if="isVideo" @click="changeVideo($event)" class="tab_update active">课堂视频</div>
+				<div v-else @click="changeVideo($event)" class="tab_update">课堂视频</div>
+				
+				<div v-if="isVideo == false" @click="changeVideo($event)" class="tab_update orther active">教辅文件</div>
+				<div v-else @click="changeVideo($event)" class="tab_update orther">教辅文件</div>
+			</div>
+			
+			<div class="last_update_main fix">
+				<div v-for="e in lastUpdateList" class="last_update_items l fix">
+					<div class="items_left l">
+						<img :src="e.src" width="100%" />
+					</div>
+					<div class="items_right l">
+						<div class="items_name">{{e.name}}</div>
+						<div class="items_cross">课程: {{e.crossName}}</div>
+						
+						<div class="fix">
+							<div class="items_school l">学校: {{e.schoolName}}</div>
+							<div class="items_updateTime l">更新日期: {{e.updateDate}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
 		</div>
 		
 	</div>
@@ -104,15 +138,30 @@ export default {
       
       showRecord:true,
       recordList:[],
+      
+      isVideo:true,
+      lastUpdateList:[],
     }
   },
   mounted:function(){
   	
-  	
   	//假数据  接口对接后删除
   	this.tableData = this.IndexData.tableData;
   	this.recommendList = this.IndexData.recommendList;
-  	
+  	this.recordList = this.IndexData.recordList;
+  	this.lastUpdateList = this.IndexData.lastUpdateList;
+  	document.body.scrollTop = 800;
+  },
+  methods:{
+  	changeVideo(e){
+  		var obj = e.currentTarget;
+  		var html = obj.innerHTML;
+  		if(html == '课堂视频'){
+			this.isVideo = true;
+  		}else{
+  			this.isVideo = false;
+  		}
+  	}
   }
 }
 </script>
@@ -132,6 +181,22 @@ export default {
 	width:100%;
 	margin-top: 30px;
 	position: relative;
+}
+#index .common_title .tab_update{
+	position: absolute;
+	left:160px;
+	top:0px;
+	height:40px;
+	line-height: 40px;
+	font-size:16px;
+	color:#272727;
+	cursor: pointer;
+}
+#index .common_title .orther{
+	left:250px;
+}
+#index .common_title .tab_update.active{
+	color:#6ED56C;
 }
 #index .common_title .title_more{
 	position: absolute;
@@ -156,6 +221,9 @@ export default {
 	background: #ececec;
 	cursor: pointer;
 }
+#index .recommend_mian .recommend_items:hover{
+	box-shadow: 1px 1px 10px #7b7b7b;
+}
 #index .recommend_mian .recommend_items .items_img{
 	width:200px;
 }
@@ -177,14 +245,18 @@ export default {
 }
 
 #index .record_main{
-	width:1210px;
-	margin-left:-5px;
-	padding: 20px 0;
+	width:1220px;
+	margin-left:-10px;
+	padding: 10px 0 20px 0;
 }
 #index .record_main .record_items{
-	margin:20px 5px 0px 5px;
+	margin:20px 10px 0px 10px;
 	background:#ececec;
 	width:590px;
+	position: relative;
+}
+#index .record_main .record_items:hover{
+	box-shadow: 1px 1px 10px #7b7b7b;
 }
 #index .record_main .record_items .items_left{
 	width:206px;
@@ -195,12 +267,54 @@ export default {
 	color: #999999;
 	height:30px;
 	line-height: 30px;
+	
 }
 #index .record_main .record_items .items_right .items_name{
 	font-size: 16px;
 	color: #272727;
-	
 }
-
-
+#index .record_main .record_items .items_right .cross{
+	position: absolute;
+	bottom:10px;
+	left:226px;
+	font-size: 14px;
+	color: #6ED56C;
+}
+#index .last_update_main{
+	width:1220px;
+	margin-left:-10px;
+	padding: 10px 0 20px 0;
+}
+#index .last_update_main .last_update_items{
+	margin:20px 10px 0px 10px;
+	background:#ececec;
+	width:590px;
+	position: relative;
+	height:200px;
+}
+#index .last_update_main .last_update_items .items_left{
+	width:200px;
+}
+#index .last_update_main .last_update_items .items_right{
+	padding: 16px 20px;
+	font-size: 14px;
+	color: #999999;
+	line-height: 30px;
+	height: 168px;
+	width: 350px;
+}
+#index .last_update_main .last_update_items .items_right .items_name{
+	font-size: 16px;
+	color: #272727;
+}
+#index .last_update_main .last_update_items .items_right .fix{
+	margin-top:80px;
+	width:100%;
+}
+#index .last_update_main .last_update_items .items_right .items_school{
+	width:50%;
+}
+#index .last_update_main .last_update_items .items_right .items_updateTime{
+	width:50%;
+}
 </style>

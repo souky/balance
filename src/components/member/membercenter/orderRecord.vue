@@ -132,6 +132,7 @@ export default{
 	margin-top: 20px;
 	width: 90%;
 	overflow: hidden;
+	min-height: 360px;
 }
 #orderrecord .orderrecord_paging{
 	margin-top: 40px;
