@@ -21,6 +21,7 @@ import LiveRoom from '@/components/live/LiveRoom'
 import AllClass from '@/components/class/AllClass'
 import AllFile from '@/components/file/AllFile'
 import Living from '@/components/live/living.vue'
+import Playing from '@/components/live/playing.vue'
 
 Vue.use(Router)
 
@@ -101,6 +102,10 @@ export default new Router({
     {
       path: '/living',
       component: Living
+    },
+    {
+      path: '/playing',
+      component: Playing
     },
     {
       path: '/allFile',

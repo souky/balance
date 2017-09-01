@@ -4,7 +4,9 @@
 			<p class="allClass_body_title">{{book.name}}</p>
 			<hr style="width:93%;background-color:#E5E5E5;margin-top:20px;">
 			<div class="allClass_body_content">
-				<div class="allClass_body_content_img l"></div>
+				<div class="allClass_body_content_img l">
+					<img src="../../../static/img/temp/fm7.png" width="290px" height="372px">
+				</div>
 				<div class="allClass_body_content_word l">
 					<p class="l allClass_body_content_word_color">年级：</p><p class="l">{{book.class}}</p>
 					<div class="cl"></div>
@@ -44,16 +46,16 @@
 				    	<p class="mt10 allClass_body_tabs_download">点击下载课程视频进入学习</p>
 				    	<div class="mt10 allClass_body_tabs_first_content">
 				    		<div class="mt10 allClass_body_tabs_first_middle cl" v-for="proper in propers">
-				    			<p class="l">{{proper.name}}</p>
-				    			<p class="r">{{proper.time}}</p>
+				    			<p class="l mt10">{{proper.name}}</p>
+				    			<p class="r mt10">{{proper.time}}</p>
 				    			<div class="cl"></div>
 				    			<div class="mt10 allClass_body_tabs_first_middle_body cl" v-for="child in proper.childs">
-				    				<p class="l allClass_body_tabs_first_middle_bodyVip">{{child.name}}</p>
-				    				<p class="r">{{child.time}}</p>
+				    				<p class="l allClass_body_tabs_first_middle_bodyVip mt10">{{child.name}}</p>
+				    				<p class="r mt10">{{child.time}}</p>
 				    				<div class="cl"></div>
 				    				<div class="mt10 allClass_body_tabs_first_middle_foot cl" v-for="grandchildren in child.grandchildrens">
-				    					<p class="l allClass_body_tabs_first_middle_bodyVVip">{{grandchildren.name}}</p>
-				    					<p class="r">{{grandchildren.time}}</p>
+				    					<p class="l allClass_body_tabs_first_middle_bodyVVip mt10">{{grandchildren.name}}</p>
+				    					<p class="r mt10">{{grandchildren.time}}</p>
 				    					<div class="cl"></div>
 				    				</div>
 				    			</div>
@@ -62,14 +64,18 @@
 				    </el-tab-pane>
 				    <el-tab-pane label="授课老师" name="second">
 				    	<h3>教师简介</h3>
-				    	<div class="allClass_body_tabs_Vimg mt10 l"></div>
+				    	<div class="allClass_body_tabs_Vimg mt10 l">
+				    		<img src="../../../static/img/temp/fm7.png" width="125px" height="155px">
+				    	</div>
 				    	<p class="l allClass_body_tabs_word ml10 mt10">11111111111111111</p>
 				    	<div class="cl"></div>
 				    	<h3 class="mt10">所授课程</h3>
 				    	<p class="mt10 allClass_body_tabs_download">点击下载课程视频进入学习</p>
 				    	<div class="allClass_body_tabs_second_table">
 				    		<div class="allClass_body_tabs_second_table_bar l" v-for="tab in tabs">
-				    			<div class="allClass_body_tabs_second_table_bar_img"></div>
+				    			<div class="allClass_body_tabs_second_table_bar_img">
+				    				<img src="../../../static/img/temp/fm7.png" width="360px" height="170px">
+				    			</div>
 				    			<p>{{tab.titleName}}</p>
 				    			<p class="l">开课日期：</p><p class="l">{{tab.date}}</p>
 				    			<p class="mr10 r">{{tab.manNumber}}</p><p class="r">报名人数：</p>
@@ -88,16 +94,16 @@
 				    	<p class="mt10 allClass_body_tabs_download">点击下载课程视频进入学习</p>
 				    	<div class="mt10 allClass_body_tabs_first_content">
 				    		<div class="mt10 allClass_body_tabs_first_middle cl" v-for="proper in propers">
-				    			<p class="l">{{proper.name}}</p>
-				    			<p class="r">{{proper.time}}</p>
+				    			<p class="l mt10">{{proper.name}}</p>
+				    			<p class="r mt10">{{proper.time}}</p>
 				    			<div class="cl"></div>
 				    			<div class="mt10 allClass_body_tabs_first_middle_body cl" v-for="child in proper.childs">
-				    				<p class="l allClass_body_tabs_first_middle_bodyVip">{{child.name}}</p>
-				    				<p class="r">{{child.time}}</p>
+				    				<p class="l allClass_body_tabs_first_middle_bodyVip mt10">{{child.name}}</p>
+				    				<p class="r mt10">{{child.time}}</p>
 				    				<div class="cl"></div>
 				    				<div class="mt10 allClass_body_tabs_first_middle_foot cl" v-for="grandchildren in child.grandchildrens">
-				    					<p class="l allClass_body_tabs_first_middle_bodyVVip">{{grandchildren.name}}</p>
-				    					<p class="r">{{grandchildren.time}}</p>
+				    					<p class="l allClass_body_tabs_first_middle_bodyVVip mt10">{{grandchildren.name}}</p>
+				    					<p class="r mt10">{{grandchildren.time}}</p>
 				    					<div class="cl"></div>
 				    				</div>
 				    			</div>
@@ -108,7 +114,9 @@
 				    	<div class="allClass_body_tabs_fourth">
 				    		<p>全部评论（100）</p>
 				    		<div class="allClass_body_tabs_fourth_bar" v-for="comment in comments">
-				    			<div class="allClass_body_tabs_fourth_bar_img l"></div>
+				    			<div class="allClass_body_tabs_fourth_bar_img l">
+				    				<img src="../../../static/img/defualt/rar.png" width="60px" height="60px" />
+				    			</div>
 				    			<div class="allClass_body_tabs_fourth_bar_word l">
 				    				<p class="l">{{comment.name}}</p><p class="l ml10">{{comment.date}}</p><p class="l ml10">{{comment.what}}</p>
 				    				<div class="cl"></div>
@@ -120,7 +128,9 @@
 				    			<page :totalNumber="totalfourth" @newNOdeEvents="parentLisenfourth"></page>
 				    		</div>
 				    		<div class="allClass_body_tabs_fourth_input">
-				    			<div class="allClass_body_tabs_fourth_input_img"></div>
+				    			<div class="allClass_body_tabs_fourth_input_img">
+				    				<img src="../../../static/img/defualt/rar.png" width="100px" height="100px" />
+				    			</div>
 				    			<p class="allClass_body_tabs_fourth_input_img_name l">James</p>
 				    			<el-input class="allClass_body_tabs_fourth_input_textarea l" type="textarea" :rows="6" placeholder="不超过300字" v-model="textarea"></el-input>
 				    			<el-button class="r allClass_body_tabs_fourth_input_button" type="primary">发表评论</el-button>
@@ -363,7 +373,6 @@ export default {
 .allClass_body_tabs_Vimg{
 	width: 125px;
 	height: 155px;
-	background-color: red;
 }
 .allClass_body_tabs_word{
 	width: 950px;
@@ -412,6 +421,7 @@ export default {
 	height: 60px;
 	border-radius: 50%;
 	background-color: red;
+	overflow: hidden;
 }
 .allClass_body_tabs_fourth_bar_word{
 	width: 92%;
@@ -437,8 +447,8 @@ export default {
 	width: 100px;
 	height: 100px;
 	border-radius: 50%;
-	background-color: red;
 	margin-left: 30px;
+	overflow: hidden;
 }
 .allClass_body_tabs_fourth_input_img_name{
 	margin-left: 55px;
@@ -462,7 +472,7 @@ export default {
 .allClass_body_tabs_first_middle{
 	border-bottom:1px dashed #000;
 	width: 100%;
-	height: 17px;
+	height: 23px;
 }
 .allClass_body_tabs_first_middle p{
 	height: 18px;
@@ -471,12 +481,12 @@ export default {
 .allClass_body_tabs_first_middle_body{
 	border-bottom:1px dashed #000;
 	width: 100%;
-	height: 17px;		
+	height: 23px;		
 }
 .allClass_body_tabs_first_middle_foot{
 	border-bottom:1px dashed #000;
 	width: 100%;
-	height: 17px;		
+	height: 23px;		
 }
 .allClass_body_tabs_first_middle_bodyVip{
 	padding-left: 20px;

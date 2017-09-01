@@ -1,23 +1,41 @@
 <template>
-	<div id="living">
+	<div id="playing">
 		<div class="living_play"></div>
 		<div class="living_banner">
 			 <el-carousel indicator-position="outside" arrow="always" :autoplay="false">
 			    <el-carousel-item v-for="item in items" :key="item.id">
 			       <div class="banner_bar l" v-for="child in item.childs">
-			         <img v-if="child.type=='rar'" src="../../../static/img/defualt/rar.png" />
-			         <img v-if="child.type=='png'" src="../../../static/img/defualt/img.png" />
-			         <img v-if="child.type=='fla'" src="../../../static/img/defualt/swf.png" />
-			         <img v-if="child.type=='mp3'" src="../../../static/img/defualt/voice.png" />
-			         <img v-if="child.type=='avi'" src="../../../static/img/defualt/video.png" />
-			         <img v-if="child.type=='word'" src="../../../static/img/defualt/doc.png" />
-			         <img v-if="child.type=='exe'" src="../../../static/img/defualt/exe.png" />
-			         <p class="tc banner_bar_word">{{child.word}}</p>
+			         <div v-if="child.type=='past'" class="banner_bar_content_past">
+                  <p class="tc mt30 f20">{{child.date}}</p>   
+                  <p class="tc mt10 f12">{{child.state}}</p>
+                  <p class="tc mt30 f12">{{child.class}}</p>
+                  <p class="tc mt10 f12">{{child.course}}</p>
+                  <el-button class="banner_bar_content_button">查看回放</el-button>
+               </div>
+               <div v-if="child.type=='now'" class="banner_bar_content_now">
+                  <p class="tc mt30 f20">{{child.date}}</p>   
+                  <p class="tc mt10 f12">{{child.state}}</p>
+                  <p class="tc mt30 f12">{{child.class}}</p>
+                  <p class="tc mt10 f12">{{child.course}}</p>
+                  <el-button class="banner_bar_content_button_now">查看回放</el-button>
+               </div>
+               <div v-if="child.type=='future'" class="banner_bar_content_future">
+                  <p class="tc mt30 f20">{{child.date}}</p>   
+                  <p class="tc mt10 f12">{{child.state}}</p>
+                  <p class="tc mt30 f12">{{child.class}}</p>
+                  <p class="tc mt10 f12">{{child.course}}</p>
+                  <el-button class="banner_bar_content_button_future">查看回放</el-button>
+               </div>
 			       </div>
 			    </el-carousel-item>
 			  </el-carousel>
 		</div>
 		<div class="living_table_foot">
+    <div class="play_presentation">
+      <p class="mt30 ml30 lh16 mb10 f16">直播简介</p>
+      <p class="l ml30 f14 lh18">课程名：</p><p class="l ml5 f14 lh18">春季小学二年级语文</p><p class="l ml10 f14 lh18">学校：</p><p class="l ml5 f14 lh18">苏州小学</p><p class="l ml10 f14 lh18">教师：</p><p class="l ml5 f14 lh18">James</p><p class="l ml10 f14 lh18">大纲进程:</p><p class="l ml5 f14 lh18">人教版课程——第一章——第一节——第一课</p>
+      <div class="cl"></div>
+    </div>
 			<div class="allClass_body_tabs_fourth">
 				    		<p>全部评论（100）</p>
 				    		<div class="allClass_body_tabs_fourth_bar" v-for="comment in comments">
@@ -55,20 +73,35 @@ export default {
     	 items:[{
         id:1,
         childs:[{
-          type:'rar',
-          word:'123',
+          type:'past',
+          date:'1231',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'fla',
-          word:'2342',
+          type:'now',
+          date:'1231',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'mp3',
-          word:'123',
+          type:'now',
+          date:'1231',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'word',
-          word:'123',
+          type:'future',
+          date:'1231',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'rar',
-          word:'123',
+          type:'future',
+          date:'1231',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         }],
       },{
         id:2,
@@ -153,7 +186,7 @@ export default {
 }
 </script>
 <style>
-#living{
+#playing{
 	padding-top:60px;
 	background-color: #F9F9F9;
 }	
@@ -201,11 +234,10 @@ export default {
     height: 300px;
   }
   .banner_bar{
-    width: 200px;
-    height: 200px;
+    width: 210px;
+    height: 230px;
     margin-top: 20px;
-    margin-left: 34px;
-    background-color: red;
+    margin-left: 24px;
   }
   .banner_bar_word{
     margin-top: 20px;
@@ -276,5 +308,72 @@ export default {
 	margin-right: 50px; 
 	width: 125px;
 	height: 35px;
+}
+.play_presentation{
+  margin: 0 auto;
+  width: 1200px;
+  height: 128px;
+  background-color: #fff;
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+.banner_bar_content_past{
+  width: 100%;
+  height: 100%;
+  border-top: 4px solid #B3B3B3;
+  background-color: #fff;
+}
+.banner_bar_content_past p{
+  color: #B3B3B3;
+}
+.banner_bar_content_now{
+  width: 100%;
+  height: 100%;
+  border-top: 4px solid #6ED56C;
+  background-color: #fff;
+}
+.banner_bar_content_now p{
+  color: #6ED56C;
+}
+.banner_bar_content_future{
+  width: 100%;
+  height: 100%;
+  border-top: 4px solid #66C3E7;
+}
+.banner_bar_content_future p{
+  color: #66C3E6;
+}
+.banner_bar_content_button{
+  width: 125px;
+  height: 35px;
+  margin-top: 20px;
+  margin-left: 45px;
+  border:1px solid #272727;
+}
+.banner_bar_content_button span{
+  color: #272727;
+}
+.banner_bar_content_button_now{
+  width: 125px;
+  height: 35px;
+  margin-top: 20px;
+  margin-left: 45px; 
+  border:1px solid #6ED56C;
+}
+.banner_bar_content_button_now span{
+  color: #6ED56C;
+}
+.banner_bar_content_button_future{
+  width: 125px;
+  height: 35px;
+  margin-top: 20px;
+  margin-left: 45px; 
+  border:1px solid #66C3E6;
+}
+.banner_bar_content_button_future span{
+  color: #66C3E6;
+}
+.el-button{
+  border-radius:32px;
 }
 </style>
