@@ -44,7 +44,7 @@
 					    <el-dropdown-item disabled>
 					    	系统消息
 					    </el-dropdown-item>
-					    <el-dropdown-item divided v-for="item in notic">
+					    <el-dropdown-item divided v-for="item in notic" :key="item.id">
 					    	<div @click="">
 						    	<div class="notic_left">
 						    		<el-badge :is-dot="item.unread" class="item">

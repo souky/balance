@@ -97,7 +97,7 @@
 							</div>
 							<div class="file-config">
 								更新日期：{{item.time}}
-								<button :click="downloadC()">下载</button>
+								<button @click="downloadC()">下载</button>
 							</div>
 				  		</div>
 				  	</div>

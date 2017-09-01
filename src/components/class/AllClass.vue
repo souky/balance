@@ -39,8 +39,8 @@
 			</div>
 			<div class="classList">
 				<el-row :gutter="13">
-				  <el-col :span="6" v-for="e in recommendList">
-				  <div class="items_box " @click="goTodetail()">
+				  <el-col :span="6" v-for="e in recommendList" :key="e.id">
+				  <div class="items_box " @click="goTodetail(e.id)">
 					<div class="items_img"><img :src="e.src" width="100%" /></div>
 					<div class="items_name pl10 pr10" :title="e.name">
 						{{e.name}}
@@ -140,6 +140,7 @@ export default {
 	     
     recommendList:[
     	{
+    		id:'1',
   			src:'../../../static/img/temp/fm1.png',
   			name:'苏州中学三年级下册',
   			sourceSchool:'苏州中学',
@@ -148,6 +149,7 @@ export default {
   			count:'599'
   		},
   		{
+  			id:'2',
   			src:'../../../static/img/temp/fm2.png',
   			name:'苏州中学三年级下册',
   			sourceSchool:'苏州中学',
@@ -156,6 +158,7 @@ export default {
   			count:'599'
   		},
   		{
+  			id:'3',
   			src:'../../../static/img/temp/fm3.png',
   			name:'苏州中学三年级下册',
   			sourceSchool:'苏州中学',
@@ -164,6 +167,7 @@ export default {
   			count:'599'
   		},
   		{
+  			id:'4',
   			src:'../../../static/img/temp/fm4.png',
   			name:'苏州中学三年级下册',
   			sourceSchool:'苏州中学',
@@ -172,6 +176,7 @@ export default {
   			count:'599'
   		},
   		{
+  			id:'5',
   			src:'../../../static/img/temp/fm4.png',
   			name:'苏州中学三年级下册',
   			sourceSchool:'苏州中学',
@@ -180,6 +185,7 @@ export default {
   			count:'599'
   		},
   		{
+  			id:'6',
   			src:'../../../static/img/temp/fm3.png',
   			name:'苏州中学三年级下册',
   			sourceSchool:'苏州中学',
@@ -188,6 +194,7 @@ export default {
   			count:'599'
   		},
   		{
+  			id:'7',
   			src:'../../../static/img/temp/fm2.png',
   			name:'苏州中学三年级下册',
   			sourceSchool:'苏州中学',
@@ -196,6 +203,7 @@ export default {
   			count:'599'
   		},
   		{
+  			id:'8',
   			src:'../../../static/img/temp/fm1.png',
   			name:'苏州中学三年级下册',
   			sourceSchool:'苏州中学',
@@ -204,6 +212,7 @@ export default {
   			count:'599'
   		},
   		{
+  			id:'9',
   			src:'../../../static/img/temp/fm1.png',
   			name:'苏州中学三年级下册',
   			sourceSchool:'苏州中学',
@@ -212,6 +221,7 @@ export default {
   			count:'599'
   		},
   		{
+  			id:'10',
   			src:'../../../static/img/temp/fm1.png',
   			name:'苏州中学三年级下册',
   			sourceSchool:'苏州中学',
@@ -249,8 +259,9 @@ export default {
 		    this.pageIndex=pageIndex;
 		    this.pageSize=pageSize;
 		},
-		goTodetail(){
-			this.$router.push({path:'/allClassMore'})
+		goTodetail(ids){
+			sessionStorage.setItem("classID", ids); 
+			this.$router.push({path:'/allClassMore'});
 		}
 	}
 }
@@ -271,7 +282,7 @@ export default {
 #allClassMain .time_block span{margin: 0;color: #999}
 #allClassMain .el-row{margin:16px 0;}
 #allClassMain .classList .el-col{margin-bottom: 15px}
-#allClassMain .items_box{background-color: #f5f5f5}
+#allClassMain .items_box{background-color: #f5f5f5;cursor: pointer;}
 #allClassMain .items_box .items_img img{height: 246px}
 #allClassMain .items_name{color: #272727;font-size: 16px;margin-top: 16px;}
 #allClassMain .items_source{color:#999;font-size: 14px;}

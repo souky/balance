@@ -262,6 +262,9 @@ export default {
     }
   },
   components:{page},
+  mounted:function(){
+  	console.log(sessionStorage.getItem("classID"));
+  },
   	methods: {
   	   handleClick(tab, event) {
         console.log(tab, event);
