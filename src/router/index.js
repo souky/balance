@@ -8,11 +8,6 @@ import Forget from '@/components/Forget'
 import allClassMore from '@/components/class/AllClassMore.vue'
 
 import MemberCenter from '@/components/member/MemberCenter'
-//import PersonalData from '@/components/member/membercenter/personaldata.vue'
-//import AccountSecurity from '@/components/member/membercenter/accountSecurity.vue'
-//import ClassesRecord from '@/components/member/membercenter/classesRecord.vue'
-//import StudyRecord from '@/components/member/membercenter/studyRecord.vue'
-//import OrderRecord from '@/components/member/membercenter/orderRecord.vue'
 import Notic from '@/components/member/notic'//个人消息中心
 
 
@@ -26,7 +21,7 @@ import Playing from '@/components/live/playing.vue'
 Vue.use(Router)
 
 export default new Router({
-	mode:'hash',
+	mode:'history',
   routes: [
     {
       path: '/index',
@@ -54,7 +49,7 @@ export default new Router({
       component: Register
     },
     {
-      path: '/memberCenter',
+      path: '/memberCenter/:part',
       component: MemberCenter,
 //    children:[
 //    {
