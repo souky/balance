@@ -1,23 +1,23 @@
 <template>
 	<div id="header" class="fix box_s">
 		<div class="leftPart l fix">
-			<router-link to="index">
+			<router-link to="/index">
 				<div class="leftItems l">首页</div>
 			</router-link>
 			
-			<router-link to="allClass">
+			<router-link to="/allClass">
 				<div class="leftItems l">所有课程</div>
 			</router-link>
 			
-			<router-link to="allFile">
+			<router-link to="/allFile">
 				<div class="leftItems l">所有教辅</div>
 			</router-link>
 			
-			<router-link to="liveRoom">
+			<router-link to="/liveRoom">
 				<div class="leftItems l">直播间</div>
 			</router-link>
 			
-			<router-link to="memberCenter">
+			<router-link to="/memberCenter/personaldata">
 				<div class="leftItems l">个人中心</div>
 			</router-link>
 			
@@ -73,14 +73,14 @@
 					</div>
 					 <el-dropdown-menu slot="dropdown" size="middles">
 					    <el-dropdown-item>
-					    	<router-link to="personaldata">
+							<router-link to="/memberCenter/personaldata">
 								<div class="menuStyle">
 									个人中心
 								</div>
 							</router-link>
 					    </el-dropdown-item>
 					    <el-dropdown-item>
-					    	<router-link to="accountSecurity">
+							<router-link to="/memberCenter/accountsecurity">
 								<div class="menuStyle">
 									账户信息
 								</div>

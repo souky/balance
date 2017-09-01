@@ -61,9 +61,14 @@ export default {
   components: {PersonalData,AccountSecurity,ClassesRecord,StudyRecord,OrderRecord},
   created:function(){
   	this.getdata();
-  	var test = window.location.hash;
-  	let test1 = test.substring(2,test.length);
-  	this.personaldataS(test1);
+  	var s = this.$route.params.part;
+	this.personaldataS(''+s);
+  },
+  watch: {
+    '$route' (to, from) {
+  	 var s = this.$route.params.part;
+     this.personaldataS(''+s);
+    }
   },
   methods:{
   	getdata:function(){
