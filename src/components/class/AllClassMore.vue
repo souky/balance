@@ -276,7 +276,9 @@ export default {
     }
   },
   created:function(){
-
+  	var url=window.location.pathname;
+  	url=url.slice(13);
+  	alert(url);
   },
   components:{page},
   	methods: {
