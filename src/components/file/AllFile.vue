@@ -97,7 +97,7 @@
 							</div>
 							<div class="file-config">
 								更新日期：{{item.time}}
-								<button :click="downloadC()">下载</button>
+								<button @click="downloadC()">下载</button>
 							</div>
 				  		</div>
 				  	</div>
@@ -174,51 +174,51 @@ export default {
       	select:{
       	options1:[{
           value: '选项1',
-          label: '黄金糕'
+          label: '王老师'
         }, {
           value: '选项2',
-          label: '双皮奶'
+          label: '李老师'
         }, {
           value: '选项3',
-          label: '蚵仔煎'
+          label: '韦老师'
         }, {
           value: '选项4',
-          label: '龙须面'
+          label: '梁老师'
         }, {
           value: '选项5',
-          label: '北京烤鸭'
+          label: '马老师'
         }],
       	options2:[{
           value: '选项1',
-          label: '白银糕'
+          label: '课件'
         }, {
           value: '选项2',
-          label: '双皮奶'
+          label: 'PPT'
         }, {
           value: '选项3',
-          label: '蚵仔煎'
+          label: '文档'
         }, {
           value: '选项4',
-          label: '龙须面'
+          label: '文案'
         }, {
           value: '选项5',
-          label: '北京烤鸭'
+          label: '方案'
         }],
       	options3:[{
           value: '选项1',
-          label: '青铜糕'
+          label: '动画'
         }, {
           value: '选项2',
-          label: '双皮奶'
+          label: '视频'
         }, {
           value: '选项3',
-          label: '蚵仔煎'
+          label: '语音'
         }, {
           value: '选项4',
-          label: '龙须面'
+          label: '文档'
         }, {
           value: '选项5',
-          label: '北京烤鸭'
+          label: '应用程序'
         }],
         select1:'',
         select2:'',

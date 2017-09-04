@@ -44,7 +44,7 @@
 					    <el-dropdown-item disabled>
 					    	系统消息
 					    </el-dropdown-item>
-					    <el-dropdown-item divided v-for="item in notic">
+					    <el-dropdown-item divided v-for="item in notic" :key="item.id">
 					    	<div @click="">
 						    	<div class="notic_left">
 						    		<el-badge :is-dot="item.unread" class="item">
@@ -73,14 +73,18 @@
 					</div>
 					 <el-dropdown-menu slot="dropdown" size="middles">
 					    <el-dropdown-item>
+
 							<router-link to="/memberCenter/personaldata">
+
 								<div class="menuStyle">
 									个人中心
 								</div>
 							</router-link>
 					    </el-dropdown-item>
 					    <el-dropdown-item>
+
 							<router-link to="/memberCenter/accountsecurity">
+
 								<div class="menuStyle">
 									账户信息
 								</div>
@@ -182,7 +186,7 @@ export default {
       dialogClose:false,
       loading:false,
       ruleForm:{
-      		loginName:'123',
+      		loginName:'',
 	        passWord:'',
 	        checked:false
       	},
@@ -201,10 +205,10 @@ export default {
   	//判断cookie登陆信息初始化
   	if(getCookie('cname')!= null){
   		this.isshow = false;
-	  	this.postHttp(this,{},"auth/user/getLoginUser",function(obj,data){
-	});
+	//   	this.postHttp(this,{},"auth/user/getLoginUser",function(obj,data){
+	// });
   	}else{
-  		this.isshow = false;
+  		this.isshow = true;
   	}
   },
   methods:{
@@ -227,8 +231,13 @@ export default {
 	             var userName = this.ruleForm.loginName;
 		    	 var psw = this.ruleForm.passWord;
 		    	 var data = {userName:userName,psw:psw};
-
-		    	 this.postHttp(this,data,'login',login_press);
+		    	 //登陆请求
+		    	 // this.postHttp(this,data,'login',login_press);
+		    	 // 模拟请求成功回调
+		    	 setCookie("cname",this.isshow,1000*60);
+			  		this.loading = false;
+					this.dialogFormVisible = false;
+					this.$router.go(0);
 		    } else {
 	            console.log('error submit!!');
 	            return false;

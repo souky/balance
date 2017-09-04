@@ -281,6 +281,11 @@ export default {
   	alert(url);
   },
   components:{page},
+   created:function(){
+  	var s = this.$route.params.userId;
+  	console.log(s);
+  },
+ 
   	methods: {
   	   handleClick(tab, event) {
         console.log(tab, event);
