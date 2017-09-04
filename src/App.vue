@@ -16,7 +16,7 @@
     mounted:function(){
       var height = document.documentElement.clientHeight;
       document.getElementById("app").style.minHeight = height+"px";
-  },
+  	},
 	}
 </script>
 
