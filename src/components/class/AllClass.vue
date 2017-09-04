@@ -260,8 +260,9 @@ export default {
 		    this.pageSize=pageSize;
 		},
 		goTodetail(ids){
-			sessionStorage.setItem("classID", ids); 
-			this.$router.push({path:'/allClassMore'});
+			// sessionStorage.setItem("classID", ids); 
+			 // this.$router.push({path:'/allClassMore/',params:{news_id: 123}});
+			this.$router.push({ name: '课程详情', params: { userId: ids }})
 		}
 	}
 }

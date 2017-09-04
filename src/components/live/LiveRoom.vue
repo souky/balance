@@ -44,7 +44,9 @@
 			<div class="fix">
 				<div class="live_body_content l" v-for="tab in tabs">
 					<div class="live_body_content_bar l">
-						<div class="l live_body_content_bar_img" style="background-color:red;"></div>
+						<div class="l live_body_content_bar_img">
+							<img src="../../../static/img/temp/fm7.png" width="206px" height="274px">
+						</div>
 						<div class="l ml10">
 							<p class="mt15 live_body_content_bar_p">{{tab.title}}</p>
 							<div class="mt10 live_body_content_bar_vp">

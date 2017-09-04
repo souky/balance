@@ -6,6 +6,7 @@ import VueRouter from 'vue-router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import '../static/css/main.css'
+import '../static/css/apps.css'
 import axios from 'axios'
 
 /* vue配置 */
