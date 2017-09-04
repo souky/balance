@@ -4,22 +4,22 @@
 			<el-form ref="form" :model="form" label-width="60px">
 				<el-form-item class="l ml30 mt20 live_select" label="学校">
 				    <el-select v-model="form.region">
-				      <el-option v-for="item in Sregion" :key="item.id" :label="item.regionName" :value="item.id"></el-option>
+				      <el-option v-for="item in schools" :key="item.id" :label="item.regionName" :value="item.id"></el-option>
 				    </el-select>
 				</el-form-item>
 				<el-form-item class="l ml30 mt20 live_select" label="年级">
 				    <el-select v-model="form.region">
-				      <el-option v-for="item in Sregion" :key="item.id" :label="item.regionName" :value="item.id"></el-option>
+				      <el-option v-for="item in grades" :key="item.id" :label="item.regionName" :value="item.id"></el-option>
 				    </el-select>
 				</el-form-item>
 				<el-form-item class="l ml30 mt20 live_select" label="教师">
 				    <el-select v-model="form.region">
-				      <el-option v-for="item in Sregion" :key="item.id" :label="item.regionName" :value="item.id"></el-option>
+				      <el-option v-for="item in teachers" :key="item.id" :label="item.regionName" :value="item.id"></el-option>
 				    </el-select>
 				</el-form-item>
 				<el-form-item class="l ml30 mt20 live_select" label="学科">
 				    <el-select v-model="form.region">
-				      <el-option v-for="item in Sregion" :key="item.id" :label="item.regionName" :value="item.id"></el-option>
+				      <el-option v-for="item in subjects" :key="item.id" :label="item.regionName" :value="item.id"></el-option>
 				    </el-select>
 				</el-form-item>
 				<div class="cl"></div>
@@ -90,7 +90,7 @@ export default {
 		    date2: '',
 		},
 	  tabs:[{
-		    title:'11111111111111111111111111111111111111111',
+		    title:'语文第一章第一节',
 		    name:'春',
 		    school:'苏州小学',
 		    progress:'1-1-1-1-1-2',
@@ -100,7 +100,7 @@ export default {
 		    number:'12313',
 		    buttonName:'观看直播',
 		},{
-		    title:'22222222222',
+		    title:'数学第一章第一节',
 		    name:'春',
 		    school:'苏州小学',
 		    progress:'1-1-1-1-1-2',
@@ -110,7 +110,7 @@ export default {
 		    number:'12313',
 		    buttonName:'预约',
 		},{
-		    title:'33333',
+		    title:'英语第一章第一节',
 		    name:'春',
 		    school:'苏州小学',
 		    progress:'1-1-1-1-1-2',
@@ -123,6 +123,46 @@ export default {
 	  Sregion:[{
 			id:11,
 			regionName:'测试',
+		}],
+		schools:[{
+			id:1,
+			regionName:'苏州小学',
+		},{
+			id:2,
+			regionName:'苏州第一小学',
+		}],
+		grades:[{
+			id:1,
+			regionName:'一年级'
+		},{
+			id:2,
+			regionName:'二年级'
+		},{
+			id:3,
+			regionName:'三年级'
+		},{
+			id:4,
+			regionName:'四年级'
+		}],
+		teachers:[{
+			id:1,
+			regionName:'James'
+		},{
+			id:2,
+			regionName:'Jim'
+		},{
+			id:3,
+			regionName:'Tom'
+		}],
+		subjects:[{
+			id:1,
+			regionName:'语文'
+		},{
+			id:2,
+			regionName:'数学'
+		},{
+			id:3,
+			regionName:'英语'
 		}],
 		pageIndex:1,
         pageSize:10,
@@ -277,7 +317,7 @@ export default {
 	width: 200px;
 	height: 40px;
 }
-.live_body_content_bar_vp p{
+#live .live_body_content_bar_vp p{
 	line-height: 17px;
 }
 </style>

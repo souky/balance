@@ -19,7 +19,7 @@
 				    </el-col>
 				  </el-form-item>
 			</el-form>
-			<el-button class="r" type="primary" @click="query">查询</el-button>
+			<el-button class="r query_button" type="primary" @click="query">查询</el-button>
 			<div class="cl"></div>
 			<div class="mt15">
 			<template>
@@ -30,7 +30,12 @@
 			      <el-table-column prop="school" label="学校"></el-table-column>
 			      <el-table-column prop="teacher" label="教师"></el-table-column>
 			      <el-table-column prop="state" label="节目状态"></el-table-column>
-			      <el-table-column prop="operation" label="操作"></el-table-column>
+			      <el-table-column props="operation" label="操作">
+			      	<template scope="scope">
+			            <el-button v-if="scope.row.operation=='取消关注'" @click.native.prevent="toView(scope.$index,tableData)" class="table-button" type="text" size="small">取消关注</el-button>
+			            <el-button v-if="scope.row.operation=='删除记录'" @click.native.prevent="del(scope.$index,tableData)" class="table-button" type="text" size="small">删除记录</el-button>
+			        </template>
+			      </el-table-column>
 			    </el-table>
 		 	</template>
 		 	</div>
@@ -52,29 +57,29 @@ export default{
 		        date2: '',
 			},
 			tableData:[{
-				lesson:111,
-				lessonTime:111,
-				lessonName:1111,
-				school:1111,
-				teacher:1111,
-				state:11111,
-				operation:1111,
+				lesson:'语文',
+				lessonTime:'09-03 15：00',
+				lessonName:'语文第一章第一节',
+				school:'苏州小学',
+				teacher:'James',
+				state:'进行中',
+				operation:'取消关注',
 			},{
-				lesson:2222,
-				lessonTime:22222,
-				lessonName:222,
-				school:222,
-				teacher:22222,
-				state:2222,
-				operation:222,
+				lesson:'数学',
+				lessonTime:'09-03 14：00',
+				lessonName:'语文第一章第一节',
+				school:'苏州小学',
+				teacher:'James',
+				state:'进行中',
+				operation:'取消关注',
 			},{
-				lesson:3333,
-				lessonTime:33333,
-				lessonName:3333,
-				school:3333,
-				teacher:33333,
-				state:33333,
-				operation:33333,
+				lesson:'英语',
+				lessonTime:'09-03 16：00',
+				lessonName:'语文第一章第一节',
+				school:'苏州小学',
+				teacher:'James',
+				state:'进行中',
+				operation:'删除记录',
 			}],
 			Sregion:[{
 				id:11,
@@ -111,6 +116,12 @@ export default{
 	    	this.pageSize=pageSize;
 	    	this.fetchData();
 	    },
+	    toView:function(index){
+	    	alert(index);
+	    },
+	    del:function(index){
+	    	alert(index);
+	    },
 	    fetchData:function(){
 	    	alert("预约"+this.pageSize);
 	    	alert("预约"+this.pageIndex);
@@ -137,6 +148,16 @@ export default{
 #orderrecord .orderrecord_paging{
 	margin-top: 40px;
 	margin-bottom: 40px;
+}
+#orderrecord .table-button{
+	padding:0 !important;
+}
+#orderrecord .table-button span{
+	color: #272727 !important;
+}
+#orderrecord .query_button{
+	padding: 6px 47px !important;
+	border-radius: 25px !important;
 }
 #orderrecord .orderrecord_body .el-button:hover{color:#fff;}
 </style>
