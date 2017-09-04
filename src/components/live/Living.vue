@@ -1,6 +1,8 @@
 <template>
 	<div id="living">
-		<div class="living_play"></div>
+		<div class="living_play">
+			<img src="../../../static/img/main.png" width="1200px" height="600px">
+		</div>
 		<div class="living_banner">
 			 <el-carousel indicator-position="outside" arrow="always" :autoplay="false">
 			    <el-carousel-item v-for="item in items" :key="item.id">
@@ -56,80 +58,90 @@ export default {
         id:1,
         childs:[{
           type:'rar',
-          word:'123',
+          word:'压缩文件',
         },{
           type:'fla',
-          word:'2342',
+          word:'动画',
         },{
           type:'mp3',
-          word:'123',
+          word:'声音',
         },{
           type:'word',
-          word:'123',
+          word:'文字',
         },{
           type:'rar',
-          word:'123',
+          word:'压缩包',
         }],
       },{
         id:2,
         childs:[{
           type:'rar',
-          word:'123',
+          word:'压缩包',
         },{
           type:'fla',
-          word:'123',
+          word:'动画',
         },{
           type:'mp3',
-          word:'123',
+          word:'声音',
         },{
           type:'word',
-          word:'123',
+          word:'文字',
         },{
           type:'rar',
-          word:'123',
+          word:'压缩文件',
         }]
       },{
         id:3,
         childs:[{
           type:'rar',
+          word:'压缩包',
         },{
           type:'fla',
+          word:'动画',
         },{
           type:'mp3',
+          word:'声音',
         },{
           type:'word',
+          word:'文字',
         },{
           type:'rar',
+          word:'压缩文件',
         }]
       },{
         id:4,
         childs:[{
           type:'rar',
+          word:'压缩文件',
         },{
           type:'fla',
+          word:'动画',
         },{
           type:'mp3',
+          word:'声音',
         },{
           type:'word',
+          word:'文字',
         },{
           type:'rar',
+          word:'压缩包',
         }]
       }],
       comments:[{
         	name:'James',
         	date:'2017-03-13',
         	what:'评论了整体课程',
-        	content:'11111111111111111111111111111111111111111111111111111111111111111111111111111111112222222222222222222222223333333333333333333333333333333333333333333333333333333333333334444444444444444444444444444444444444444444444444455555555555555555555555555556666666666666666666777777777777777777777777777788888888888888888888',
+        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
         },{
         	name:'James',
         	date:'2017-03-13',
         	what:'评论了整体课程',
-        	content:'11111111111111111111111111111111111111111111111111111111111111111111111111111111112222222222222222222222223333333333333333333333333333333333333333333333333333333333333334444444444444444444444444444444444444444444444444455555555555555555555555555556666666666666666666777777777777777777777777777788888888888888888888',
+        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
         },{
         	name:'James',
         	date:'2017-03-13',
         	what:'评论了整体课程',
-        	content:'11111111111111111111111111111111111111111111111111111111111111111111111111111111112222222222222222222222223333333333333333333333333333333333333333333333333333333333333334444444444444444444444444444444444444444444444444455555555555555555555555555556666666666666666666777777777777777777777777777788888888888888888888',
+        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
         }],
         pageIndex:1,
         pageSize:10,
@@ -157,23 +169,22 @@ export default {
 	padding-top:60px;
 	background-color: #F9F9F9;
 }	
-.living_play{
+#living .living_play{
 	width: 1200px;
 	height: 600px;
 	margin: 0 auto;
 	margin-top: 30px;
-	background-color: green;
 }
-.living_banner{
+#living .living_banner{
 	margin: 0 auto;
 	margin-top: 40px;
 	width: 1300px;
 	height: 250px;
 }
-  .el-carousel__indicators--outside{
+  #living .el-carousel__indicators--outside{
     display: none;
   }
-  .el-carousel__arrow{
+  #living .el-carousel__arrow{
     border: none;
     padding: 0;
     width: 30px;
@@ -189,72 +200,72 @@ export default {
     text-align: center;
     font-size: 12px;
   }
-  .el-carousel__arrow--left{
+  #living .el-carousel__arrow--left{
     left: 0;
   }
-  .el-carousel__arrow--right{
+  #living .el-carousel__arrow--right{
     right: 0;
   }
-  .el-carousel__item{
+  #living .el-carousel__item{
     width: 90%;
     left: 5%;
     height: 300px;
   }
-  .banner_bar{
+  #living .banner_bar{
     width: 200px;
     height: 200px;
     margin-top: 20px;
     margin-left: 34px;
     background-color: red;
   }
-  .banner_bar_word{
+  #living .banner_bar_word{
     margin-top: 20px;
     line-height: 17px;
     font-size: 14px;
     color: #272727;
   }
-  .living_table_foot{
+  #living .living_table_foot{
   	width: 1200px;
   	margin: 0 auto;
   	margin-top: 50px;
   }
-.allClass_body_tabs_fourth{
+#living .allClass_body_tabs_fourth{
 	width: 100%;
 	margin-top:10px;
 }
-.allClass_body_tabs_fourth_bar{
+#living .allClass_body_tabs_fourth_bar{
 	margin: 0 auto;
 	width: 90%;
 	height: 100px;
 	margin-top: 20px;
 }
-.allClass_body_tabs_fourth_bar_img{
+#living .allClass_body_tabs_fourth_bar_img{
 	width: 60px;
 	height: 60px;
 	border-radius: 50%;
 	overflow: hidden;
 }
-.allClass_body_tabs_fourth_bar_word{
+#living .allClass_body_tabs_fourth_bar_word{
 	width: 92%;
 	margin-left: 20px;
 }
-.allClass_body_tabs_fourth_bar_word p{
+#living .allClass_body_tabs_fourth_bar_word p{
 	line-height: 19px;
 }
-.allClass_body_tabs_fourth_bar_word_content{
+#living .allClass_body_tabs_fourth_bar_word_content{
 	width: 100%;
 	word-wrap:break-word;
 }
-.allClass_body_tabs_fourth_pagging{
+#living .allClass_body_tabs_fourth_pagging{
 	width: 100%;
 	margin: 0 auto;
 	margin-top: 20px;
 }
-.allClass_body_tabs_fourth_input{
+#living .allClass_body_tabs_fourth_input{
 	width: 100%;
 	margin-top: 40px;
 }
-.allClass_body_tabs_fourth_input_img{
+#living .allClass_body_tabs_fourth_input_img{
 	width: 100px;
 	height: 100px;
 	border-radius: 50%;
@@ -262,16 +273,16 @@ export default {
 	margin-left: 30px;
 	overflow: hidden;
 }
-.allClass_body_tabs_fourth_input_img_name{
+#living .allClass_body_tabs_fourth_input_img_name{
 	margin-left: 55px;
 	margin-top: 10px;
 }
-.allClass_body_tabs_fourth_input_textarea{
+#living .allClass_body_tabs_fourth_input_textarea{
 	width: 920px;
 	margin-left: 50px;
 	margin-top: -100px;
 }
-.allClass_body_tabs_fourth_input_button{
+#living .allClass_body_tabs_fourth_input_button{
 	margin-top:20px;
 	margin-right: 50px; 
 	width: 125px;

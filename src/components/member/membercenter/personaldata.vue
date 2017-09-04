@@ -132,7 +132,7 @@ export default {
 #personaldata .el-form-item{
 	margin-bottom:19px !important;
 }
-.el-button{
+#personaldata .el-button{
 	padding: 6px 47px !important;
 	border-radius: 25px !important;
 }

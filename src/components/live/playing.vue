@@ -1,6 +1,8 @@
 <template>
 	<div id="playing">
-		<div class="living_play"></div>
+		<div class="living_play">
+      <img src="../../../static/img/main.png" width="1200px" height="600px">  
+    </div>
 		<div class="living_banner">
 			 <el-carousel indicator-position="outside" arrow="always" :autoplay="false">
 			    <el-carousel-item v-for="item in items" :key="item.id">
@@ -74,31 +76,31 @@ export default {
         id:1,
         childs:[{
           type:'past',
-          date:'1231',
+          date:'2017-09-03 08:00',
           state:'进行中',
           class:'第二高中——二年纪三班',
           course:'语文——第一讲——第三课',
         },{
           type:'now',
-          date:'1231',
+          date:'2017-09-03 08:30',
           state:'进行中',
           class:'第二高中——二年纪三班',
           course:'语文——第一讲——第三课',
         },{
           type:'now',
-          date:'1231',
+          date:'2017-09-03 09:00',
           state:'进行中',
           class:'第二高中——二年纪三班',
           course:'语文——第一讲——第三课',
         },{
           type:'future',
-          date:'1231',
+          date:'2017-09-03 09:30',
           state:'进行中',
           class:'第二高中——二年纪三班',
           course:'语文——第一讲——第三课',
         },{
           type:'future',
-          date:'1231',
+          date:'2017-09-03 10:00',
           state:'进行中',
           class:'第二高中——二年纪三班',
           course:'语文——第一讲——第三课',
@@ -106,63 +108,118 @@ export default {
       },{
         id:2,
         childs:[{
-          type:'rar',
-          word:'123',
+          type:'past',
+          date:'2017-09-03 10:30',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'fla',
-          word:'123',
+          type:'now',
+          date:'2017-09-03 11:00',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'mp3',
-          word:'123',
+          type:'now',
+          date:'2017-09-03 11:30',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'word',
-          word:'123',
+          type:'future',
+          date:'2017-09-03 12:00',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'rar',
-          word:'123',
-        }]
+          type:'future',
+          date:'2017-09-03 12:30',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
+        }],
       },{
         id:3,
         childs:[{
-          type:'rar',
+          type:'past',
+          date:'2017-09-03 13:00',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'fla',
+          type:'now',
+          date:'2017-09-03 13:30',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'mp3',
+          type:'now',
+          date:'2017-09-03 14:00',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'word',
+          type:'future',
+          date:'2017-09-03 14:30',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'rar',
-        }]
+          type:'future',
+          date:'2017-09-03 15:00',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
+        }],
       },{
         id:4,
-        childs:[{
-          type:'rar',
+       childs:[{
+          type:'past',
+          date:'2017-09-03 15:30',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'fla',
+          type:'now',
+          date:'2017-09-03 16:00',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'mp3',
+          type:'now',
+          date:'2017-09-03 16:30',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'word',
+          type:'future',
+          date:'2017-09-03 17:00',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
         },{
-          type:'rar',
-        }]
+          type:'future',
+          date:'2017-09-03 17:30',
+          state:'进行中',
+          class:'第二高中——二年纪三班',
+          course:'语文——第一讲——第三课',
+        }],
       }],
       comments:[{
         	name:'James',
         	date:'2017-03-13',
         	what:'评论了整体课程',
-        	content:'11111111111111111111111111111111111111111111111111111111111111111111111111111111112222222222222222222222223333333333333333333333333333333333333333333333333333333333333334444444444444444444444444444444444444444444444444455555555555555555555555555556666666666666666666777777777777777777777777777788888888888888888888',
+        	content:'这门课程讲述的很全面，老师讲的很好',
         },{
         	name:'James',
         	date:'2017-03-13',
         	what:'评论了整体课程',
-        	content:'11111111111111111111111111111111111111111111111111111111111111111111111111111111112222222222222222222222223333333333333333333333333333333333333333333333333333333333333334444444444444444444444444444444444444444444444444455555555555555555555555555556666666666666666666777777777777777777777777777788888888888888888888',
+        	content:'这门课程讲述的很全面，老师讲的很好这门课程讲述的很全面，老师讲的很好这门课程讲述的很全面，老师讲的很好',
         },{
         	name:'James',
         	date:'2017-03-13',
         	what:'评论了整体课程',
-        	content:'11111111111111111111111111111111111111111111111111111111111111111111111111111111112222222222222222222222223333333333333333333333333333333333333333333333333333333333333334444444444444444444444444444444444444444444444444455555555555555555555555555556666666666666666666777777777777777777777777777788888888888888888888',
+        	content:'这门课程讲述的很全面，老师讲的很好',
         }],
         pageIndex:1,
         pageSize:10,
@@ -190,23 +247,22 @@ export default {
 	padding-top:60px;
 	background-color: #F9F9F9;
 }	
-.living_play{
+#playing .living_play{
 	width: 1200px;
 	height: 600px;
 	margin: 0 auto;
 	margin-top: 30px;
-	background-color: green;
 }
-.living_banner{
+#playing .living_banner{
 	margin: 0 auto;
 	margin-top: 40px;
 	width: 1300px;
 	height: 250px;
 }
-  .el-carousel__indicators--outside{
+  #playing .el-carousel__indicators--outside{
     display: none;
   }
-  .el-carousel__arrow{
+  #playing .el-carousel__arrow{
     border: none;
     padding: 0;
     width: 30px;
@@ -222,71 +278,71 @@ export default {
     text-align: center;
     font-size: 12px;
   }
-  .el-carousel__arrow--left{
+  #playing .el-carousel__arrow--left{
     left: 0;
   }
-  .el-carousel__arrow--right{
+  #playing .el-carousel__arrow--right{
     right: 0;
   }
-  .el-carousel__item{
+  #playing .el-carousel__item{
     width: 90%;
     left: 5%;
     height: 300px;
   }
-  .banner_bar{
+  #playing .banner_bar{
     width: 210px;
     height: 230px;
     margin-top: 20px;
     margin-left: 24px;
   }
-  .banner_bar_word{
+  #playing .banner_bar_word{
     margin-top: 20px;
     line-height: 17px;
     font-size: 14px;
     color: #272727;
   }
-  .living_table_foot{
+  #playing .living_table_foot{
   	width: 1200px;
   	margin: 0 auto;
   	margin-top: 50px;
   }
-.allClass_body_tabs_fourth{
+#playing .allClass_body_tabs_fourth{
 	width: 100%;
 	margin-top:10px;
 }
-.allClass_body_tabs_fourth_bar{
+#playing .allClass_body_tabs_fourth_bar{
 	margin: 0 auto;
 	width: 90%;
 	height: 100px;
 	margin-top: 20px;
 }
-.allClass_body_tabs_fourth_bar_img{
+#playing .allClass_body_tabs_fourth_bar_img{
 	width: 60px;
 	height: 60px;
 	border-radius: 50%;
 	overflow: hidden;
 }
-.allClass_body_tabs_fourth_bar_word{
+#playing .allClass_body_tabs_fourth_bar_word{
 	width: 92%;
 	margin-left: 20px;
 }
-.allClass_body_tabs_fourth_bar_word p{
+#playing .allClass_body_tabs_fourth_bar_word p{
 	line-height: 19px;
 }
-.allClass_body_tabs_fourth_bar_word_content{
+#playing .allClass_body_tabs_fourth_bar_word_content{
 	width: 100%;
 	word-wrap:break-word;
 }
-.allClass_body_tabs_fourth_pagging{
+#playing .allClass_body_tabs_fourth_pagging{
 	width: 100%;
 	margin: 0 auto;
 	margin-top: 20px;
 }
-.allClass_body_tabs_fourth_input{
+#playing .allClass_body_tabs_fourth_input{
 	width: 100%;
 	margin-top: 40px;
 }
-.allClass_body_tabs_fourth_input_img{
+#playing .allClass_body_tabs_fourth_input_img{
 	width: 100px;
 	height: 100px;
 	border-radius: 50%;
@@ -294,22 +350,22 @@ export default {
 	margin-left: 30px;
 	overflow: hidden;
 }
-.allClass_body_tabs_fourth_input_img_name{
+#playing .allClass_body_tabs_fourth_input_img_name{
 	margin-left: 55px;
 	margin-top: 10px;
 }
-.allClass_body_tabs_fourth_input_textarea{
+#playing .allClass_body_tabs_fourth_input_textarea{
 	width: 920px;
 	margin-left: 50px;
 	margin-top: -100px;
 }
-.allClass_body_tabs_fourth_input_button{
+#playing .allClass_body_tabs_fourth_input_button{
 	margin-top:20px;
 	margin-right: 50px; 
 	width: 125px;
 	height: 35px;
 }
-.play_presentation{
+#playing .play_presentation{
   margin: 0 auto;
   width: 1200px;
   height: 128px;
@@ -317,63 +373,63 @@ export default {
   margin-bottom: 40px;
   overflow: hidden;
 }
-.banner_bar_content_past{
+#playing .banner_bar_content_past{
   width: 100%;
   height: 100%;
   border-top: 4px solid #B3B3B3;
   background-color: #fff;
 }
-.banner_bar_content_past p{
+#playing .banner_bar_content_past p{
   color: #B3B3B3;
 }
-.banner_bar_content_now{
+#playing .banner_bar_content_now{
   width: 100%;
   height: 100%;
   border-top: 4px solid #6ED56C;
   background-color: #fff;
 }
-.banner_bar_content_now p{
+#playing .banner_bar_content_now p{
   color: #6ED56C;
 }
-.banner_bar_content_future{
+#playing .banner_bar_content_future{
   width: 100%;
   height: 100%;
   border-top: 4px solid #66C3E7;
 }
-.banner_bar_content_future p{
+#playing .banner_bar_content_future p{
   color: #66C3E6;
 }
-.banner_bar_content_button{
+#playing .banner_bar_content_button{
   width: 125px;
   height: 35px;
   margin-top: 20px;
   margin-left: 45px;
   border:1px solid #272727;
 }
-.banner_bar_content_button span{
+#playing .banner_bar_content_button span{
   color: #272727;
 }
-.banner_bar_content_button_now{
+#playing .banner_bar_content_button_now{
   width: 125px;
   height: 35px;
   margin-top: 20px;
   margin-left: 45px; 
   border:1px solid #6ED56C;
 }
-.banner_bar_content_button_now span{
+#playing .banner_bar_content_button_now span{
   color: #6ED56C;
 }
-.banner_bar_content_button_future{
+#playing .banner_bar_content_button_future{
   width: 125px;
   height: 35px;
   margin-top: 20px;
   margin-left: 45px; 
   border:1px solid #66C3E6;
 }
-.banner_bar_content_button_future span{
+#playing .banner_bar_content_button_future span{
   color: #66C3E6;
 }
-.el-button{
+#playing .el-button{
   border-radius:32px;
 }
 </style>

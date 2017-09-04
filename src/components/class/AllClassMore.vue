@@ -67,7 +67,7 @@
 				    	<div class="allClass_body_tabs_Vimg mt10 l">
 				    		<img src="../../../static/img/temp/fm7.png" width="125px" height="155px">
 				    	</div>
-				    	<p class="l allClass_body_tabs_word ml10 mt10">11111111111111111</p>
+				    	<p class="l allClass_body_tabs_word ml10 mt10">{{lessons}}</p>
 				    	<div class="cl"></div>
 				    	<h3 class="mt10">所授课程</h3>
 				    	<p class="mt10 allClass_body_tabs_download">点击下载课程视频进入学习</p>
@@ -167,86 +167,90 @@ export default {
         pageSize:10,
         total:60,
         totalfourth:80,
+        lessons:'这门课程讲述的很详细',
       	tabs:[{
-      		titleName:'123133313',
+      		titleName:'语文',
       		date:'2015-09-11',
       		manNumber:'123',
       		time:'24小时',
       		playNumber:'555',
       	},{
-      		titleName:'123133313',
+      		titleName:'数学',
       		date:'2015-09-11',
       		manNumber:'123',
       		time:'24小时',
       		playNumber:'555',
       	},{
-      		titleName:'123133313',
+      		titleName:'英语',
       		date:'2015-09-11',
       		manNumber:'123',
       		time:'24小时',
       		playNumber:'555',
       	},{
-      		titleName:'123133313',
+      		titleName:'语文',
       		date:'2015-09-11',
       		manNumber:'123',
       		time:'24小时',
       		playNumber:'555',
       	},{
-      		titleName:'123133313',
+      		titleName:'数学',
       		date:'2015-09-11',
       		manNumber:'123',
       		time:'24小时',
       		playNumber:'555',
       	},{
-      		titleName:'123133313',
+      		titleName:'英语',
       		date:'2015-09-11',
       		manNumber:'123',
       		time:'24小时',
       		playNumber:'555',
       	}],
       	propers:[{
-      		name:'测试数据1',
+      		name:'第一组',
       		time:'共45分钟',
       		childs:[{
-      			name:'测试数据2',
+      			name:'1.古诗两首',
       			time:'共45分钟',
       			grandchildrens:[{
-      				name:'测试数据3',
-      				time:'共45分钟',
+      				name:'咏柳',
+      				time:'春日',
       			}],
       		}],
       	},{
-      		name:'2测试数据1',
+      		name:'第二组',
       		time:'共45分钟',
       		childs:[{
-      			name:'2测试数据2',
+      			name:'5.翠鸟',
       			time:'共45分钟',
       			grandchildrens:[{
-      				name:'2测试数据3',
+      				name:'6.燕子专列',
       				time:'共45分钟',
       			}],
       		},{
-      			name:'2测试数据2',
+      			name:'第三组',
       			time:'共45分钟',
       			grandchildrens:[{
-      				name:'2测试数据3',
+      				name:'10.惊弓之鸟',
       				time:'共45分钟',
       			},{
-      				name:'2测试数据3',
+      				name:'11.画杨桃',
       				time:'共45分钟',
       			},{
-      				name:'2测试数据3',
+      				name:'12*想别人没想到的',
       				time:'共45分钟',
       			}],
       		}],
       	},{
-      		name:'3测试数据1',
+      		name:'第四组',
       		time:'共45分钟',
       		childs:[{
-      			name:'3测试数据2',
+      			name:'9.寓言两则',
       			time:'共45分钟',
       			grandchildrens:[{
-      				name:'3测试数据3',
+      				name:'亡羊补牢',
+      				time:'共45分钟',
+      			},{
+      				name:'南辕北辙',
       				time:'共45分钟',
       			}],
       		}],
@@ -257,19 +261,22 @@ export default {
         	name:'James',
         	date:'2017-03-13',
         	what:'评论了整体课程',
-        	content:'11111111111111111111111111111111111111111111111111111111111111111111111111111111112222222222222222222222223333333333333333333333333333333333333333333333333333333333333334444444444444444444444444444444444444444444444444455555555555555555555555555556666666666666666666777777777777777777777777777788888888888888888888',
+        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
         },{
         	name:'James',
         	date:'2017-03-13',
         	what:'评论了整体课程',
-        	content:'11111111111111111111111111111111111111111111111111111111111111111111111111111111112222222222222222222222223333333333333333333333333333333333333333333333333333333333333334444444444444444444444444444444444444444444444444455555555555555555555555555556666666666666666666777777777777777777777777777788888888888888888888',
+        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
         },{
         	name:'James',
         	date:'2017-03-13',
         	what:'评论了整体课程',
-        	content:'11111111111111111111111111111111111111111111111111111111111111111111111111111111112222222222222222222222223333333333333333333333333333333333333333333333333333333333333334444444444444444444444444444444444444444444444444455555555555555555555555555556666666666666666666777777777777777777777777777788888888888888888888',
+        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
         }],
     }
+  },
+  created:function(){
+
   },
   components:{page},
    created:function(){
@@ -308,7 +315,7 @@ export default {
 	overflow: hidden;
 	background-color: #F9F9F9;
 }
-.allClass_body{
+#allClass .allClass_body{
 	border: 1px solid #E5E5E5;
 	width: 1200px;
 	margin: 0 auto;
@@ -316,187 +323,187 @@ export default {
 	background-color: #fff;
 	margin-bottom: 50px;
 }
-.allClass_body_title{
+#allClass .allClass_body_title{
 	font-size: 24px;
 	color: #272727;
 	margin-top:40px;
 	margin-left:40px;
 }
-.allClass_body_content{
+#allClass .allClass_body_content{
 	width: 93%;
 	margin: 0 auto;
 	margin-top:20px;
 }
-.allClass_body_content_img{
+#allClass .allClass_body_content_img{
 	width: 290px;
 	height: 372px;
 	background-color: red;
 }
-.allClass_body_content_word{
+#allClass .allClass_body_content_word{
 	width: 750px;
 	margin-left: 40px;
 }
-.allClass_body_content_word p{
+#allClass .allClass_body_content_word p{
 	margin-top:10px;
 	margin-left:5px;
 	font-size: 16px;
 	line-height: 19px;
 }
-.allClass_body_content_word_color{
+#allClass .allClass_body_content_word_color{
 	color: #999999;
 }
-.allClass_body_content_button{
+#allClass .allClass_body_content_button{
 	width: 800px;
 	margin-top:50px;
 }
-.attention_button_public{
+#allClass .attention_button_public{
 	width: 125px;
 	height: 35px;
 }
-.attention_button_sure{
+#allClass .attention_button_sure{
 	width: 125px;
 	height: 35px;
 	background-color: #999999 !important;
 	border-color: #999999 !important;
 }
-.allClass_body_tabs{
+#allClass .allClass_body_tabs{
 	width: 93%;
 	margin: 0 auto;
 	margin-top:40px;
 	margin-bottom: 30px;
 }
-.allClass_body_tabs h3{
+#allClass .allClass_body_tabs h3{
 	font-size: 16px;
 }
-.allClass_body_tabs p{
+#allClass .allClass_body_tabs p{
 	font-size: 14px;
 	color: #666666;
 }
-.allClass_body_tabs_download{
+#allClass .allClass_body_tabs_download{
 	color: #6ED56C !important;
 }
-.allClass_body_tabs_Vimg{
+#allClass .allClass_body_tabs_Vimg{
 	width: 125px;
 	height: 155px;
 }
-.allClass_body_tabs_word{
+#allClass .allClass_body_tabs_word{
 	width: 950px;
 	height: 150px;
 	overflow:hidden;
 	word-wrap:break-word;
 }
-.allClass_body_tabs_second_table{
+#allClass .allClass_body_tabs_second_table{
 	width: 100%;
 }
-.allClass_body_tabs_second_table_bar{
+#allClass .allClass_body_tabs_second_table_bar{
 	width: 360px;
 	height: 270px;
 	margin-left: 10px;
 	margin-top: 10px;
 	background-color: #F5F5F5;
 }
-.allClass_body_tabs_second_table_bar_img{
+#allClass .allClass_body_tabs_second_table_bar_img{
 	width: 100%;
 	height: 170px;
 	background-color: red;
 }
-.allClass_body_tabs_second_table_bar p{
+#allClass .allClass_body_tabs_second_table_bar p{
 	font-size: 14px;
 	color: #666666;
 	line-height: 24px;
 	margin-left: 10px;
 	margin-top: 5px;
 }
-.allClass_body_tabs_second_pagging{
+#allClass .allClass_body_tabs_second_pagging{
 	width: 100%;
 	margin-top: 20px;
 }
-.allClass_body_tabs_fourth{
+#allClass .allClass_body_tabs_fourth{
 	width: 100%;
 	margin-top:10px;
 }
-.allClass_body_tabs_fourth_bar{
+#allClass .allClass_body_tabs_fourth_bar{
 	margin: 0 auto;
 	width: 90%;
 	height: 100px;
 	margin-top: 20px;
 }
-.allClass_body_tabs_fourth_bar_img{
+#allClass .allClass_body_tabs_fourth_bar_img{
 	width: 60px;
 	height: 60px;
 	border-radius: 50%;
 	background-color: red;
 	overflow: hidden;
 }
-.allClass_body_tabs_fourth_bar_word{
+#allClass .allClass_body_tabs_fourth_bar_word{
 	width: 92%;
 	margin-left: 20px;
 }
-.allClass_body_tabs_fourth_bar_word p{
+#allClass .allClass_body_tabs_fourth_bar_word p{
 	line-height: 19px;
 }
-.allClass_body_tabs_fourth_bar_word_content{
+#allClass .allClass_body_tabs_fourth_bar_word_content{
 	width: 100%;
 	word-wrap:break-word;
 }
-.allClass_body_tabs_fourth_pagging{
+#allClass .allClass_body_tabs_fourth_pagging{
 	width: 100%;
 	margin: 0 auto;
 	margin-top: 20px;
 }
-.allClass_body_tabs_fourth_input{
+#allClass .allClass_body_tabs_fourth_input{
 	width: 100%;
 	margin-top: 40px;
 }
-.allClass_body_tabs_fourth_input_img{
+#allClass .allClass_body_tabs_fourth_input_img{
 	width: 100px;
 	height: 100px;
 	border-radius: 50%;
 	margin-left: 30px;
 	overflow: hidden;
 }
-.allClass_body_tabs_fourth_input_img_name{
+#allClass .allClass_body_tabs_fourth_input_img_name{
 	margin-left: 55px;
 	margin-top: 10px;
 }
-.allClass_body_tabs_fourth_input_textarea{
+#allClass .allClass_body_tabs_fourth_input_textarea{
 	width: 920px;
 	margin-left: 50px;
 	margin-top: -100px;
 }
-.allClass_body_tabs_fourth_input_button{
+#allClass .allClass_body_tabs_fourth_input_button{
 	margin-top:20px;
 	margin-right: 50px; 
 	width: 125px;
 	height: 35px;
 }
-.allClass_body_tabs_first_content{
+#allClass .allClass_body_tabs_first_content{
 	width: 100%;
 	overflow: hidden;
 }
-.allClass_body_tabs_first_middle{
+#allClass .allClass_body_tabs_first_middle{
 	border-bottom:1px dashed #000;
 	width: 100%;
 	height: 23px;
 }
-.allClass_body_tabs_first_middle p{
+#allClass .allClass_body_tabs_first_middle p{
 	height: 18px;
 	background-color: #fff;
 }
-.allClass_body_tabs_first_middle_body{
+#allClass .allClass_body_tabs_first_middle_body{
 	border-bottom:1px dashed #000;
 	width: 100%;
 	height: 23px;		
 }
-.allClass_body_tabs_first_middle_foot{
+#allClass .allClass_body_tabs_first_middle_foot{
 	border-bottom:1px dashed #000;
 	width: 100%;
 	height: 23px;		
 }
-.allClass_body_tabs_first_middle_bodyVip{
+#allClass .allClass_body_tabs_first_middle_bodyVip{
 	padding-left: 20px;
 }
-.allClass_body_tabs_first_middle_bodyVVip{
+#allClass .allClass_body_tabs_first_middle_bodyVVip{
 	padding-left: 40px;	
 }
 #allClass .el-button{
