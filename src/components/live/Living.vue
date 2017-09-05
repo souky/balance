@@ -150,6 +150,8 @@ export default {
   },
   components:{page},
   created:function(){
+    var s = this.$route.params.part;
+    alert(s);
   },
   methods:{
   	parentLisenfourth:function(pageIndex,pageSize){

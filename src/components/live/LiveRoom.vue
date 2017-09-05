@@ -63,7 +63,7 @@
 							<div class="cl"></div>
 							<div class="mt80 live_body_content_bar_vp">
 								<p class="l">教师：</p><p class="l">{{tab.teacherName}}</p><p class="l ml20">播放总{{tab.number}}次</p>
-								<button v-if="tab.buttonName=='观看直播'" class="l mt-5 live_new_button"><span>{{tab.buttonName}}</span></button>
+								<button v-if="tab.buttonName=='观看直播'" @click="tableButton(tab.id)" class="l mt-5 live_new_button"><span>{{tab.buttonName}}</span></button>
 								<button v-if="tab.buttonName=='预约'" class="l mt-5 live_new_button live_new_button_red"><span>{{tab.buttonName}}</span></button>
 								<button v-if="tab.buttonName=='已预约'" class="l mt-5 live_new_button live_new_button_blue"><span>{{tab.buttonName}}</span></button>
 							</div>
@@ -90,6 +90,7 @@ export default {
 		    date2: '',
 		},
 	  tabs:[{
+	  		id:1,
 		    title:'语文第一章第一节',
 		    name:'春',
 		    school:'苏州小学',
@@ -100,6 +101,7 @@ export default {
 		    number:'12313',
 		    buttonName:'观看直播',
 		},{
+			id:2,
 		    title:'数学第一章第一节',
 		    name:'春',
 		    school:'苏州小学',
@@ -110,6 +112,7 @@ export default {
 		    number:'12313',
 		    buttonName:'预约',
 		},{
+			id:3,
 		    title:'英语第一章第一节',
 		    name:'春',
 		    school:'苏州小学',
@@ -193,6 +196,9 @@ export default {
 	    alert("开课"+this.pageSize);
 	    alert("开课"+this.pageIndex);
 	},
+	tableButton:function(ids){
+		this.$router.push({path:'/living/'+ids});
+	}
   },
   created:function(){
   },

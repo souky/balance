@@ -262,7 +262,8 @@ export default {
 		goTodetail(ids){
 			// sessionStorage.setItem("classID", ids); 
 			 // this.$router.push({path:'/allClassMore/',params:{news_id: 123}});
-			this.$router.push({ name: '课程详情', params: { userId: ids }})
+			//this.$router.push({ name: '课程详情', query: { userId: ids }})
+      this.$router.push({path:'/allClassMore/'+ids});
 		}
 	}
 }

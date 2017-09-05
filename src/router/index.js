@@ -90,6 +90,10 @@ export default new Router({
       component: AllClass
     },
     {
+      path: '/allClassMore/:part',
+      component: allClassMore,
+    },
+    {
       path: '/allClassMore',
       name:'课程详情',
       component: allClassMore
@@ -99,8 +103,16 @@ export default new Router({
       component: Living
     },
     {
+      path: '/living/:part',
+      component: Playing,
+    },
+    {
       path: '/playing',
       component: Playing
+    },
+    {
+      path: '/playing/:part',
+      component: Living,
     },
     {
       path: '/allFile',

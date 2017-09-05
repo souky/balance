@@ -29,7 +29,7 @@
 					<p class="l allClass_body_content_word_color">关注：</p><p class="l">{{book.attention}}</p>
 					<div class="cl"></div>
 					<div class="allClass_body_content_button">
-						<el-button class="attention_button_public" type="primary">进入学习</el-button>
+						<el-button class="attention_button_public" @click="attentionButton(book.id)" type="primary">进入学习</el-button>
 						<el-button v-if="book.buttonName=='关注'" class="attention_button_public attention_button">关注</el-button>
 						<el-button v-if="book.buttonName=='取消关注'" class="attention_button_public attention_button_sure" type="primary">取消关注</el-button>
 					</div>
@@ -150,6 +150,7 @@ export default {
   data () {
     return {
     	book:{
+    		id:1,
 	      	name:'苏州小学语文三年级下册',
 	      	class:'三年级',
 	      	subject:'语文',
@@ -275,15 +276,10 @@ export default {
         }],
     }
   },
-  created:function(){
-  	var url=window.location.pathname;
-  	url=url.slice(13);
-  	alert(url);
-  },
   components:{page},
    created:function(){
-  	var s = this.$route.params.userId;
-  	console.log(s);
+  	var s = this.$route.params.part;
+  	alert(s);
   },
  
   	methods: {
@@ -308,6 +304,9 @@ export default {
 	    alert("测试"+this.pageSize);
 	    alert("测试"+this.pageIndex);
 	 },
+	 attentionButton:function(ids){
+	 	 this.$router.push({path:'/playing/'+ids});
+	 }
     }
 }
 </script>
