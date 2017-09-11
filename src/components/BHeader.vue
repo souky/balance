@@ -36,31 +36,47 @@
 			<div v-else class="inline__box">
 				<el-dropdown trigger="click">
 					<div class="l rightItems">
-						<el-badge :is-dot="isnotic" class="item">
+						<el-badge v-if="notic.unReadMsgNum = 0" :is-dot= "false" class="item">
+						  <img src="../../static/img/header/message.png" />
+						</el-badge>
+						<el-badge v-else :is-dot= "true" class="item">
 						  <img src="../../static/img/header/message.png" />
 						</el-badge>
 					</div>
 					 <el-dropdown-menu slot="dropdown">
-					    <el-dropdown-item disabled>
+					    <el-dropdown-item disabled> 
 					    	系统消息
 					    </el-dropdown-item>
-					    <el-dropdown-item divided v-for="item in notic" :key="item.id">
+					    <el-dropdown-item divided v-for="item in notic.list" :key="item.id">
 					    	<div @click="">
 						    	<div class="notic_left">
-						    		<el-badge :is-dot="item.unread" class="item">
-									  <img src="../../static/img/header/shi.png" />
+						    		<el-badge v-if="item.isRead == 0" :is-dot="true" class="item">
+									  <img v-if="item.sourceImg !=''" v-bind:src="'192.168.128.211:8080/balanced-education/'+item.sourceImg" />
+									  <!-- 系统更新 -->
+									  <img v-if="item.sourceImg == '' && item.sourceType == 'SYSTEM_UPDATE'" v-bind:src="" />
+									  <!-- 系统通知 -->
+									  <img v-if="item.sourceImg == '' && item.sourceType == 'SYSTEM_INFORM'" v-bind:src="" />
+									  <!-- 课堂视频已更新 -->
+									  <img v-if="item.sourceImg == '' && item.sourceType == 'ADD_COURSE_VIDEO'" v-bind:src="" />
+									  <img v-if="item.sourceImg == '' && item.sourceType == ''" v-bind:src="" />
+									  <img v-if="item.sourceImg == '' && item.sourceType == ''" v-bind:src="" />
+									  <img v-if="item.sourceImg == '' && item.sourceType == ''" v-bind:src="" />
+									  <img v-if="item.sourceImg == '' && item.sourceType == ''" v-bind:src="" />
+									</el-badge>
+									<el-badge v-else :is-dot="false" class="item">
+									  <img v-bind:src="'192.168.128.211:8080/balanced-education/'+item.sourceImg" />
 									</el-badge>
 						    	</div>
 						    	<div class="notic_right inline__box">
-							    	<p class="notic_title">{{item.title}} <span>{{item.date}}</span></p>
-							    	<P class="notic_detail">{{item.detail}}</P>
+							    	<p class="notic_title">直播提醒 <span>{{item.updateDate | time}}</span></p>
+							    	<P class="notic_detail">{{item.content}}</P>
 						    	</div>
 					    	</div>
 					    </el-dropdown-item>
 					    <el-dropdown-item divided>
 					    	<router-link to="notic">
 								<div class="allNotic">
-									查看所有消息>>
+									查看消息列表>>
 								</div>
 							</router-link>
 					    </el-dropdown-item>
@@ -141,45 +157,19 @@ export default {
           }
           callback();
         }
-      };
+    }
+
     return {
       msg: '顶部导航栏',
       searchKey:'',
       isshow:true,//登陆注册显示开关
       isnotic:true,//notic开关
-      notic:[
-	      {
-	      	unread:true,
-	      	id:'123',
-	      	date:"08/15 21:15",
-	      	title:"直播提醒",
-	      	detail:"《语文》将于19：15开始，感谢您的预约"
-	      },
-	      {
-	      	unread:true,
-	      	id:'123',
-	      	date:"08/15 21:15",
-	      	title:"直播提醒",
-	      	detail:"《厉害了!百年荷兰抗洪教材》将于19：15开始，感谢您的预约感谢感谢感谢真的感谢"
-	      },
-	      {
-	      	unread:false,
-	      	id:'123',
-	      	date:"08/15 21:15",
-	      	title:"直播提醒",
-	      	detail:"《厉害了!百年荷兰抗洪教材》将于19：15开始，感谢您的预约感谢感谢感谢真的感谢"
-	      },
-	      {
-	      	unread:false,
-	      	id:'123',
-	      	date:"08/15 21:15",
-	      	title:"直播提醒",
-	      	detail:"《厉害了!百年荷兰抗洪教材》将于19：15开始，感谢您的预约感谢感谢感谢真的感谢"
-	      }
-      ],//消息红点
+      notic:{},//消息红点
       person:{
       	
 	  },
+	  pageNum: 1,
+	  pageSize:4,
       dialogFormVisible: false,
       dialogClose:false,
       loading:false,
@@ -198,15 +188,50 @@ export default {
           }
     }
   },
-  
+  filters:{
+    	time : function(time){
+    		var date = new Date(time);
+			var Y = date.getFullYear(),
+			 m = date.getMonth() + 1,
+			 d = date.getDate(),
+			 H = date.getHours(),
+			 i = date.getMinutes(),
+			 s = date.getSeconds();
+			 if (m < 10) {
+			  m = '0' + m;
+			 }
+			 if (d < 10) {
+			  d = '0' + d;
+			 }
+			 if (H < 10) {
+			  H = '0' + H;
+			 }
+			 if (i < 10) {
+			  i = '0' + i;
+			 }
+			 if (s < 10) {
+			  s = '0' + s;
+			 }
+			 var t =  m + '/' + d + ' ' + H +':' + i;
+			 return t;
+    	}
+    },
   mounted:function(){
   	//判断cookie登陆信息初始化
   	if(getCookie('jyname')!= null){
   		this.isshow = false;
+  		var mypageNum = this.pageNum;
+  		var mypageSize = this.pageSize;
+  		var pageData = {pageNum:mypageNum,pageSize:mypageSize};
 	  	this.postHttpWithAuth(this,{},"user/getLoginUser",function(obj,data){
 	  		console.log(data.result);
 	  		obj.person = data.result;
-	});
+		});
+	  	this.postHttpWithAuth(this,pageData,"message/queryMessagesByUserId",function(obj,data){
+	  		obj.notic = data.result.messages;
+	  		console.log(obj.notic)
+	  	});
+	  	
   	}else{
   		this.isshow = true;
   	}
