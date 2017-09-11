@@ -1,27 +1,27 @@
 <template>
 	<div id="studyrecord">
 		<div class="studyrecord_header fix">
-			<div class="studyrecord_header_title active l" @click="choiseType('all',$event)"><p class="all">全部</p></div>
-			<div class="studyrecord_header_title l" @click="choiseType('studing',$event)"><p class="studing">正在学</p></div>
-			<div class="studyrecord_header_title l" @click="choiseType('studed',$event)"><p class="studed">未学</p></div>
-			<div class="studyrecord_header_title l" @click="choiseType('over',$event)"><p class="over">已学完</p></div>
+			<div class="studyrecord_header_title active l" @click="choiseType('ALL',$event)"><p class="all">全部</p></div>
+			<div class="studyrecord_header_title l" @click="choiseType('UNDERWAY',$event)"><p class="studing">正在学</p></div>
+			<div class="studyrecord_header_title l" @click="choiseType('NOT_LEARNED',$event)"><p class="studed">未学</p></div>
+			<div class="studyrecord_header_title l" @click="choiseType('FINISHED',$event)"><p class="over">已学完</p></div>
 			<div class="line-cross l"></div>
 		</div>
 		<div class="studyrecord_body">
 		 <template>
 		    <el-table :data="tableData" style="width: 100%">
-		      <el-table-column prop="courseName" label="课程"></el-table-column>
-		      <el-table-column prop="school" label="学校"></el-table-column>
-		      <el-table-column prop="teacher" label="老师"></el-table-column>
-		      <el-table-column prop="progress" label="进度"></el-table-column>
-		      <el-table-column prop="lastsuty" label="最近学习"></el-table-column>
-		      <el-table-column prop="start" label="开课日期"></el-table-column>
-		      <el-table-column prop="lessontime" label="课时"></el-table-column>
+		      <el-table-column prop="courseName" align="center" label="课程"></el-table-column>
+		      <el-table-column prop="schoolName" align="center" label="学校"></el-table-column>
+		      <el-table-column prop="teacherName" align="center" label="老师"></el-table-column>
+		      <el-table-column prop="progress" :formatter="progressFormat" align="center" label="进度"></el-table-column>
+		      <el-table-column prop="lastStudiedFileName" align="center" label="最近学习"></el-table-column>
+		      <el-table-column prop="startDate" :formatter="timeFormat" align="center" label="开课日期"></el-table-column>
+		      <el-table-column prop="courseDuration" align="center" label="课时"></el-table-column>
 		    </el-table>
 		 </template>
 		</div>
 		<div class="studyrecord_paging tc">
-			<page :totalNumber="total" @newNOdeEvents="parentLisen"></page>
+			<page :totalNumber="total" @newNOdeEvents="parentLisen" @newNOdeEventss="parentLisens"></page>
 		</div>
 	</div>
 </template>
@@ -56,8 +56,9 @@ export default{
 				lessontime:'2小时',
 			}*/],
 			pageIndex:1,
-          	pageSize:10,
+          	pageSize:1,
           	total:60,
+          	types:"ALL",
 		}
 	},
 	created:function(){
@@ -67,9 +68,21 @@ export default{
 	methods:{
 		getdata:function(){
 			this.$emit('newfind');
-			this.postHttpWithAuth(this,{tab:"ALL",pageNum:1,pageSize:10},"studiedrecord/getStudiedRecList",function(obj,data){
+			this.postHttpWithAuth(this,{tab:"ALL",pageNum:1,pageSize:1},"studiedrecord/getStudiedRecList",function(obj,data){
 				obj.tableData=data.result.list;
+				obj.total=data.result.total;
 			});
+		},
+		timeFormat(row,column){
+		  	var date = row[column.property]; 
+		  	if (date == undefined) {  
+		     return "";  
+		  	}  
+		  	return this.timeF(date).format("YYYY-MM-DD HH:mm:ss");  
+		},
+		progressFormat:function(row,column){
+			var progress = row[column.property];
+			return progress+"%";
 		},
 		choiseType:function(type,event){
 			var obj = event.currentTarget;
@@ -80,30 +93,52 @@ export default{
 		  		e.className = e.className.replace(reg,' ');
 		  	}
 		  	obj.className += ' active';
-		  	if(type=='all'){
-		  		//alert(1)
+		  	if(type=='ALL'){
+		  		this.postHttpWithAuth(this,{tab:"ALL",pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
+				obj.tableData=data.result.list;
+				obj.total=data.result.total;
+				});
 		  	}
-		  	if(type=='studing'){
-		  		//alert(2)
+		  	if(type=='UNDERWAY'){
+		  		this.postHttpWithAuth(this,{tab:"UNDERWAY",pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
+				obj.tableData=data.result.list;
+				obj.total=data.result.total;
+				});
 		  	}
-		  	if(type=='studed'){
-		  		//alert(3)
+		  	if(type=='NOT_LEARNED'){
+		  		this.postHttpWithAuth(this,{tab:"NOT_LEARNED",pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
+				obj.tableData=data.result.list;
+				obj.total=data.result.total;
+				});
 		  	}
-		  	if(type=='over'){
-		  		//alert(4)
+		  	if(type=='FINISHED'){
+		  		this.postHttpWithAuth(this,{tab:"FINISHED",pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
+				obj.tableData=data.result.list;
+				obj.total=data.result.total;
+				});
 		  	}
+		  	this.types=type;
 		},
-		parentLisen:function(pageIndex,pageSize){
+		parentLisen:function(pageSize,pageIndex){
+	    	this.pageIndex=pageIndex;
+	    	this.pageSize=pageSize;
+	    	this.fetchData();
+	    },
+	    parentLisens:function(pageIndex,pageSize){
 	    	this.pageIndex=pageIndex;
 	    	this.pageSize=pageSize;
 	    	this.fetchData();
 	    },
 	    fetchData:function(){
-	    	alert("学习"+this.pageSize);
-	    	alert("学习"+this.pageIndex);
+	    	this.postHttpWithAuth(this,{tab:this.types,pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
+				obj.tableData=data.result.list;
+				obj.total=data.result.total;
+				});
 	    },
-	}
+	},
+	
 }
+
 </script>
 <style>
 #studyrecord{
