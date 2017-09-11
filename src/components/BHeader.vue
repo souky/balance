@@ -69,7 +69,7 @@
 				<el-dropdown trigger="click">
 					<div class="l personRight el-dropdown-link">
 						<img v-bind:src="person.img" style="width:30px;height:30px;border-radius:15px;vertical-align:middle" />
-						<span>{{person.name}}</span>
+						<span>{{person.userName}}</span>
 					</div>
 					 <el-dropdown-menu slot="dropdown" size="middles">
 					    <el-dropdown-item>
@@ -178,9 +178,7 @@ export default {
 	      }
       ],//消息红点
       person:{
-      	id:'',
-      	name:'James',
-      	img:'../../static/img/toux1.png'
+      	
 	  },
       dialogFormVisible: false,
       dialogClose:false,
@@ -205,7 +203,9 @@ export default {
   	//判断cookie登陆信息初始化
   	if(getCookie('jyname')!= null){
   		this.isshow = false;
-	  	this.postHttp(this,{},"auth/user/getLoginUser",function(obj,data){
+	  	this.postHttpWithAuth(this,{},"user/getLoginUser",function(obj,data){
+	  		console.log(data.result);
+	  		obj.person = data.result;
 	});
   	}else{
   		this.isshow = true;
@@ -218,11 +218,14 @@ export default {
   	//退出登陆操作
   	loginOut(){
   		//删除cookie
-  		delCookie('jyname');
+  		
   		//请求操作
-  		 this.postHttp(this,data,'loginOut',login_press);
+  		 this.postHttpWithAuth(this,'','logout',function(obj,data){
+  		 	delCookie('jyname');
+  		 	obj.$router.go(0);
+  		 });
   		//页面跳转
-  		this.$router.go(0);
+  		
   	},
   	submitForm(formName) {
 	        this.$refs[formName].validate((valid) => {
