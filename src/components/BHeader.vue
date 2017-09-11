@@ -205,7 +205,7 @@ export default {
   	//判断cookie登陆信息初始化
   	if(getCookie('jyname')!= null){
   		this.isshow = false;
-	  	this.postHttp(this,{},"auth/user/getLoginUser",function(obj,data){
+	  	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
 	});
   	}else{
   		this.isshow = true;
