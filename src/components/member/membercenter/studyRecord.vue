@@ -30,7 +30,7 @@ import page from '../page.vue'
 export default{
 	data(){
 		return{
-			tableData:[{
+			tableData:[/*{
 				lesson:'语文',
 				school:'苏州小学',
 				teacher:'James',
@@ -54,7 +54,7 @@ export default{
 				lastsuty:'小学语文',
 				start:'2017-09-03',
 				lessontime:'2小时',
-			}],
+			}*/],
 			pageIndex:1,
           	pageSize:10,
           	total:60,
@@ -68,7 +68,7 @@ export default{
 		getdata:function(){
 			this.$emit('newfind');
 			this.postHttpWithAuth(this,{tab:"ALL",pageNum:1,pageSize:10},"studiedrecord/getStudiedRecList",function(obj,data){
-				obj.result.list=this.tableData;
+				obj.tableData=data.result.list;
 			});
 		},
 		choiseType:function(type,event){
