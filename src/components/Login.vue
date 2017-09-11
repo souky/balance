@@ -61,13 +61,13 @@
     	
     },
     methods:{
-    	// login_in(){
-    	// 	var userName = this.loginName;
-    	// 	var psw = this.passWord;
-    	// 	var data = {userName:userName,psw:psw};
-    	// 	//console.log(data)
-    	// 	this.postHttp(this,data,'login',login_press);
-    	// },
+    	login_in(){
+    		var userName = this.loginName;
+    		var psw = this.passWord;
+    		var data = {userName:userName,psw:psw};
+    		//console.log(data)
+    		this.postHttp(this,data,'login',login_press);
+    	},
     	submitForm(formName) {
 	        this.$refs[formName].validate((valid) => {
            console.log(valid);

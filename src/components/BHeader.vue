@@ -203,10 +203,10 @@ export default {
   
   mounted:function(){
   	//判断cookie登陆信息初始化
-  	if(getCookie('cname')!= null){
+  	if(getCookie('jyname')!= null){
   		this.isshow = false;
-	//   	this.postHttp(this,{},"auth/user/getLoginUser",function(obj,data){
-	// });
+	  	this.postHttp(this,{},"auth/user/getLoginUser",function(obj,data){
+	});
   	}else{
   		this.isshow = true;
   	}
@@ -218,9 +218,9 @@ export default {
   	//退出登陆操作
   	loginOut(){
   		//删除cookie
-  		delCookie('cname');
+  		delCookie('jyname');
   		//请求操作
-  		// this.postHttp(this,data,'loginOut',login_press);
+  		 this.postHttp(this,data,'loginOut',login_press);
   		//页面跳转
   		this.$router.go(0);
   	},
@@ -231,13 +231,14 @@ export default {
 	             var userName = this.ruleForm.loginName;
 		    	 var psw = this.ruleForm.passWord;
 		    	 var data = {userName:userName,psw:psw};
+		    	 console.log(data);
 		    	 //登陆请求
-		    	 // this.postHttp(this,data,'login',login_press);
+		    	  this.postHttp(this,data,'login',login_press);
 		    	 // 模拟请求成功回调
-		    	 setCookie("cname",this.isshow,1000*60);
-			  		this.loading = false;
-					this.dialogFormVisible = false;
-					this.$router.go(0);
+		   //  	 setCookie("cname",this.isshow,1000*60);
+			  // 		this.loading = false;
+					// this.dialogFormVisible = false;
+					// this.$router.go(0);
 		    } else {
 	            console.log('error submit!!');
 	            return false;
@@ -268,7 +269,7 @@ function login_press(obj,data){
 	      type:'error'
 	    });
   	}else{
-  		setCookie("cname",obj.isshow,1000*60);
+  		setCookie("jyname",obj.isshow,1000*60);
   		obj.loading = false;
 		obj.dialogFormVisible = false;
 		obj.$router.go(0)
