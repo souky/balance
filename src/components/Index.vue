@@ -222,7 +222,7 @@ export default {
 	cursor: pointer;
 }
 #index .recommend_mian .recommend_items:hover{
-	box-shadow: 1px 1px 10px #7b7b7b;
+	box-shadow: 1px 1px 10px rgba(0,0,0,.5);
 }
 #index .recommend_mian .recommend_items .items_img{
 	width:200px;
