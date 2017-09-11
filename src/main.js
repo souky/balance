@@ -27,7 +27,7 @@ Vue.prototype.timeF = require('moment')
 
 var querystring = require('querystring');
 var baseUrl = "http://192.168.128.213:8080/balanced-education/study/"
-
+var baseUrlWithAuth = "http://192.168.128.213:8080/balanced-education/"
 /* 
  * 封装ajax
  * obj : 全局this
@@ -37,6 +37,40 @@ var baseUrl = "http://192.168.128.213:8080/balanced-education/study/"
  * */
 Vue.prototype.postHttp = function(obj,data,address,fn){
 	obj.$axios.post(baseUrl+address,querystring.stringify(data),{withCredentials : true}).then(response => {
+  		if(response.data.code == "60000" || response.data.code == "50000"){
+  			//obj.$router.push({ path: '/login' });
+  			obj.dialogFormVisible = true;
+  			obj.$notify({
+		      title: '提示',
+		      message:'请先登录',
+		      offset: 100,
+		      duration:1500,
+		      type:'warning'
+		    });
+  		}else{
+  			fn(obj,response.data);
+  		}
+    },response => {
+    	obj.loading = false;
+		obj.$notify({
+	      title: '网络错误',
+	      message: '网络错误',
+	      offset: 100,
+	      duration:1500,
+	      type:'error'
+	    });
+	})
+}
+
+/* 
+ * 封装ajax
+ * obj : 全局this
+ * data : ajax传入后台data数据
+ * address : ajax接口地址
+ * fn : 成功返回方法  带参数  obj,data  obj : this data : response
+ * */
+Vue.prototype.postHttpWithAuth = function(obj,data,address,fn){
+	obj.$axios.post(baseUrlWithAuth+address,querystring.stringify(data),{withCredentials : true}).then(response => {
   		if(response.data.code == "60000" || response.data.code == "50000"){
   			//obj.$router.push({ path: '/login' });
   			obj.dialogFormVisible = true;

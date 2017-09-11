@@ -10,7 +10,7 @@
 		<div class="studyrecord_body">
 		 <template>
 		    <el-table :data="tableData" style="width: 100%">
-		      <el-table-column prop="lesson" label="课程"></el-table-column>
+		      <el-table-column prop="courseName" label="课程"></el-table-column>
 		      <el-table-column prop="school" label="学校"></el-table-column>
 		      <el-table-column prop="teacher" label="老师"></el-table-column>
 		      <el-table-column prop="progress" label="进度"></el-table-column>
@@ -67,6 +67,9 @@ export default{
 	methods:{
 		getdata:function(){
 			this.$emit('newfind');
+			this.postHttpWithAuth(this,{tab:"ALL",pageNum:1,pageSize:10},"studiedrecord/getStudiedRecList",function(obj,data){
+				obj.result.list=this.tableData;
+			});
 		},
 		choiseType:function(type,event){
 			var obj = event.currentTarget;
