@@ -51,17 +51,7 @@
 					    	<div @click="">
 						    	<div class="notic_left">
 						    		<el-badge v-if="item.isRead == 0" :is-dot="true" class="item">
-									  <img v-if="item.sourceImg !=''" v-bind:src="'192.168.128.211:8080/balanced-education/'+item.sourceImg" />
-									  <!-- 系统更新 -->
-									  <img v-if="item.sourceImg == '' && item.sourceType == 'SYSTEM_UPDATE'" v-bind:src="" />
-									  <!-- 系统通知 -->
-									  <img v-if="item.sourceImg == '' && item.sourceType == 'SYSTEM_INFORM'" v-bind:src="" />
-									  <!-- 课堂视频已更新 -->
-									  <img v-if="item.sourceImg == '' && item.sourceType == 'ADD_COURSE_VIDEO'" v-bind:src="" />
-									  <img v-if="item.sourceImg == '' && item.sourceType == ''" v-bind:src="" />
-									  <img v-if="item.sourceImg == '' && item.sourceType == ''" v-bind:src="" />
-									  <img v-if="item.sourceImg == '' && item.sourceType == ''" v-bind:src="" />
-									  <img v-if="item.sourceImg == '' && item.sourceType == ''" v-bind:src="" />
+									  <img src="../../static/img/header/shi.png" />
 									</el-badge>
 									<el-badge v-else :is-dot="false" class="item">
 									  <img v-bind:src="'192.168.128.211:8080/balanced-education/'+item.sourceImg" />
@@ -329,10 +319,13 @@ function login_press(obj,data){
 .menuStyle{text-decoration: none;color: #6ED56C;font-size: 16px;text-align: center;}
 .el-dropdown-menu__item a{text-decoration: none}
 .el-dropdown-menu--middles{width: 130px}
-.notic_left{width: 60px;height: 60px;padding: 15px;display: inline-block;}
-.notic_left img{width: 60px;height: 60px;}
+.el-dropdown-menu__item--divided{margin-top: 3px}
+.el-dropdown-menu__item--divided:before{height:3px;}
+.notic_left{width: 48px;height: 48px;padding:0 10px;display: inline-block;}
+.notic_left img{width: 48px;height:48px;}
+.notic_left .item{vertical-align: inherit;}
 .notic_title{font-size: 14px;color: #272727;}
 .notic_title span{margin-left: 20px;color: #2A2A2A}
-.notic_detail{color: #7D7C55;font-size:14px;max-width: 412px;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;line-height: 20px}
+.notic_detail{color: #7D7C55;font-size:13px;max-width: 300px;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;line-height: 20px}
 .allNotic{color:#272727;font-size: 16px;line-height: 40px;text-align: center;}
 </style>
