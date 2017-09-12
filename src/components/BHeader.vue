@@ -214,12 +214,10 @@ export default {
   		var mypageSize = this.pageSize;
   		var pageData = {pageNum:mypageNum,pageSize:mypageSize};
 	  	this.postHttpWithAuth(this,{},"user/getLoginUser",function(obj,data){
-	  		console.log(data.result);
 	  		obj.person = data.result;
 		});
 	  	this.postHttpWithAuth(this,pageData,"message/queryMessagesByUserId",function(obj,data){
 	  		obj.notic = data.result.messages;
-	  		console.log(obj.notic)
 	  	});
 	  	
   	}else{
