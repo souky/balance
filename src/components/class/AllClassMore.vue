@@ -86,7 +86,9 @@
 				    	</div>
 				    	<div class="cl"></div>
 				    	<div class="allClass_body_tabs_second_pagging tc">
-				    		<page class="mt20" :totalNumber="total" @newNOdeEvents="parentLisen"></page>
+				    		<el-pagination v-bind:current-Page="pageIndexN" v-bind:page-size="pageSizeN" :total="totalN"
+								layout="total,sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSizesN" :current-page="pageIndexN"
+								v-on:size-change="sizeChangeN" v-on:current-change="pageIndexChangeN"></el-pagination>
 				    	</div>
 				    </el-tab-pane>
 				    <el-tab-pane label="教辅下载" name="third">
@@ -118,14 +120,16 @@
 				    				<img src="../../../static/img/defualt/rar.png" width="60px" height="60px" />
 				    			</div>
 				    			<div class="allClass_body_tabs_fourth_bar_word l">
-				    				<p class="l">{{comment.name}}</p><p class="l ml10">{{comment.date}}</p><p class="l ml10">{{comment.what}}</p>
+				    				<p class="l">{{comment.createUser}}</p><p class="l ml10">{{timeF(comment.createDate).format("YYYY-MM-DD HH:mm:ss")}}</p><p class="l ml10">{{comment.what}}</p>
 				    				<div class="cl"></div>
-				    				<p class="allClass_body_tabs_fourth_bar_word_content mt10">{{comment.content}}</p>
+				    				<p class="allClass_body_tabs_fourth_bar_word_content mt10">{{comment.comment}}</p>
 				    				<hr class="mt10" style="width:100%;background-color:#E5E5E5;">
 				    			</div>
 				    		</div>
 				    		<div class="allClass_body_tabs_fourth_pagging tc">
-				    			<page :totalNumber="totalfourth" @newNOdeEvents="parentLisenfourth"></page>
+				    			<el-pagination v-bind:current-Page="pageIndex" v-bind:page-size="pageSize" :total="total"
+								   	layout="total,sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSizes" :current-page="pageIndex"
+								    v-on:size-change="sizeChange" v-on:current-change="pageIndexChange"></el-pagination>
 				    		</div>
 				    		<div class="allClass_body_tabs_fourth_input">
 				    			<div class="allClass_body_tabs_fourth_input_img">
@@ -133,7 +137,7 @@
 				    			</div>
 				    			<p class="allClass_body_tabs_fourth_input_img_name l">James</p>
 				    			<el-input class="allClass_body_tabs_fourth_input_textarea l" type="textarea" :rows="6" placeholder="不超过300字" v-model="textarea"></el-input>
-				    			<el-button class="r allClass_body_tabs_fourth_input_button" type="primary">发表评论</el-button>
+				    			<el-button class="r allClass_body_tabs_fourth_input_button" @click="saveComment" type="primary">发表评论</el-button>
 				    		</div>
 				    	</div>
 				    </el-tab-pane>
@@ -167,7 +171,11 @@ export default {
       	pageIndex:1,
         pageSize:10,
         total:60,
-        totalfourth:80,
+        pageSizes:[1,10,20,50,100],
+        pageIndexN:1,
+        pageSizeN:10,
+        totalN:90,
+        pageSizesN:[1,10,20,50,100],
         lessons:'这门课程讲述的很详细',
       	tabs:[{
       		titleName:'语文',
@@ -214,8 +222,11 @@ export default {
       			time:'共45分钟',
       			grandchildrens:[{
       				name:'咏柳',
-      				time:'春日',
+      				time:'共45分钟',
       			}],
+      		},{
+      			name:'1.古诗两首',
+      			time:'共45分钟',
       		}],
       	},{
       		name:'第二组',
@@ -258,7 +269,7 @@ export default {
       	}],
       	activeName: 'first',
       	textarea:'',
-        comments:[{
+        comments:[/*{
         	name:'James',
         	date:'2017-03-13',
         	what:'评论了整体课程',
@@ -273,37 +284,56 @@ export default {
         	date:'2017-03-13',
         	what:'评论了整体课程',
         	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
-        }],
+        }*/],
     }
   },
   components:{page},
    created:function(){
   	var s = this.$route.params.part;
-  	alert(s);
+  	this.getdata();
   },
- 
   	methods: {
+  		getdata:function(){
+  			this.postHttpWithAuth(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/queryComments",function(obj,data){
+  				obj.comments=data.result.list;
+				obj.total=data.result.total;
+  			})
+  		},
   	   handleClick(tab, event) {
         console.log(tab, event);
       },
-      parentLisen:function(pageIndex,pageSize){
-	    this.pageIndex=pageIndex;
-	    this.pageSize=pageSize;
-	    this.fetchData();
-	 },
-	 fetchData:function(){
-	    alert("开课"+this.pageSize);
-	    alert("开课"+this.pageIndex);
-	 },
-	 parentLisenfourth:function(pageIndex,pageSize){
-	 	this.pageIndex=pageIndex;
-	    this.pageSize=pageSize;
-	    this.fetchDatafourth();
-	},
-	fetchDatafourth:function(){
-	    alert("测试"+this.pageSize);
-	    alert("测试"+this.pageIndex);
-	 },
+      saveComment:function(){
+      	this.postHttpWithAuth(this,{courseId:this.$route.params.part,comment:this.textarea},"comment/saveComment",function(obj,data){
+		});
+      },
+      sizeChange: function (pageSize) {   //每页显示条数
+	      this.pageSize = pageSize;
+	      this.fetchData();
+	  },
+	  pageIndexChange: function (pageIndex) {   //第几页
+	      this.pageIndex = pageIndex;
+	      this.fetchData();
+	  },
+	  fetchData:function(){
+	    this.postHttpWithAuth(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/queryComments",function(obj,data){
+			obj.comments=data.result.list;
+			obj.total=data.result.total;
+			});
+	    },
+	  sizeChangeN: function (pageSizeN) {   //每页显示条数
+	      this.pageSizeN = pageSizeN;
+	      this.fetchDataN();
+	  },
+	  pageIndexChangeN: function (pageIndexN) {   //第几页
+	      this.pageIndexN = pageIndexN;
+	      this.fetchDataN();
+	  },
+	  fetchDataN:function(){
+	    this.postHttpWithAuth(this,{tab:this.types,pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
+			obj.tableData=data.result.list;
+			obj.total=data.result.total;
+			});
+	    },
 	 attentionButton:function(ids){
 	 	 this.$router.push({path:'/playing/'+ids});
 	 }
@@ -442,6 +472,7 @@ export default {
 }
 #allClass .allClass_body_tabs_fourth_bar_word p{
 	line-height: 19px;
+	min-height: 30px;
 }
 #allClass .allClass_body_tabs_fourth_bar_word_content{
 	width: 100%;

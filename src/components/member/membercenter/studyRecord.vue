@@ -21,7 +21,9 @@
 		 </template>
 		</div>
 		<div class="studyrecord_paging tc">
-			<page :totalNumber="total" @newNOdeEvents="parentLisen" @newNOdeEventss="parentLisens"></page>
+			<el-pagination v-bind:current-Page="pageIndex" v-bind:page-size="pageSize" :total="total"
+			   	layout="total,sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSizes" :current-page="pageIndex"
+			    v-on:size-change="sizeChange" v-on:current-change="pageIndexChange"></el-pagination>
 		</div>
 	</div>
 </template>
@@ -59,6 +61,7 @@ export default{
           	pageSize:1,
           	total:60,
           	types:"ALL",
+          	pageSizes:[1,10,20,50,100],
 		}
 	},
 	created:function(){
@@ -117,17 +120,16 @@ export default{
 				obj.total=data.result.total;
 				});
 		  	}
+		  	this.pageIndex=1;
 		  	this.types=type;
 		},
-		parentLisen:function(pageSize,pageIndex){
-	    	this.pageIndex=pageIndex;
-	    	this.pageSize=pageSize;
-	    	this.fetchData();
+		sizeChange: function (pageSize) {   //每页显示条数
+	      this.pageSize = pageSize;
+	      this.fetchData();
 	    },
-	    parentLisens:function(pageIndex,pageSize){
-	    	this.pageIndex=pageIndex;
-	    	this.pageSize=pageSize;
-	    	this.fetchData();
+	    pageIndexChange: function (pageIndex) {   //第几页
+	      this.pageIndex = pageIndex;
+	      this.fetchData();
 	    },
 	    fetchData:function(){
 	    	this.postHttpWithAuth(this,{tab:this.types,pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){

@@ -43,7 +43,10 @@
 		 	</div>
 		</div>
 		<div class="orderrecord_paging tc">
-			<page :totalNumber="total" @newNOdeEvents="parentLisen"></page>
+			<el-pagination v-bind:current-Page="pageIndex" v-bind:page-size="pageSize" :total="total"
+			   	layout="total,sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSizes" :current-page="pageIndex"
+			    v-on:size-change="sizeChange" v-on:current-change="pageIndexChange"></el-pagination>
+		    </div>
 		</div>
 	</div>
 </template>
@@ -90,6 +93,7 @@ export default{
 			pageIndex:1,
           	pageSize:10,
           	total:60,
+          	pageSizes:[1,10,20,50,100],
 		}
 	},
 	created:function(){
@@ -139,15 +143,13 @@ export default{
 			alert(this.form.date1);
 			alert(this.form.date2);
 		},
-		parentLisen:function(pageSize,pageIndex){
-	    	this.pageIndex=pageIndex;
-	    	this.pageSize=pageSize;
-	    	this.fetchData();
+		sizeChange: function (pageSize) {   //每页显示条数
+	      this.pageSize = pageSize;
+	      this.fetchData();
 	    },
-	    parentLisens:function(pageIndex,pageSize){
-	    	this.pageIndex=pageIndex;
-	    	this.pageSize=pageSize;
-	    	this.fetchData();
+	    pageIndexChange: function (pageIndex) {   //第几页
+	      this.pageIndex = pageIndex;
+	      this.fetchData();
 	    },
 	    toView:function(index){
 	    	this.postHttpWithAuth(this,{id:this.tableData[index].id,operation:"CANCEL"},"subscription/operateSubscription",function(obj,data){
