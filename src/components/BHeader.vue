@@ -54,11 +54,11 @@
 									  <img src="../../static/img/header/shi.png" />
 									</el-badge>
 									<el-badge v-else :is-dot="false" class="item">
-									  <img v-bind:src="'192.168.128.211:8080/balanced-education/'+item.sourceImg" />
+									  <img src="../../static/img/header/shi.png" />
 									</el-badge>
 						    	</div>
 						    	<div class="notic_right inline__box">
-							    	<p class="notic_title">直播提醒 <span>{{item.updateDate | time}}</span></p>
+							    	<p class="notic_title">直播提醒 <span>{{timeF(item.updateDate).format("MM-DD HH:mm")}}</span></p>
 							    	<P class="notic_detail">{{item.content}}</P>
 						    	</div>
 					    	</div>
@@ -178,34 +178,6 @@ export default {
           }
     }
   },
-  filters:{
-    	time : function(time){
-    		var date = new Date(time);
-			var Y = date.getFullYear(),
-			 m = date.getMonth() + 1,
-			 d = date.getDate(),
-			 H = date.getHours(),
-			 i = date.getMinutes(),
-			 s = date.getSeconds();
-			 if (m < 10) {
-			  m = '0' + m;
-			 }
-			 if (d < 10) {
-			  d = '0' + d;
-			 }
-			 if (H < 10) {
-			  H = '0' + H;
-			 }
-			 if (i < 10) {
-			  i = '0' + i;
-			 }
-			 if (s < 10) {
-			  s = '0' + s;
-			 }
-			 var t =  m + '/' + d + ' ' + H +':' + i;
-			 return t;
-    	}
-    },
   mounted:function(){
   	//判断cookie登陆信息初始化
   	if(getCookie('jyname')!= null){

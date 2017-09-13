@@ -4,15 +4,18 @@
     <div class="notic_top">
       系统消息
     </div>
-    <div class="notic_item" @click="" v-for="item in notic">
+    <div class="notic_item" @click="" v-for="item in notic.list" :key="item.id">
       <div class="notic_left">
-        <el-badge :is-dot="item.unread" class="item">
+        <el-badge v-if="item.isRead == 0" :is-dot="true" class="item">
+          <img src="../../../static/img/header/shi.png" />
+        </el-badge>
+        <el-badge v-else :is-dot="false" class="item">
           <img src="../../../static/img/header/shi.png" />
         </el-badge>
       </div>
       <div class="notic_right inline__box">
-        <p class="notic_title">{{item.title}} <span>{{item.date}}</span></p>
-        <P class="notic_detail">{{item.detail}}</P>
+        <p class="notic_title">直播提醒 <span>{{timeF(item.updateDate).format("MM-DD HH:mm")}}</span></p>
+        <P class="notic_detail">{{item.content}}</P>
       </div>
       <div class="fr delNotic" @click="delList()">
         删除
@@ -23,10 +26,10 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="1"
-        :page-sizes="[10, 20, 30, 40]"
-        :page-size="4"
+        :page-sizes="[1, 20, 30, 40]"
+        :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="40">
+        :total="notic.total">
       </el-pagination>
     </div>
   </div>
@@ -40,38 +43,9 @@ export default {
     return {
       currentPage: 5,
       isnotic:true,//notic开关
-      notic:[
-        {
-          unread:true,
-          id:'123',
-          date:"08/15 21:15",
-          title:"直播提醒",
-          detail:"《语文》将于19：15开始，感谢您的预约"
-        },
-        {
-          unread:true,
-          id:'123',
-          date:"08/15 21:15",
-          title:"直播提醒",
-          detail:"《厉害了!百年荷兰抗洪教材》将于19：15开始，感谢您的预约感谢感谢感谢真的感谢"
-        },
-        {
-          unread:false,
-          id:'123',
-          date:"08/15 21:15",
-          title:"直播提醒",
-          detail:"《厉害了!百年荷兰抗洪教材》将于19：15开始，感谢您的预约感谢感谢感谢真的感谢"
-        },
-        {
-          unread:false,
-          id:'123',
-          date:"08/15 21:15",
-          title:"直播提醒",
-          detail:"《厉害了!百年荷兰抗洪教材》将于19：15开始，感谢您的预约感谢感谢感谢真的感谢"
-        }
-      ],
+      notic:{},
       pageNum: 1,
-      pageSize:4
+      pageSize:1
   }},
   mounted:function(){
       var mypageNum = this.pageNum;
@@ -79,6 +53,7 @@ export default {
       var pageData = {pageNum:mypageNum,pageSize:mypageSize};
      this.postHttpWithAuth(this,pageData,"message/queryMessagesByUserId",function(obj,data){
         obj.notic = data.result.messages;
+        console.log(obj.notic);
       });
   },
   methods:{
@@ -91,10 +66,18 @@ export default {
       //...
     },
     handleSizeChange:function(val){
-      console.log("每页显示："+val+'条')
+      var pageData = {pageNum:this.pageNum,pageSize:val}
+      this.postHttpWithAuth(this,pageData,"message/queryMessagesByUserId",function(obj,data){
+        obj.notic = data.result.messages;
+        obj.pageSize =val;
+      });
     },
     handleCurrentChange:function(val){
-      console.log("当前为"+val+"页")
+      var pageData = {pageNum:val,pageSize:this.pageSize}
+      this.postHttpWithAuth(this,pageData,"message/queryMessagesByUserId",function(obj,data){
+        obj.notic = data.result.messages;
+        obj.pageNum = val;
+      });
     }
   }
 }
@@ -107,7 +90,7 @@ export default {
 #Notic .notic_left img{width: 60px;height: 60px;}
 #Notic .notic_title{font-size: 14px;color: #272727;}
 #Notic .notic_title span{margin-left: 20px;color: #2A2A2A}
-#Notic .notic_detail{color: #7D7C55;font-size:14px;max-width: 412px;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;line-height: 20px}
+#Notic .notic_detail{color: #7D7C55;font-size:14px;max-width: 912px;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;line-height: 20px}
 #Notic .allNotic{color:#272727;font-size: 16px;line-height: 40px;text-align: center;}
 #Notic .notic_title{width: 100%;line-height: 40px}
 #Notic .notic_left{vertical-align: top}
