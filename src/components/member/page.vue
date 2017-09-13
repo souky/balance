@@ -1,7 +1,7 @@
 <template>
 	<div id="paging">
 		<el-pagination v-bind:current-Page="pageIndex" v-bind:page-size="pageSize" :total="totalNumber"
-	   	layout="total,sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSizes" 
+	   	layout="total,sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSizes" :current-page="pageIndex"
 	    v-on:size-change="sizeChange" v-on:current-change="pageIndexChange"></el-pagination>
     </div>
 </template>
@@ -9,13 +9,13 @@
 export default {
      data() {
         return {
-          pageIndex:1,
-          pageSize:1,
+          // pageIndex:1,
+          // pageSize:1,
           //total:40,
           pageSizes:[1,10,20,50,100],
         }
       },
-      props:['totalNumber'],
+      props:['totalNumber','pageIndex','pageSize'],
       created:function(){
       },
       methods: {

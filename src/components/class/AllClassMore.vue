@@ -86,7 +86,9 @@
 				    	</div>
 				    	<div class="cl"></div>
 				    	<div class="allClass_body_tabs_second_pagging tc">
-				    		<page class="mt20" :totalNumber="total" @newNOdeEvents="parentLisen"></page>
+				    		<el-pagination v-bind:current-Page="pageIndexN" v-bind:page-size="pageSizeN" :total="totalN"
+								layout="total,sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSizesN" :current-page="pageIndexN"
+								v-on:size-change="sizeChangeN" v-on:current-change="pageIndexChangeN"></el-pagination>
 				    	</div>
 				    </el-tab-pane>
 				    <el-tab-pane label="教辅下载" name="third">
@@ -125,7 +127,9 @@
 				    			</div>
 				    		</div>
 				    		<div class="allClass_body_tabs_fourth_pagging tc">
-				    			<page :totalNumber="totalfourth" @newNOdeEvents="parentLisenfourth"></page>
+				    			<el-pagination v-bind:current-Page="pageIndex" v-bind:page-size="pageSize" :total="total"
+								   	layout="total,sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSizes" :current-page="pageIndex"
+								    v-on:size-change="sizeChange" v-on:current-change="pageIndexChange"></el-pagination>
 				    		</div>
 				    		<div class="allClass_body_tabs_fourth_input">
 				    			<div class="allClass_body_tabs_fourth_input_img">
@@ -133,7 +137,7 @@
 				    			</div>
 				    			<p class="allClass_body_tabs_fourth_input_img_name l">James</p>
 				    			<el-input class="allClass_body_tabs_fourth_input_textarea l" type="textarea" :rows="6" placeholder="不超过300字" v-model="textarea"></el-input>
-				    			<el-button class="r allClass_body_tabs_fourth_input_button" type="primary">发表评论</el-button>
+				    			<el-button class="r allClass_body_tabs_fourth_input_button" @click="saveComment" type="primary">发表评论</el-button>
 				    		</div>
 				    	</div>
 				    </el-tab-pane>
@@ -167,7 +171,11 @@ export default {
       	pageIndex:1,
         pageSize:10,
         total:60,
-        totalfourth:80,
+        pageSizes:[1,10,20,50,100],
+        pageIndexN:1,
+        pageSizeN:10,
+        totalN:90,
+        pageSizesN:[1,10,20,50,100],
         lessons:'这门课程讲述的很详细',
       	tabs:[{
       		titleName:'语文',
@@ -214,7 +222,7 @@ export default {
       			time:'共45分钟',
       			grandchildrens:[{
       				name:'咏柳',
-      				time:'春日',
+      				time:'共45分钟',
       			}],
       		}],
       	},{
@@ -279,31 +287,44 @@ export default {
   components:{page},
    created:function(){
   	var s = this.$route.params.part;
-  	alert(s);
   },
  
   	methods: {
   	   handleClick(tab, event) {
         console.log(tab, event);
       },
-      parentLisen:function(pageIndex,pageSize){
-	    this.pageIndex=pageIndex;
-	    this.pageSize=pageSize;
-	    this.fetchData();
-	 },
-	 fetchData:function(){
-	    alert("开课"+this.pageSize);
-	    alert("开课"+this.pageIndex);
-	 },
-	 parentLisenfourth:function(pageIndex,pageSize){
-	 	this.pageIndex=pageIndex;
-	    this.pageSize=pageSize;
-	    this.fetchDatafourth();
-	},
-	fetchDatafourth:function(){
-	    alert("测试"+this.pageSize);
-	    alert("测试"+this.pageIndex);
-	 },
+      saveComment:function(){
+      	this.postHttpWithAuth(this,{courseId:this.$route.params.part,comment:this.textarea},"comment/saveComment",function(obj,data){
+		});
+      },
+      sizeChange: function (pageSize) {   //每页显示条数
+	      this.pageSize = pageSize;
+	      this.fetchData();
+	  },
+	  pageIndexChange: function (pageIndex) {   //第几页
+	      this.pageIndex = pageIndex;
+	      this.fetchData();
+	  },
+	  fetchData:function(){
+	    this.postHttpWithAuth(this,{courseId:this.$route.params.part,pageNum:this.pageIndex,pageSize:this.pageSize},"comment/queryComments",function(obj,data){
+			obj.tableData=data.result.list;
+			obj.total=data.result.total;
+			});
+	    },
+	  sizeChangeN: function (pageSizeN) {   //每页显示条数
+	      this.pageSizeN = pageSizeN;
+	      this.fetchDataN();
+	  },
+	  pageIndexChangeN: function (pageIndexN) {   //第几页
+	      this.pageIndexN = pageIndexN;
+	      this.fetchDataN();
+	  },
+	  fetchDataN:function(){
+	    this.postHttpWithAuth(this,{tab:this.types,pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
+			obj.tableData=data.result.list;
+			obj.total=data.result.total;
+			});
+	    },
 	 attentionButton:function(ids){
 	 	 this.$router.push({path:'/playing/'+ids});
 	 }
