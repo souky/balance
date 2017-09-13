@@ -19,14 +19,21 @@
       </div>
     </div>
      <div class="classesrecord_paging tc">
-      <page :totalNumber="total" @newNOdeEvents="parentLisen"></page>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="1"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="4"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="40">
+      </el-pagination>
     </div>
   </div>
 </div>
 </template>
 
 <script>
-import page from './page.vue'
 export default {
 
   data () {
@@ -62,16 +69,17 @@ export default {
           title:"直播提醒",
           detail:"《厉害了!百年荷兰抗洪教材》将于19：15开始，感谢您的预约感谢感谢感谢真的感谢"
         }
-      ]//消息红点
-      ,
-      pageIndex:1,
-      pageSize:10,
-      total:60
-    }
-  },
-  components:{page},
+      ],
+      pageNum: 1,
+      pageSize:4
+  }},
   mounted:function(){
-     
+      var mypageNum = this.pageNum;
+      var mypageSize = this.pageSize;
+      var pageData = {pageNum:mypageNum,pageSize:mypageSize};
+     this.postHttpWithAuth(this,pageData,"message/queryMessagesByUserId",function(obj,data){
+        obj.notic = data.result.messages;
+      });
   },
   methods:{
     backIndex:function(){
@@ -82,10 +90,12 @@ export default {
       //后台请求
       //...
     },
-    parentLisen:function(pageIndex,pageSize){
-        this.pageIndex=pageIndex;
-        this.pageSize=pageSize;      
-      }
+    handleSizeChange:function(val){
+      console.log("每页显示："+val+'条')
+    },
+    handleCurrentChange:function(val){
+      console.log("当前为"+val+"页")
+    }
   }
 }
 </script>

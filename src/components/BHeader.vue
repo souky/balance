@@ -230,15 +230,12 @@ export default {
   	},
   	//退出登陆操作
   	loginOut(){
-  		//删除cookie
-  		
   		//请求操作
   		 this.postHttpWithAuth(this,'','logout',function(obj,data){
   		 	delCookie('jyname');
   		 	obj.$router.go(0);
   		 });
   		//页面跳转
-  		
   	},
   	submitForm(formName) {
 	        this.$refs[formName].validate((valid) => {
@@ -250,11 +247,7 @@ export default {
 		    	 console.log(data);
 		    	 //登陆请求
 		    	  this.postHttp(this,data,'login',login_press);
-		    	 // 模拟请求成功回调
-		   //  	 setCookie("cname",this.isshow,1000*60);
-			  // 		this.loading = false;
-					// this.dialogFormVisible = false;
-					// this.$router.go(0);
+		    
 		    } else {
 	            console.log('error submit!!');
 	            return false;
@@ -263,6 +256,10 @@ export default {
 	     },
 	resetForm(formName) {
 		this.$refs[formName].resetFields();
+		if(this.loading==true)
+		{
+			this.loading = false;
+		}
       	},
     forget(){
     		this.dialogFormVisible = false;
