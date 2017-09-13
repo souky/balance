@@ -120,9 +120,9 @@
 				    				<img src="../../../static/img/defualt/rar.png" width="60px" height="60px" />
 				    			</div>
 				    			<div class="allClass_body_tabs_fourth_bar_word l">
-				    				<p class="l">{{comment.name}}</p><p class="l ml10">{{comment.date}}</p><p class="l ml10">{{comment.what}}</p>
+				    				<p class="l">{{comment.createUser}}</p><p class="l ml10">{{timeF(comment.createDate).format("YYYY-MM-DD HH:mm:ss")}}</p><p class="l ml10">{{comment.what}}</p>
 				    				<div class="cl"></div>
-				    				<p class="allClass_body_tabs_fourth_bar_word_content mt10">{{comment.content}}</p>
+				    				<p class="allClass_body_tabs_fourth_bar_word_content mt10">{{comment.comment}}</p>
 				    				<hr class="mt10" style="width:100%;background-color:#E5E5E5;">
 				    			</div>
 				    		</div>
@@ -224,6 +224,9 @@ export default {
       				name:'咏柳',
       				time:'共45分钟',
       			}],
+      		},{
+      			name:'1.古诗两首',
+      			time:'共45分钟',
       		}],
       	},{
       		name:'第二组',
@@ -266,7 +269,7 @@ export default {
       	}],
       	activeName: 'first',
       	textarea:'',
-        comments:[{
+        comments:[/*{
         	name:'James',
         	date:'2017-03-13',
         	what:'评论了整体课程',
@@ -281,15 +284,21 @@ export default {
         	date:'2017-03-13',
         	what:'评论了整体课程',
         	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
-        }],
+        }*/],
     }
   },
   components:{page},
    created:function(){
   	var s = this.$route.params.part;
+  	this.getdata();
   },
- 
   	methods: {
+  		getdata:function(){
+  			this.postHttpWithAuth(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/queryComments",function(obj,data){
+  				obj.comments=data.result.list;
+				obj.total=data.result.total;
+  			})
+  		},
   	   handleClick(tab, event) {
         console.log(tab, event);
       },
@@ -306,8 +315,8 @@ export default {
 	      this.fetchData();
 	  },
 	  fetchData:function(){
-	    this.postHttpWithAuth(this,{courseId:this.$route.params.part,pageNum:this.pageIndex,pageSize:this.pageSize},"comment/queryComments",function(obj,data){
-			obj.tableData=data.result.list;
+	    this.postHttpWithAuth(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/queryComments",function(obj,data){
+			obj.comments=data.result.list;
 			obj.total=data.result.total;
 			});
 	    },
@@ -463,6 +472,7 @@ export default {
 }
 #allClass .allClass_body_tabs_fourth_bar_word p{
 	line-height: 19px;
+	min-height: 30px;
 }
 #allClass .allClass_body_tabs_fourth_bar_word_content{
 	width: 100%;
