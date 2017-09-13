@@ -285,6 +285,7 @@ export default {
 #allClassMain .el-row{margin:16px 0;}
 #allClassMain .classList .el-col{margin-bottom: 15px}
 #allClassMain .items_box{background-color: #f5f5f5;cursor: pointer;}
+#allClassMain .items_box:hover{box-shadow: 1px 1px 10px rgba(0,0,0,.2);}
 #allClassMain .items_box .items_img img{height: 246px}
 #allClassMain .items_name{color: #272727;font-size: 16px;margin-top: 16px;}
 #allClassMain .items_source{color:#999;font-size: 14px;}

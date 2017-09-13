@@ -24,16 +24,18 @@
 			<div class="mt15">
 			<template>
 			    <el-table :data="tableData" style="width: 100%">
-			      <el-table-column prop="lesson" label="节目名"></el-table-column>
-			      <el-table-column prop="lessonTime" label="直播时间"></el-table-column>
-			      <el-table-column prop="lessonName" label="课程名"></el-table-column>
-			      <el-table-column prop="school" label="学校"></el-table-column>
-			      <el-table-column prop="teacher" label="教师"></el-table-column>
-			      <el-table-column prop="state" label="节目状态"></el-table-column>
-			      <el-table-column props="operation" label="操作">
+			      <el-table-column prop="programName" align="center" label="节目名"></el-table-column>
+			      <el-table-column prop="programStartDate" :formatter="timeFormat" align="center" label="直播时间"></el-table-column>
+			      <el-table-column prop="courseName" align="center" show-overflow-tooltip label="课程名"></el-table-column>
+			      <el-table-column prop="schoolName" align="center" label="学校"></el-table-column>
+			      <el-table-column prop="teacherName" align="center" label="教师"></el-table-column>
+			      <el-table-column prop="status" align="center" :formatter="statusFormat" label="节目状态"></el-table-column>
+			      <el-table-column props="isCancelled" align="center" label="操作">
 			      	<template scope="scope">
-			            <el-button v-if="scope.row.operation=='取消关注'" @click.native.prevent="toView(scope.$index,tableData)" class="table-button" type="text" size="small">取消关注</el-button>
-			            <el-button v-if="scope.row.operation=='删除记录'" @click.native.prevent="del(scope.$index,tableData)" class="table-button" type="text" size="small">删除记录</el-button>
+			            <el-button v-if="scope.row.status=='1_ONGOING'" @click.native.prevent="toView(scope.$index,tableData)" class="table-button" type="text" size="small">取消关注</el-button>
+			            <el-button v-if="scope.row.status=='2_NOT_STARTED'" @click.native.prevent="toView(scope.$index,tableData)" class="table-button" type="text" size="small">取消关注</el-button>
+			            <el-button v-if="scope.row.status=='3_ENDED'" @click.native.prevent="del(scope.$index,tableData)" class="table-button" type="text" size="small">删除记录</el-button>
+			            <el-button v-if="scope.row.status=='4_EXCEPTIONAL'" @click.native.prevent="del(scope.$index,tableData)" class="table-button" type="text" size="small">删除记录</el-button>
 			        </template>
 			      </el-table-column>
 			    </el-table>
@@ -56,7 +58,7 @@ export default{
 		        date1: '',
 		        date2: '',
 			},
-			tableData:[{
+			tableData:[/*{
 				lesson:'语文',
 				lessonTime:'09-03 15：00',
 				lessonName:'语文第一章第一节',
@@ -80,7 +82,7 @@ export default{
 				teacher:'James',
 				state:'进行中',
 				operation:'删除记录',
-			}],
+			}*/],
 			Sregion:[{
 				id:11,
 				regionName:'测试',
@@ -97,6 +99,32 @@ export default{
 	methods:{
 		getdata:function(){
 			this.$emit('newfind');
+			this.postHttpWithAuth(this,{pageNum:1,pageSize:1},"subscription/querySubscriptions",function(obj,data){
+				obj.tableData=data.result.list;
+				obj.total=data.result.total;
+			});
+		},
+		timeFormat(row,column){
+		  	var date = row[column.property]; 
+		  	if (date == undefined) {  
+		     return "";  
+		  	}  
+		  	return this.timeF(date).format("YYYY-MM-DD HH:mm:ss");  
+		},
+		statusFormat(row,column){
+			var status = row[column.property];
+			if(status == "1_ONGOING"){
+				return "进行中";
+			}
+			if(status == "2_NOT_STARTED"){
+				return "未开始";
+			}
+			if(status == "3_ENDED"){
+				return "已结束";
+			}
+			if(status == "4_EXCEPTIONAL"){
+				return "异常";
+			}
 		},
 		dateChange1(val) {
 		    this.form.date1=val;
@@ -111,20 +139,29 @@ export default{
 			alert(this.form.date1);
 			alert(this.form.date2);
 		},
-		parentLisen:function(pageIndex,pageSize){
+		parentLisen:function(pageSize,pageIndex){
+	    	this.pageIndex=pageIndex;
+	    	this.pageSize=pageSize;
+	    	this.fetchData();
+	    },
+	    parentLisens:function(pageIndex,pageSize){
 	    	this.pageIndex=pageIndex;
 	    	this.pageSize=pageSize;
 	    	this.fetchData();
 	    },
 	    toView:function(index){
-	    	alert(index);
+	    	this.postHttpWithAuth(this,{id:this.tableData[index].id,operation:"CANCEL"},"subscription/operateSubscription",function(obj,data){
+			});
 	    },
 	    del:function(index){
-	    	alert(index);
+	    	this.postHttpWithAuth(this,{id:this.tableData[index].id,operation:"DELETE"},"subscription/operateSubscription",function(obj,data){
+			});
 	    },
 	    fetchData:function(){
-	    	alert("预约"+this.pageSize);
-	    	alert("预约"+this.pageIndex);
+	    	this.postHttpWithAuth(this,{pageNum:this.pageIndex,pageSize:this.pageSize},"subscription/querySubscriptions",function(obj,data){
+	    		obj.tableData=data.result.list;
+				obj.total=data.result.total;
+			});
 	    },
 	}
 }

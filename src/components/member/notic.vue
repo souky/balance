@@ -93,6 +93,12 @@ export default {
 <style>
 .fr{float:right;}
 .delNotic{cursor: default;line-height: 91px;color: #7D7C55;font-size: 14px}
+#Notic .notic_left{width: 60px;height: 60px;padding: 15px;display: inline-block;}
+#Notic .notic_left img{width: 60px;height: 60px;}
+#Notic .notic_title{font-size: 14px;color: #272727;}
+#Notic .notic_title span{margin-left: 20px;color: #2A2A2A}
+#Notic .notic_detail{color: #7D7C55;font-size:14px;max-width: 412px;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;line-height: 20px}
+#Notic .allNotic{color:#272727;font-size: 16px;line-height: 40px;text-align: center;}
 #Notic .notic_title{width: 100%;line-height: 40px}
 #Notic .notic_left{vertical-align: top}
 .noticMain{border:1px solid #e5e5e5;margin-top: 30px;padding: 40px;background-color: #fff}
