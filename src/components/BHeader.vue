@@ -185,10 +185,10 @@ export default {
   		var mypageNum = this.pageNum;
   		var mypageSize = this.pageSize;
   		var pageData = {pageNum:mypageNum,pageSize:mypageSize};
-	  	this.postHttpWithAuth(this,{},"user/getLoginUser",function(obj,data){
+	  	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
 	  		obj.person = data.result;
 		});
-	  	this.postHttpWithAuth(this,pageData,"message/queryMessagesByUserId",function(obj,data){
+	  	this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
 	  		obj.notic = data.result.messages;
 	  	});
 	  	
@@ -203,7 +203,7 @@ export default {
   	//退出登陆操作
   	loginOut(){
   		//请求操作
-  		 this.postHttpWithAuth(this,'','logout',function(obj,data){
+  		 this.postHttp(this,'','logout',function(obj,data){
   		 	delCookie('jyname');
   		 	obj.$router.go(0);
   		 });
