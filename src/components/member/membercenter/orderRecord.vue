@@ -87,8 +87,17 @@ export default{
 				operation:'删除记录',
 			}*/],
 			Sregion:[{
-				id:11,
-				regionName:'测试',
+				id:'1_ONGOING',
+				regionName:'进行中',
+			},{
+				id:'2_NOT_STARTED',
+				regionName:'未开始',
+			},{
+				id:'3_ENDED',
+				regionName:'已结束',
+			},{
+				id:'4_EXCEPTIONAL',
+				regionName:'异常',
 			}],
 			pageIndex:1,
           	pageSize:10,
@@ -103,7 +112,7 @@ export default{
 	methods:{
 		getdata:function(){
 			this.$emit('newfind');
-			this.postHttp(this,{pageNum:1,pageSize:1},"subscription/querySubscriptions",function(obj,data){
+			this.postHttp(this,{pageNum:this.pageIndex,pageSize:this.pageSize},"subscription/querySubscriptions",function(obj,data){
 				obj.tableData=data.result.list;
 				obj.total=data.result.total;
 			});
@@ -132,16 +141,18 @@ export default{
 		},
 		dateChange1(val) {
 		    this.form.date1=val;
-		    this.form.date1=this.form.date1.substr(0, 16);
+		    this.form.date1=this.form.date1.substr(0, 19);
 		},
 		dateChange2(val){
 			this.form.date2=val;
-			this.form.date2=this.form.date2.substr(0, 16);
+			this.form.date2=this.form.date2.substr(0, 19);
 		},
 		query:function(){
-			this.form.date1=(new Date(this.form.date1)).toLocaleString().slice(0, 15);
 			alert(this.form.date1);
-			alert(this.form.date2);
+			this.postHttp(this,{status:this.form.region,programStartDate:this.form.date1,programEndDate:this.form.date2,pageNum:this.pageIndex,pageSize:this.pageSize},"/subscription/querySubscriptions",function(obj,data){
+				obj.tableData=data.result.list;
+				obj.total=data.result.total;
+			})
 		},
 		sizeChange: function (pageSize) {   //每页显示条数
 	      this.pageSize = pageSize;

@@ -5,7 +5,7 @@
 			<hr style="width:93%;background-color:#E5E5E5;margin-top:20px;">
 			<div class="allClass_body_content">
 				<div class="allClass_body_content_img l">
-					<img src="../../../static/img/temp/fm7.png" width="290px" height="372px">
+					<img src="book.coverImg" width="100%" height="100%">
 				</div>
 				<div class="allClass_body_content_word l">
 					<p class="l allClass_body_content_word_color">年级：</p><p class="l">{{book.gradeName}}</p>
@@ -21,8 +21,6 @@
 					<p class="l allClass_body_content_word_color">开课日期：</p><p class="l">{{book.startDate}}</p>
 					<div class="cl"></div>
 					<p class="l allClass_body_content_word_color">学习时长：</p><p class="l">{{book.courseDuration}}</p>
-					<div class="cl"></div>
-					<p class="l allClass_body_content_word_color">报名人数：</p><p class="l">{{book.mannumber}}</p>
 					<div class="cl"></div>
 					<p class="l allClass_body_content_word_color">播放量：</p><p class="l">{{book.playedNum}}</p>
 					<div class="cl"></div>
@@ -74,14 +72,13 @@
 				    	<div class="allClass_body_tabs_second_table">
 				    		<div class="allClass_body_tabs_second_table_bar l" v-for="tab in tabs">
 				    			<div class="allClass_body_tabs_second_table_bar_img">
-				    				<img src="../../../static/img/temp/fm7.png" width="360px" height="170px">
+				    				<img src="tab.coverImg" width="100%" height="100%">
 				    			</div>
-				    			<p>{{tab.titleName}}</p>
-				    			<p class="l">开课日期：</p><p class="l">{{tab.date}}</p>
-				    			<p class="mr10 r">{{tab.manNumber}}</p><p class="r">报名人数：</p>
+				    			<p>{{tab.name}}</p>
+				    			<p class="l">开课日期：</p><p class="l">{{tab.startDate}}</p>
+				    			<p class="mr10 r">{{tab.playedNum}}</p><p class="r">播放次数：</p>
 				    			<div class="cl"></div>
-				    			<p class="l">学习时长：</p><p class="l">{{tab.time}}</p>
-				    			<p class="mr10 r">{{tab.playNumber}}</p><p class="r">播放次数：</p>
+				    			<p class="l">学习时长：</p><p class="l">{{tab.courseDuration}}</p>
 				    		</div>
 				    	</div>
 				    	<div class="cl"></div>
@@ -114,7 +111,7 @@
 				    </el-tab-pane>
 				    <el-tab-pane label="教学交流" name="fourth">
 				    	<div class="allClass_body_tabs_fourth">
-				    		<p>全部评论（100）</p>
+				    		<p>全部评论（{{tabs4.total}}）</p>
 				    		<div class="allClass_body_tabs_fourth_bar" v-for="comment in comments">
 				    			<div class="allClass_body_tabs_fourth_bar_img l">
 				    				<img src="../../../static/img/defualt/rar.png" width="60px" height="60px" />
@@ -178,24 +175,6 @@ export default {
         pageSizesN:[1,10,20,50,100],
         lessons:'这门课程讲述的很详细',
       	tabs:[{
-      		titleName:'语文',
-      		date:'2015-09-11',
-      		manNumber:'123',
-      		time:'24小时',
-      		playNumber:'555',
-      	},{
-      		titleName:'数学',
-      		date:'2015-09-11',
-      		manNumber:'123',
-      		time:'24小时',
-      		playNumber:'555',
-      	},{
-      		titleName:'英语',
-      		date:'2015-09-11',
-      		manNumber:'123',
-      		time:'24小时',
-      		playNumber:'555',
-      	},{
       		titleName:'语文',
       		date:'2015-09-11',
       		manNumber:'123',
@@ -285,6 +264,9 @@ export default {
         	what:'评论了整体课程',
         	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
         }*/],
+        tabs4:{
+        	total:''
+        },
     }
   },
   components:{page},
@@ -294,19 +276,23 @@ export default {
   },
   	methods: {
   		getdata:function(){
-  			this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9"},"course/queryCourseContent",function(obj,data){
+  			this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9"},"course/study/queryCourseContent",function(obj,data){
   				obj.book=data.result.course;
+  			});
+  			this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9"},"course/study/queryCourseTeacher",function(obj,data){
+  				obj.tabs=data.result.courseList;
   			});
   			this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
   				obj.comments=data.result.list;
 				obj.total=data.result.total;
+				obj.tabs4.total=data.result.total;
   			})
   		},
   	   handleClick(tab, event) {
         console.log(tab, event);
       },
       saveComment:function(){
-      	this.postHttp(this,{courseId:this.$route.params.part,comment:this.textarea},"comment/saveComment",function(obj,data){
+      	this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",comment:this.textarea},"comment/saveComment",function(obj,data){
 		});
       },
       sizeChange: function (pageSize) {   //每页显示条数
@@ -371,7 +357,6 @@ export default {
 #allClass .allClass_body_content_img{
 	width: 290px;
 	height: 372px;
-	background-color: red;
 }
 #allClass .allClass_body_content_word{
 	width: 750px;
@@ -439,7 +424,6 @@ export default {
 #allClass .allClass_body_tabs_second_table_bar_img{
 	width: 100%;
 	height: 170px;
-	background-color: red;
 }
 #allClass .allClass_body_tabs_second_table_bar p{
 	font-size: 14px;
