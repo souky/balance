@@ -8,25 +8,25 @@
 					<img src="../../../static/img/temp/fm7.png" width="290px" height="372px">
 				</div>
 				<div class="allClass_body_content_word l">
-					<p class="l allClass_body_content_word_color">年级：</p><p class="l">{{book.class}}</p>
+					<p class="l allClass_body_content_word_color">年级：</p><p class="l">{{book.gradeName}}</p>
 					<div class="cl"></div>
-					<p class="l allClass_body_content_word_color">学科：</p><p class="l">{{book.subject}}</p>
+					<p class="l allClass_body_content_word_color">学科：</p><p class="l">{{book.subjectName}}</p>
 					<div class="cl"></div>
-					<p class="l allClass_body_content_word_color">教材：</p><p class="l">{{book.textbook}}</p>
+					<p class="l allClass_body_content_word_color">教材：</p><p class="l">{{book.name}}</p>
 					<div class="cl"></div>
-					<p class="l allClass_body_content_word_color">授课学校：</p><p class="l">{{book.school}}</p>
+					<p class="l allClass_body_content_word_color">授课学校：</p><p class="l">{{book.schoolName}}</p>
 					<div class="cl"></div>
-					<p class="l allClass_body_content_word_color">授课老师：</p><p class="l">{{book.teacher}}</p>
+					<p class="l allClass_body_content_word_color">授课老师：</p><p class="l">{{book.teacherName}}</p>
 					<div class="cl"></div>
-					<p class="l allClass_body_content_word_color">开课日期：</p><p class="l">{{book.date}}</p>
+					<p class="l allClass_body_content_word_color">开课日期：</p><p class="l">{{book.startDate}}</p>
 					<div class="cl"></div>
-					<p class="l allClass_body_content_word_color">学习时长：</p><p class="l">{{book.time}}</p>
+					<p class="l allClass_body_content_word_color">学习时长：</p><p class="l">{{book.courseDuration}}</p>
 					<div class="cl"></div>
 					<p class="l allClass_body_content_word_color">报名人数：</p><p class="l">{{book.mannumber}}</p>
 					<div class="cl"></div>
-					<p class="l allClass_body_content_word_color">播放量：</p><p class="l">{{book.playnumber}}</p>
+					<p class="l allClass_body_content_word_color">播放量：</p><p class="l">{{book.playedNum}}</p>
 					<div class="cl"></div>
-					<p class="l allClass_body_content_word_color">关注：</p><p class="l">{{book.attention}}</p>
+					<p class="l allClass_body_content_word_color">关注：</p><p class="l">{{book.concernedNum}}</p>
 					<div class="cl"></div>
 					<div class="allClass_body_content_button">
 						<el-button class="attention_button_public" @click="attentionButton(book.id)" type="primary">进入学习</el-button>
@@ -294,7 +294,10 @@ export default {
   },
   	methods: {
   		getdata:function(){
-  			this.postHttpWithAuth(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/queryComments",function(obj,data){
+  			this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9"},"course/queryCourseContent",function(obj,data){
+  				obj.book=data.result.course;
+  			});
+  			this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
   				obj.comments=data.result.list;
 				obj.total=data.result.total;
   			})
@@ -303,7 +306,7 @@ export default {
         console.log(tab, event);
       },
       saveComment:function(){
-      	this.postHttpWithAuth(this,{courseId:this.$route.params.part,comment:this.textarea},"comment/saveComment",function(obj,data){
+      	this.postHttp(this,{courseId:this.$route.params.part,comment:this.textarea},"comment/saveComment",function(obj,data){
 		});
       },
       sizeChange: function (pageSize) {   //每页显示条数
@@ -315,7 +318,7 @@ export default {
 	      this.fetchData();
 	  },
 	  fetchData:function(){
-	    this.postHttpWithAuth(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/queryComments",function(obj,data){
+	    this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
 			obj.comments=data.result.list;
 			obj.total=data.result.total;
 			});
@@ -329,7 +332,7 @@ export default {
 	      this.fetchDataN();
 	  },
 	  fetchDataN:function(){
-	    this.postHttpWithAuth(this,{tab:this.types,pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
+	    this.postHttp(this,{tab:this.types,pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
 			obj.tableData=data.result.list;
 			obj.total=data.result.total;
 			});

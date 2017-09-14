@@ -103,7 +103,7 @@ export default{
 	methods:{
 		getdata:function(){
 			this.$emit('newfind');
-			this.postHttpWithAuth(this,{pageNum:1,pageSize:1},"subscription/querySubscriptions",function(obj,data){
+			this.postHttp(this,{pageNum:1,pageSize:1},"subscription/querySubscriptions",function(obj,data){
 				obj.tableData=data.result.list;
 				obj.total=data.result.total;
 			});
@@ -152,15 +152,15 @@ export default{
 	      this.fetchData();
 	    },
 	    toView:function(index){
-	    	this.postHttpWithAuth(this,{id:this.tableData[index].id,operation:"CANCEL"},"subscription/operateSubscription",function(obj,data){
+	    	this.postHttp(this,{id:this.tableData[index].id,operation:"CANCEL"},"subscription/operateSubscription",function(obj,data){
 			});
 	    },
 	    del:function(index){
-	    	this.postHttpWithAuth(this,{id:this.tableData[index].id,operation:"DELETE"},"subscription/operateSubscription",function(obj,data){
+	    	this.postHttp(this,{id:this.tableData[index].id,operation:"DELETE"},"subscription/operateSubscription",function(obj,data){
 			});
 	    },
 	    fetchData:function(){
-	    	this.postHttpWithAuth(this,{pageNum:this.pageIndex,pageSize:this.pageSize},"subscription/querySubscriptions",function(obj,data){
+	    	this.postHttp(this,{pageNum:this.pageIndex,pageSize:this.pageSize},"subscription/querySubscriptions",function(obj,data){
 	    		obj.tableData=data.result.list;
 				obj.total=data.result.total;
 			});
