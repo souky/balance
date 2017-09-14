@@ -51,7 +51,7 @@ export default {
       var mypageNum = this.pageNum;
       var mypageSize = this.pageSize;
       var pageData = {pageNum:mypageNum,pageSize:mypageSize};
-     this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
+     this.postHttp(this,pageData,"message/study/queryMessagesByUserId",function(obj,data){
         obj.notic = data.result.messages;
       });
   },
@@ -61,8 +61,7 @@ export default {
     },
     delList:function(ids,indexs){
       this.postHttp(this,ids,"message/logicDeleteMessageById",function(obj,data){
-        if(data.code == "10000")
-        console.log(obj.notic.list.splice(indexs,1));
+        
       });
     },
     handleSizeChange:function(val){
@@ -75,7 +74,7 @@ export default {
       this.demo();
     },
     demo:function(){
-      this.postHttp(this,{pageNum:this.pageNum,pageSize:this.pageSize},"message/queryMessagesByUserId",function(obj,data){
+      this.postHttp(this,{pageNum:this.pageNum,pageSize:this.pageSize},"message/study/queryMessagesByUserId",function(obj,data){
         obj.notic = data.result.messages;
       });
     }
