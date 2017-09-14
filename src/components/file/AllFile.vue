@@ -104,7 +104,6 @@
 				  </el-col>
 				</el-row>
 				<div class="cl  tc">
-					<page class="mt20" :totalNumber="total" @newNOdeEvents="parentLisen"></page>
 				</div>
 			</div>
 		</div>
@@ -112,7 +111,6 @@
 </template>
 
 <script>
-import page from '../member/page.vue'
 export default {
   data () {
     return {
@@ -306,9 +304,13 @@ export default {
 	     total:60
   	}
   },
-  components:{page},
+  mounted:function(){
+     this.postHttp(this,'',"teachingfile/study/initParamList",function(obj,data){
+       console.log(data.result)
+      });
+  },
   methods:{
-		chooseGrade(index) {
+		  chooseGrade(index) {
 	      this.active = index;
 	      //后台请求
 	    },
@@ -330,11 +332,8 @@ export default {
 	    },
 	    downloadC(){
 	    	console.log("下载课程");
-	    },
-	    parentLisen:function(pageIndex,pageSize){
-		    this.pageIndex=pageIndex;
-		    this.pageSize=pageSize;
-		}
+	    }
+	    
 	}
 }
 </script>

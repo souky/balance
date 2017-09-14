@@ -135,7 +135,7 @@
 </template>
 
 <script>
-import {setCookie,getCookie,delCookie} from '../assets/cookie.js'
+// import {setCookie,getCookie,delCookie} from '../assets/cookie.js'
 export default {
   data () {
   	var validatePass = (rule, value, callback) => {
@@ -180,15 +180,15 @@ export default {
   },
   mounted:function(){
   	//判断cookie登陆信息初始化
-  	if(getCookie('jyname')!= null){
+  	if(sessionStorage.getItem("jyname")!= null){
   		this.isshow = false;
   		var mypageNum = this.pageNum;
   		var mypageSize = this.pageSize;
   		var pageData = {pageNum:mypageNum,pageSize:mypageSize};
-	  	this.postHttpWithAuth(this,{},"user/getLoginUser",function(obj,data){
+	  	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
 	  		obj.person = data.result;
 		});
-	  	this.postHttpWithAuth(this,pageData,"message/queryMessagesByUserId",function(obj,data){
+	  	this.postHttp(this,pageData,"message/study/queryMessagesByUserId",function(obj,data){
 	  		obj.notic = data.result.messages;
 	  	});
 	  	
@@ -203,9 +203,11 @@ export default {
   	//退出登陆操作
   	loginOut(){
   		//请求操作
-  		 this.postHttpWithAuth(this,'','logout',function(obj,data){
-  		 	delCookie('jyname');
-  		 	obj.$router.go(0);
+  		 this.postHttp(this,'','logout',function(obj,data){
+  		 	// delCookie('jyname');
+  		 	sessionStorage.removeItem("jyname")
+  		 	obj.$router.push({path:'/'});
+  		 	obj.$router.go(0)
   		 });
   		//页面跳转
   	},
@@ -216,7 +218,6 @@ export default {
 	             var userName = this.ruleForm.loginName;
 		    	 var psw = this.ruleForm.passWord;
 		    	 var data = {userName:userName,psw:psw};
-		    	 console.log(data);
 		    	 //登陆请求
 		    	  this.postHttp(this,data,'login',login_press);
 		    
@@ -254,7 +255,8 @@ function login_press(obj,data){
 	      type:'error'
 	    });
   	}else{
-  		setCookie("jyname",obj.isshow,1000*60);
+  		// setCookie("jyname",obj.isshow,1000*60);
+  		sessionStorage.setItem("jyname", obj.isshow,1000*60);
   		obj.loading = false;
 		obj.dialogFormVisible = false;
 		obj.$router.go(0)
