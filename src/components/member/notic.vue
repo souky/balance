@@ -4,7 +4,7 @@
     <div class="notic_top">
       系统消息
     </div>
-    <div class="notic_item" @click="" v-for="item in notic.list" :key="item.id">
+    <div class="notic_item" @click="" v-for="(item,index) in notic.list" :key="item.id">
       <div class="notic_left">
         <el-badge v-if="item.isRead == 0" :is-dot="true" class="item">
           <img src="../../../static/img/header/shi.png" />
@@ -17,7 +17,7 @@
         <p class="notic_title">直播提醒 <span>{{timeF(item.updateDate).format("MM-DD HH:mm")}}</span></p>
         <P class="notic_detail">{{item.content}}</P>
       </div>
-      <div class="fr delNotic" @click="delList()">
+      <div class="fr delNotic" @click="delList(item.id,index)">
         删除
       </div>
     </div>
@@ -51,32 +51,31 @@ export default {
       var mypageNum = this.pageNum;
       var mypageSize = this.pageSize;
       var pageData = {pageNum:mypageNum,pageSize:mypageSize};
-     this.postHttpWithAuth(this,pageData,"message/queryMessagesByUserId",function(obj,data){
+     this.postHttp(this,pageData,"message/study/queryMessagesByUserId",function(obj,data){
         obj.notic = data.result.messages;
-        console.log(obj.notic);
       });
   },
   methods:{
     backIndex:function(){
       this.$router.push({path:'/'})
     },
-    delList:function(){
-      console.log(111);
-      //后台请求
-      //...
-    },
-    handleSizeChange:function(val){
-      var pageData = {pageNum:this.pageNum,pageSize:val}
-      this.postHttpWithAuth(this,pageData,"message/queryMessagesByUserId",function(obj,data){
-        obj.notic = data.result.messages;
-        obj.pageSize =val;
+    delList:function(ids,indexs){
+      this.postHttp(this,ids,"message/logicDeleteMessageById",function(obj,data){
+        
       });
     },
+    handleSizeChange:function(val){
+      this.pageSize = val;
+      this.pageNum = 1;
+      this.demo();
+    },
     handleCurrentChange:function(val){
-      var pageData = {pageNum:val,pageSize:this.pageSize}
-      this.postHttpWithAuth(this,pageData,"message/queryMessagesByUserId",function(obj,data){
+      this.pageNum = val;
+      this.demo();
+    },
+    demo:function(){
+      this.postHttp(this,{pageNum:this.pageNum,pageSize:this.pageSize},"message/study/queryMessagesByUserId",function(obj,data){
         obj.notic = data.result.messages;
-        obj.pageNum = val;
       });
     }
   }
