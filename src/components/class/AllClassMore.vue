@@ -174,7 +174,7 @@ export default {
         totalN:90,
         pageSizesN:[1,10,20,50,100],
         lessons:'这门课程讲述的很详细',
-      	tabs:[{
+      	tabs:[/*{
       		titleName:'语文',
       		date:'2015-09-11',
       		manNumber:'123',
@@ -192,7 +192,7 @@ export default {
       		manNumber:'123',
       		time:'24小时',
       		playNumber:'555',
-      	}],
+      	}*/],
       	propers:[{
       		name:'第一组',
       		time:'共45分钟',
@@ -279,8 +279,9 @@ export default {
   			this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9"},"course/study/queryCourseContent",function(obj,data){
   				obj.book=data.result.course;
   			});
-  			this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9"},"course/study/queryCourseTeacher",function(obj,data){
-  				obj.tabs=data.result.courseList;
+  			this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndexN,pageSize:this.pageSizeN},"course/study/queryCourseTeacher",function(obj,data){
+  				obj.tabs=data.result.courseList.list;
+  				obj.totalN=data.result.courseList.total;
   			});
   			this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
   				obj.comments=data.result.list;
@@ -318,9 +319,9 @@ export default {
 	      this.fetchDataN();
 	  },
 	  fetchDataN:function(){
-	    this.postHttp(this,{tab:this.types,pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
-			obj.tableData=data.result.list;
-			obj.total=data.result.total;
+	    this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndexN,pageSize:this.pageSizeN},"course/study/queryCourseTeacher",function(obj,data){
+			obj.tabs=data.result.courseList.list;
+			obj.totalN=data.result.courseList.total;
 			});
 	    },
 	 attentionButton:function(ids){
