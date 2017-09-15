@@ -180,7 +180,7 @@ export default {
 #living .living_banner{
 	margin: 0 auto;
 	margin-top: 40px;
-	width: 1300px;
+	width: 1250px;
 	height: 250px;
 }
   #living .el-carousel__indicators--outside{
@@ -217,7 +217,7 @@ export default {
     width: 200px;
     height: 200px;
     margin-top: 20px;
-    margin-left: 34px;
+    margin-left: 23px;
     background-color: red;
   }
   #living .banner_bar_word{

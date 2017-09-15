@@ -71,7 +71,7 @@ export default{
 	methods:{
 		getdata:function(){
 			this.$emit('newfind');
-			this.postHttpWithAuth(this,{tab:"ALL",pageNum:1,pageSize:1},"studiedrecord/getStudiedRecList",function(obj,data){
+			this.postHttp(this,{tab:"ALL",pageNum:1,pageSize:1},"studiedrecord/getStudiedRecList",function(obj,data){
 				obj.tableData=data.result.list;
 				obj.total=data.result.total;
 			});
@@ -97,25 +97,25 @@ export default{
 		  	}
 		  	obj.className += ' active';
 		  	if(type=='ALL'){
-		  		this.postHttpWithAuth(this,{tab:"ALL",pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
+		  		this.postHttp(this,{tab:"ALL",pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
 				obj.tableData=data.result.list;
 				obj.total=data.result.total;
 				});
 		  	}
 		  	if(type=='UNDERWAY'){
-		  		this.postHttpWithAuth(this,{tab:"UNDERWAY",pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
+		  		this.postHttp(this,{tab:"UNDERWAY",pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
 				obj.tableData=data.result.list;
 				obj.total=data.result.total;
 				});
 		  	}
 		  	if(type=='NOT_LEARNED'){
-		  		this.postHttpWithAuth(this,{tab:"NOT_LEARNED",pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
+		  		this.postHttp(this,{tab:"NOT_LEARNED",pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
 				obj.tableData=data.result.list;
 				obj.total=data.result.total;
 				});
 		  	}
 		  	if(type=='FINISHED'){
-		  		this.postHttpWithAuth(this,{tab:"FINISHED",pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
+		  		this.postHttp(this,{tab:"FINISHED",pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
 				obj.tableData=data.result.list;
 				obj.total=data.result.total;
 				});
@@ -132,7 +132,7 @@ export default{
 	      this.fetchData();
 	    },
 	    fetchData:function(){
-	    	this.postHttpWithAuth(this,{tab:this.types,pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
+	    	this.postHttp(this,{tab:this.types,pageNum:this.pageIndex,pageSize:this.pageSize},"studiedrecord/getStudiedRecList",function(obj,data){
 				obj.tableData=data.result.list;
 				obj.total=data.result.total;
 				});

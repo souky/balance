@@ -258,7 +258,7 @@ export default {
 #playing .living_banner{
 	margin: 0 auto;
 	margin-top: 40px;
-	width: 1300px;
+	width: 1250px;
 	height: 250px;
 }
   #playing .el-carousel__indicators--outside{
@@ -295,7 +295,7 @@ export default {
     width: 210px;
     height: 230px;
     margin-top: 20px;
-    margin-left: 24px;
+    margin-left: 14px;
   }
   #playing .banner_bar_word{
     margin-top: 20px;
@@ -397,6 +397,7 @@ export default {
   width: 100%;
   height: 100%;
   border-top: 4px solid #66C3E7;
+  background-color: #fff;
 }
 #playing .banner_bar_content_future p{
   color: #66C3E6;
