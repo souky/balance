@@ -6,7 +6,7 @@
 					<span class="itemLabel">年级:</span>
 					  <div class="itemDetail">
               <span :class="active == -1? 'actives': ''" @click="chooseGrade(-1)">全部</span>
-              <span v-for="(item,index) in Grade" :key="item.id" :class="active == index? 'actives': ''" @click="chooseGrade(index)">{{item.name}}</span>
+              <span v-for="item in Grade" :key="item.id" :class="active == item.id? 'actives': ''" @click="chooseGrade(item.id)">{{item.name}}</span>
             </div>
         </div>
 				<div class="itemList">
@@ -28,7 +28,7 @@
 			  <el-col :span="8">
 			  	<div class="labelItem">
 				<label>老师</label>
-				<el-select v-model="select.select1" filterable placeholder="请选择">
+				<el-select v-model="itemList.select1" @change="demo()" filterable placeholder="请选择">
 				    <el-option
 				      v-for="item in select.options1"
 				      :key="item.id"
@@ -41,7 +41,7 @@
 			  <el-col :span="8">
 			  <div class="labelItem">
 				<label>课程</label>
-				<el-select v-model="select.select2" filterable placeholder="请选择">
+				<el-select v-model="itemList.select2" filterable placeholder="请选择">
 				    <el-option
 				      v-for="item in select.options2"
 				      :key="item.id"
@@ -53,7 +53,7 @@
 			  <el-col :span="8">
 			  <div class="labelItem">
 				<label>教辅类型</label>
-				<el-select v-model="select.select3" filterable placeholder="请选择">
+				<el-select v-model="itemList.select3" filterable placeholder="请选择">
 				    <el-option
 				      v-for="item in select.options3"
 				      :key="item.id"
@@ -72,20 +72,20 @@
         <span class="totle">共{{total}}份文件</span>
 			</div>
 			<div class="fileList">
-				<el-row :gutter="20">
+				<el-row v-if="total != 0" :gutter="20">
 				  <el-col :span="12" v-for="item in curriculum" :key="item.id">
 				  	<div class="file-content">
 				  		<div class="file-img inline__box">
-				  			<img v-if="item.suffix=='rar'" src="../../../static/img/defualt/rar.png" />
-				  			<img v-if="item.suffix=='png'" src="../../../static/img/defualt/img.png" />
+				  			<img v-bind:src="item.imgsrc"/>
+				  		<!-- 	<img v-if="item.suffix=='png'" src="../../../static/img/defualt/img.png" />
 				  			<img v-if="item.suffix=='fla'" src="../../../static/img/defualt/swf.png" />
 				  			<img v-if="item.suffix=='mp4'" src="../../../static/img/defualt/voice.png" />
 				  			<img v-if="item.suffix=='avi'" src="../../../static/img/defualt/video.png" />
-				  			<img v-if="item.suffix=='doc'" src="../../../static/img/defualt/doc.png" />
-				  			<img v-if="item.suffix=='exe'" src="../../../static/img/defualt/exe.png" />
+				  			<img v-if="item.suffix=='doc'||item.suffix=='ppt'" src="../../../static/img/defualt/doc.png" />
+               <img v-if="item.suffix=='exe'" src="../../../static/img/defualt/exe.png" /> -->
 				  		</div><div class="file-detail inline__box">
 							<div class="file-title">
-								【{{item.courseName}}】 {{item.name}}
+								【<span v-if="item.category == 'COURSEWARE'">课件</span><span v-if="item.category == 'REFERENCE_MATERIALS'">参考资料</span><span v-if="item.category == 'HOMEWORK'">作业</span><span v-if="item.category == 'TEST_QUESTIONS'">试题</span><span v-if="item.category == 'OTHER'">其他</span>】 {{item.name}}
 							</div>
 							<div class="file-config">
 								课程：{{item.courseName}}
@@ -111,8 +111,22 @@
 				  		</div>
 				  	</div>
 				  </el-col>
-				</el-row>
+        </el-row>
+        <el-row v-else :gutter="20">
+          <el-col :span="12">
+            <img src="../../../static/img/defualt/voice.png" />
+          </el-col>
+        </el-row>
 				<div class="cl  tc">
+           <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="1"
+            :page-sizes="[10, 20, 30, 40]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total">
+          </el-pagination>
 				</div>
 			</div>
 		</div>
@@ -142,20 +156,26 @@ export default {
       	select:{
       	options1:{},
       	options2:{},
-      	options3:{},
-        select1:'',
-        select2:'',
-        select3:'',
+      	options3:{}
         
+        },
+        itemList:{
+          grade:'',
+          subject:'',
+          school:'',
+          select1:'',
+          select2:'',
+          select3:''
         },
         /** 老师课程结束 */
 		/** 课程内容开始 */
 		 curriculum:{},
+     suffix:{},
          /** 课程内容结束 */
        pageIndex:1,
 	     pageSize:10,
        tab:'UPDATE_DATE',
-	     total:60
+	     total:0
   	}
   },
   mounted:function(){
@@ -170,15 +190,21 @@ export default {
      var needData = {pageNum:this.pageIndex,pageSize:this.pageSize,tab:this.tab}
      this.postHttp(this,needData,"teachingfile/study/queryTeachingFilesByType",function(obj,data){
         obj.curriculum = data.result.list;
-        obj.total = data.result.size;
-        console.log(data.result)
+        obj.total = data.result.total;
+        for(var i = 0;i<obj.curriculum.length;i++){
+           obj.curriculum[i].imgsrc = "../../../static/img/defualt/"+obj.curriculum[i].suffix+".png";
+        }
      })
   },
   methods:{
 		  chooseGrade(index) {
 	      this.active = index;
 	      //后台请求
+        
 	    },
+      demo(){
+        alert(1);
+      },
 	    chooseSubject(index){
 		  this.active2 = index;
 	    },
@@ -187,18 +213,47 @@ export default {
 	    },
 	    updataTime(strs){
 	    	this.active4 = strs;
-	    	//后台查询请求
+	      this.pageIndex = 1;
+        this.tab = 'UPDATE_DATE';
+        this.filesInit();
 	    },
 	    SubjectType(strs){
 	    	this.active4 = strs;
 	    },
 	    downLoad(strs){
 	    	this.active4 = strs;
+        this.pageIndex = 1;
+        this.tab = 'DOWNLOADS';
+        this.filesInit();
 	    },
 	    downloadC(){
 	    	console.log("下载课程");
-	    }
-	    
+	    },
+	    handleSizeChange:function(val){
+        this.pageSize = val;
+        this.pageIndex = 1;
+        this.filesInit();
+      },
+      handleCurrentChange:function(val){
+        this.pageIndex = val;
+        this.filesInit();
+      },
+      filesInit:function(){
+        var needData = {pageNum:this.pageIndex,pageSize:this.pageSize,tab:this.tab}
+        console.log(needData);
+        this.postHttp(this,needData,"teachingfile/study/queryTeachingFilesByType",function(obj,data){
+        obj.curriculum = data.result.list;
+        obj.total = data.result.total;
+        console.log(obj.curriculum);
+        for(var i = 0;i<obj.curriculum.length;i++){
+           obj.curriculum[i].imgsrc = "../../../static/img/defualt/"+obj.curriculum[i].suffix+".png";
+        }
+        });
+      },
+      itemInit:function(){
+
+       
+      }
 	}
 }
 </script>
@@ -207,6 +262,7 @@ export default {
 #allFile {padding-bottom: 40px}
 #allFile .fileSelect{margin-top:30px;border: 1px solid #E5E5E5;border-radius: 3px;background: #fff;padding:0 40px;}
 #allFile .selectItem{}
+#allFile .file-img{width: 200px;height: 200px}
 #allFile .itemList{padding:16px 0 0 0;border-bottom:1px dashed #e5e5e5;}
 #allFile .el-row{margin:16px 0;}
 #allFile .fileSelect .actives,#allFile .fileMain .actives{color:#6ED56C;}
