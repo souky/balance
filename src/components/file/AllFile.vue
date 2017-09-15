@@ -4,15 +4,24 @@
 			<div class="selectItem">
 				<div class="itemList">
 					<span class="itemLabel">年级:</span>
-					<span v-for="(item,index) in Grade" :key="item.id" :class="active == index? 'actives': ''" @click="chooseGrade(index)">{{item.name}}</span>
-				</div>
+					  <div class="itemDetail">
+              <span :class="active == -1? 'actives': ''" @click="chooseGrade(-1)">全部</span>
+              <span v-for="(item,index) in Grade" :key="item.id" :class="active == index? 'actives': ''" @click="chooseGrade(index)">{{item.name}}</span>
+            </div>
+        </div>
 				<div class="itemList">
 					<span class="itemLabel">学科:</span>
-					<span v-for="(item,index) in Subject" :key="item.id" :class="active2 == index? 'actives': ''" @click="chooseSubject(index)">{{item.name}}</span>
+          <div  class="itemDetail">
+          <span :class="active2 == -1? 'actives': ''" @click="chooseSubject(-1)">全部</span>
+					<span v-for="(item,index) in Subject" :key="item.id" :class="active2 == index? 'actives': ''" @click="chooseSubject(index)">{{item.dicName}}</span>
+        </div>
 				</div>
 				<div class="itemList">
 					<span class="itemLabel">学校:</span>
-					<span v-for="(item,index) in School" :key="item.id" :class="active3 == index? 'actives': ''" @click="chooseSchool(index)">{{item.name}}</span>
+          <div class="itemDetail">
+            <span :class="active3 == -1? 'actives': ''" @click="chooseSchool(-1)">全部</span>
+					  <span v-for="(item,index) in School" :key="item.id" :class="active3 == index? 'actives': ''" @click="chooseSchool(index)">{{item.name}}</span>
+          </div>
 				</div>
 			</div>
 			<el-row>
@@ -22,9 +31,9 @@
 				<el-select v-model="select.select1" filterable placeholder="请选择">
 				    <el-option
 				      v-for="item in select.options1"
-				      :key="item.value"
-				      :label="item.label"
-				      :value="item.value">
+				      :key="item.id"
+				      :label="item.name"
+				      :value="item.name">
 				    </el-option>
 				 </el-select>
 			 </div>
@@ -35,9 +44,9 @@
 				<el-select v-model="select.select2" filterable placeholder="请选择">
 				    <el-option
 				      v-for="item in select.options2"
-				      :key="item.value"
-				      :label="item.label"
-				      :value="item.value">
+				      :key="item.id"
+				      :label="item.name"
+				      :value="item.name">
 				    </el-option>
 				 </el-select>
 			 </div></el-col>
@@ -47,9 +56,9 @@
 				<el-select v-model="select.select3" filterable placeholder="请选择">
 				    <el-option
 				      v-for="item in select.options3"
-				      :key="item.value"
-				      :label="item.label"
-				      :value="item.value">
+				      :key="item.id"
+				      :label="item.dicName"
+				      :value="item.dicName">
 				    </el-option>
 				 </el-select>
 			 </div></el-col>
@@ -59,44 +68,44 @@
 			<div class="filetitle">
 				<span class="itemLabel">排序:</span>
 				<span @click="updataTime('updata')" :class="active4 == 'updata'? 'actives': ''">更新时间</span>
-				<span @click="SubjectType('type')" :class="active4 == 'type'? 'actives': ''">教辅类型</span>
 				<span @click="downLoad('download')" :class="active4 == 'download'? 'actives': ''">下载量</span>
+        <span class="totle">共{{total}}份文件</span>
 			</div>
 			<div class="fileList">
 				<el-row :gutter="20">
 				  <el-col :span="12" v-for="item in curriculum" :key="item.id">
 				  	<div class="file-content">
 				  		<div class="file-img inline__box">
-				  			<img v-if="item.type=='rar'" src="../../../static/img/defualt/rar.png" />
-				  			<img v-if="item.type=='png'" src="../../../static/img/defualt/img.png" />
-				  			<img v-if="item.type=='fla'" src="../../../static/img/defualt/swf.png" />
-				  			<img v-if="item.type=='mp3'" src="../../../static/img/defualt/voice.png" />
-				  			<img v-if="item.type=='avi'" src="../../../static/img/defualt/video.png" />
-				  			<img v-if="item.type=='word'" src="../../../static/img/defualt/doc.png" />
-				  			<img v-if="item.type=='exe'" src="../../../static/img/defualt/exe.png" />
+				  			<img v-if="item.suffix=='rar'" src="../../../static/img/defualt/rar.png" />
+				  			<img v-if="item.suffix=='png'" src="../../../static/img/defualt/img.png" />
+				  			<img v-if="item.suffix=='fla'" src="../../../static/img/defualt/swf.png" />
+				  			<img v-if="item.suffix=='mp4'" src="../../../static/img/defualt/voice.png" />
+				  			<img v-if="item.suffix=='avi'" src="../../../static/img/defualt/video.png" />
+				  			<img v-if="item.suffix=='word'" src="../../../static/img/defualt/doc.png" />
+				  			<img v-if="item.suffix=='exe'" src="../../../static/img/defualt/exe.png" />
 				  		</div><div class="file-detail inline__box">
 							<div class="file-title">
-								{{item.Courseware}}
+								【{{item.courseName}}】 {{item.name}}
 							</div>
 							<div class="file-config">
-								课程：{{item.name}}
+								课程：{{item.courseName}}
 							</div>
 							<div class="file-config">
-								大纲：{{item.outline}}
+								大纲：{{item.courseSyllabusName}}
 							</div>
 							<div class="file-config">
 								<span>
-									老师：{{item.teacher}}
+									老师：{{item.teacherName}}
 								</span>
 								<span>
-									文件类型：{{item.type}}
+									文件类型：{{item.suffix}}
 								</span>
 								<span>
-									下载量：{{item.download}}
+									下载量：{{item.downloads}}
 								</span>
 							</div>
 							<div class="file-config">
-								更新日期：{{item.time}}
+								更新日期：{{timeF(item.updateDate).format("YYYY/MM/DD")}}
 								<button @click="downloadC()">下载</button>
 							</div>
 				  		</div>
@@ -115,109 +124,25 @@ export default {
   data () {
     return {
     	/** 筛选条件的选中状态设置 */
-    	active: 0,
-    	active2:0,
-    	active3:0,
-    	active4:'',
+    	active: -1,
+    	active2:-1,
+    	active3:-1,
+    	active4:'updata',
     	/** 筛选条件的选中状态设置 */
     	/** 年级选择 */
-      	Grade:[{
-      		id:'0',
-      		name:'全部'
-      	},{
-      		id:'1',
-      		name:'一年级'
-      	},{
-      		id:'2',
-      		name:'二年级'
-      	},{
-      		id:'3',
-      		name:'三年级'
-      	},{
-      		id:'4',
-      		name:'三年级'
-      	}],
+      	Grade:{},
       	/** 年纪选择结束 */
       	/** 学科选择 */
-      	Subject:[{
-      		id:'0',
-      		name:'全部'
-      	},{
-      		id:'1',
-      		name:'语文'
-      	},{
-      		id:'2',
-      		name:'数学'
-      	},{
-      		id:'3',
-      		name:'英语'
-      	},{
-      		id:'4',
-      		name:'物理'
-      	}],
+      	Subject:{},
       	/** 学科选择结束 */
       	/** 学校选择 */
-      	School:[{
-      		id:'0',
-      		name:'全部'
-      	},{
-      		id:'1',
-      		name:'苏州中学'
-      	},{
-      		id:'2',
-      		name:'延安中学'
-      	}],
+      	School:{},
       	/** 学校选择结束 */
       	/** 老师课程教辅 */
       	select:{
-      	options1:[{
-          value: '选项1',
-          label: '王老师'
-        }, {
-          value: '选项2',
-          label: '李老师'
-        }, {
-          value: '选项3',
-          label: '韦老师'
-        }, {
-          value: '选项4',
-          label: '梁老师'
-        }, {
-          value: '选项5',
-          label: '马老师'
-        }],
-      	options2:[{
-          value: '选项1',
-          label: '课件'
-        }, {
-          value: '选项2',
-          label: 'PPT'
-        }, {
-          value: '选项3',
-          label: '文档'
-        }, {
-          value: '选项4',
-          label: '文案'
-        }, {
-          value: '选项5',
-          label: '方案'
-        }],
-      	options3:[{
-          value: '选项1',
-          label: '动画'
-        }, {
-          value: '选项2',
-          label: '视频'
-        }, {
-          value: '选项3',
-          label: '语音'
-        }, {
-          value: '选项4',
-          label: '文档'
-        }, {
-          value: '选项5',
-          label: '应用程序'
-        }],
+      	options1:{},
+      	options2:{},
+      	options3:{},
         select1:'',
         select2:'',
         select3:'',
@@ -225,89 +150,28 @@ export default {
         },
         /** 老师课程结束 */
 		/** 课程内容开始 */
-		 curriculum:[{
-        	id:1,
-        	Courseware:'【课件】第一课',
-        	name:'James2017年初一三班语文课',
-        	outline:'第一章—第一节—第一课 春',
-        	teacher:'James',
-        	type:'rar',
-        	download:'1万',
-        	time:'2017/07/21'
-        },{
-        	id:2,
-        	Courseware:'【课件】第二课',
-        	name:'James2017年初一三班语文课',
-        	outline:'第一章—第一节—第一课 春',
-        	teacher:'James',
-        	type:'png',
-        	download:'1万',
-        	time:'2017/07/21'
-        },{
-        	id:3,
-        	Courseware:'【课件】第三课',
-        	name:'James2017年初一三班语文课',
-        	outline:'第一章—第一节—第一课 春',
-        	teacher:'James',
-        	type:'fla',
-        	download:'1万',
-        	time:'2017/07/21'
-        },{
-        	id:4,
-        	Courseware:'【课件】第四课',
-        	name:'James2017年初一三班语文课',
-        	outline:'第一章—第一节—第一课 春',
-        	teacher:'James',
-        	type:'mp3',
-        	download:'1万',
-        	time:'2017/07/21'
-        },{
-        	id:5,
-        	Courseware:'【课件】第五课',
-        	name:'James2017年初一三班语文课',
-        	outline:'第一章—第一节—第一课 春',
-        	teacher:'Yamy',
-        	type:'avi',
-        	download:'671',
-        	time:'2017/07/21'
-        },{
-        	id:6,
-        	Courseware:'【课件】第六课',
-        	name:'James2017年初一三班生物课',
-        	outline:'第一章—第一节—第一课 春',
-        	teacher:'Tom',
-        	type:'word',
-        	download:'1376',
-        	time:'2017/07/21'
-        },{
-        	id:7,
-        	Courseware:'【课件】第七课',
-        	name:'James2017年初一三班物理课',
-        	outline:'第一章—第一节—第一课 春',
-        	teacher:'Daria',
-        	type:'exe',
-        	download:'2571',
-        	time:'2017/07/26'
-        },{
-        	id:8,
-        	Courseware:'【课件】第八课',
-        	name:'James2017年初一三班化学课',
-        	outline:'第一章—第一节—第一课 春',
-        	teacher:'Timmy',
-        	type:'rar',
-        	download:'1067',
-        	time:'2017/07/28'
-        }],
+		 curriculum:{},
          /** 课程内容结束 */
-         pageIndex:1,
+       pageIndex:1,
 	     pageSize:10,
+       tab:'UPDATE_DATE',
 	     total:60
   	}
   },
   mounted:function(){
      this.postHttp(this,'',"teachingfile/study/initParamList",function(obj,data){
-       console.log(data.result)
+       obj.Grade = data.result.gradeList;
+       obj.Subject = data.result.subjectList;
+       obj.School = data.result.schoolList;
+       obj.select.options1 = data.result.teacherList;
+       obj.select.options2 = data.result.courseList;
+       obj.select.options3 = data.result.teachingFileList;
       });
+     var needData = {pageNum:this.pageIndex,pageSize:this.pageSize,tab:this.tab}
+     this.postHttp(this,needData,"teachingfile/study/queryTeachingFilesByType",function(obj,data){
+        obj.curriculum = data.result.list;
+        obj.total = data.result.size;
+     })
   },
   methods:{
 		  chooseGrade(index) {
@@ -345,8 +209,10 @@ export default {
 #allFile .itemList{padding:16px 0 0 0;border-bottom:1px dashed #e5e5e5;}
 #allFile .el-row{margin:16px 0;}
 #allFile .fileSelect .actives,#allFile .fileMain .actives{color:#6ED56C;}
-#allFile .itemLabel{color:#999;cursor: default;}
+#allFile .itemDetail{display:inline-block;width:1050px}
+#allFile .itemLabel{color:#999;cursor: default;vertical-align: top}
 #allFile .itemList span{margin-right: 20px;display: inline-block;margin-bottom: 16px;cursor: pointer;font-size: 16px}
+#allFile .totle{float: right;font-size: 16px;color: #999}
 #allFile .labelItem label,.filetitle .itemLabel{color: #999;margin-right: 20px}
 #allFile .fileMain .filetitle{padding: 40px 0 10px 0;border-bottom: 2px #6ED56C solid}
 #allFile .filetitle span{margin-right: 20px;display: inline-block;cursor: pointer;font-size: 16px}
