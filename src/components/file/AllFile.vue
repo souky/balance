@@ -81,7 +81,7 @@
 				  			<img v-if="item.suffix=='fla'" src="../../../static/img/defualt/swf.png" />
 				  			<img v-if="item.suffix=='mp4'" src="../../../static/img/defualt/voice.png" />
 				  			<img v-if="item.suffix=='avi'" src="../../../static/img/defualt/video.png" />
-				  			<img v-if="item.suffix=='word'" src="../../../static/img/defualt/doc.png" />
+				  			<img v-if="item.suffix=='doc'" src="../../../static/img/defualt/doc.png" />
 				  			<img v-if="item.suffix=='exe'" src="../../../static/img/defualt/exe.png" />
 				  		</div><div class="file-detail inline__box">
 							<div class="file-title">
@@ -171,6 +171,7 @@ export default {
      this.postHttp(this,needData,"teachingfile/study/queryTeachingFilesByType",function(obj,data){
         obj.curriculum = data.result.list;
         obj.total = data.result.size;
+        console.log(data.result)
      })
   },
   methods:{

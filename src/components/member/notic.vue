@@ -51,8 +51,8 @@ export default {
       var mypageNum = this.pageNum;
       var mypageSize = this.pageSize;
       var pageData = {pageNum:mypageNum,pageSize:mypageSize};
-     this.postHttp(this,pageData,"message/study/queryMessagesByUserId",function(obj,data){
-        obj.notic = data.result.messages;
+     this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
+        obj.notic = data.result;
       });
   },
   methods:{
@@ -75,7 +75,7 @@ export default {
     },
     demo:function(){
       this.postHttp(this,{pageNum:this.pageNum,pageSize:this.pageSize},"message/study/queryMessagesByUserId",function(obj,data){
-        obj.notic = data.result.messages;
+        obj.notic = data.result;
       });
     }
   }

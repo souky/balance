@@ -36,7 +36,7 @@
 			<div v-else class="inline__box">
 				<el-dropdown trigger="click">
 					<div class="l rightItems">
-						<el-badge v-if="notic.unReadMsgNum = 0" :is-dot= "false" class="item">
+						<el-badge v-if="unReadMsgNum = 0" :is-dot= "false" class="item">
 						  <img src="../../static/img/header/message.png" />
 						</el-badge>
 						<el-badge v-else :is-dot= "true" class="item">
@@ -155,6 +155,7 @@ export default {
       isshow:true,//登陆注册显示开关
       isnotic:true,//notic开关
       notic:{},//消息红点
+      unReadMsgNum:0,
       person:{
       	
 	  },
@@ -188,8 +189,9 @@ export default {
 	  	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
 	  		obj.person = data.result;
 		});
-	  	this.postHttp(this,pageData,"message/study/queryMessagesByUserId",function(obj,data){
-	  		obj.notic = data.result.messages;
+	  	this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
+	  		obj.notic = data.result;
+	  		obj.unReadMsgNum = data.result.navigatePages;
 	  	});
 	  	
   	}else{
