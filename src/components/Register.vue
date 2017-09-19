@@ -1,11 +1,6 @@
 <template>
 <div id="register" class="main_body tc" >
 	<div class="page2" v-show="showpage2">
-		<!--<div class="logo">
-			<div class="img">
-			 <img src="../../static/img/register/logo.png" class="image">
-		    </div>
-		</div>-->
 		<div class="main">
 			<div class="top">
 				注册成功
@@ -91,9 +86,6 @@
 
 <script>
 export default {
-
-	
-	
   data () {
   	var validatename = (rule, value, callback) => {
   		var pattern = /^[\w\u4e00-\u9fa5]{3,10}$/g
@@ -136,8 +128,6 @@ export default {
   			callback();
   		}	
   	};
-  	
-  	
     return {
       value:'',	
       schools:[{value:'选项1',label:'苏州大学'},{value:'选项2',label:'江南大学'}],
@@ -158,9 +148,6 @@ export default {
       	name:[
       	{validator: validatename, trigger:'blur'}
       	],
-      	//teacher:[
-      	//{validator: validatename, trigger:'blur'}
-      	//],
       	psw:[
       	{validator: validatepsw, trigger:'blur'}
       	],
@@ -171,24 +158,15 @@ export default {
     }
   },
   methods:{
-  	
-  	
-   
   	//注册提交
-  	
   	submitForm(userForm){
   	     //验证
   		 //验证整个userForm,并上传到后台
   		 this.$refs[userForm].validate((valid) => {
-  		    
            if (valid) {
            	 var data = userForm ;
-          
-           	//this.posthttp(this,data,"",ajax_handle(obj,data){});
-			 alert(2);	
              this.showpage1 = false;
            	 this.showpage2 = true;
-            //alert('submit!');
           } else {
             console.log('error submit!!');
             return false;
@@ -203,36 +181,33 @@ export default {
   		 this.$router.push({path:'/'});
   		 this.showpage1 = true;
   		 this.showpage2 = false;
-  		
   	},
   	
   	//初始化个人首页
-  	
   	initUserData(obj,data){
     		this.user = data.result;
-    		
-    		
-    	},
-    	
-    
+	},
     //验证提交时后台返回的code
-    
   	ajax_handle(obj,data){
-    		if(data.code=="10000"){
-    			this.notify_jr(this,this.infoTitles,'注册成功','success');
-    			initUser(this,this.initUserData);
-    			if(this.Login){
-    				this.postHttp(this,data,"logout",null);
-						this.$router.push({ path: '/login' });
-    			}
-    		}else{
-    			this.notify_jr(this,this.infoTitles,data.message,'error');
-    			return false
-    			
-    		}
-    	},
+		if(data.code=="10000"){
+			this.notify_jr(this,this.infoTitles,'注册成功','success');
+			initUser(this,this.initUserData);
+			if(this.Login){
+				this.postHttp(this,data,"logout",null);
+					this.$router.push({ path: '/login' });
+			}
+		}else{
+			this.notify_jr(this,this.infoTitles,data.message,'error');
+			return false
+			
+		}
+	},
   	
   },
+  mounted:function(){
+  	var height = document.documentElement.clientHeight - 60;
+  	document.getElementById("register").style.height = height+'px';
+  }
 }
 </script>
 
