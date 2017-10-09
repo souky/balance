@@ -14,29 +14,31 @@
 			         <img v-if="child.type=='avi'" src="../../../static/img/defualt/video.png" />
 			         <img v-if="child.type=='word'" src="../../../static/img/defualt/doc.png" />
 			         <img v-if="child.type=='exe'" src="../../../static/img/defualt/exe.png" /> -->
-               <img v-if="child.type==''" src="../../../static/img/defualt/noRecord.png" height="100%" width="100%">
+               <img v-if="child.suffix==undefined" src="../../../static/img/defualt/noRecord.png" height="100%" width="100%">
                <img v-else :src="child.img">
-			         <p class="tc banner_bar_word">{{child.word}}</p>
+			         <p class="tc banner_bar_word">{{child.name}}</p>
 			       </div>
 			    </el-carousel-item>
 			  </el-carousel>
 		</div>
 		<div class="living_table_foot">
 			<div class="allClass_body_tabs_fourth">
-				    		<p>全部评论（100）</p>
+				    		<p>全部评论（{{total}}）</p>
 				    		<div class="allClass_body_tabs_fourth_bar" v-for="comment in comments">
 				    			<div class="allClass_body_tabs_fourth_bar_img l">
 				    				<img src="../../../static/img/defualt/rar.png" width="60px" height="60px" />
 				    			</div>
 				    			<div class="allClass_body_tabs_fourth_bar_word l">
-				    				<p class="l">{{comment.name}}</p><p class="l ml10">{{comment.date}}</p><p class="l ml10">{{comment.what}}</p>
+				    				<p class="l">{{comment.createUser}}</p><p class="l ml10">{{timeF(comment.createDate).format("YYYY-MM-DD HH:mm:ss")}}</p><p class="l ml10">{{comment.what}}</p>
 				    				<div class="cl"></div>
-				    				<p class="allClass_body_tabs_fourth_bar_word_content mt10">{{comment.content}}</p>
+				    				<p class="allClass_body_tabs_fourth_bar_word_content mt10">{{comment.comment}}</p>
 				    				<hr class="mt10" style="width:100%;background-color:#E5E5E5;">
 				    			</div>
 				    		</div>
 				    		<div class="allClass_body_tabs_fourth_pagging tc">
-				    			<page :totalNumber="totalfourth" @newNOdeEvents="parentLisenfourth"></page>
+				    			<el-pagination v-bind:current-Page="pageIndex" v-bind:page-size="pageSize" :total="total"
+                    layout="total,sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSizes" :current-page="pageIndex"
+                    v-on:size-change="sizeChange" v-on:current-change="pageIndexChange"></el-pagination>
 				    		</div>
 				    		<div class="allClass_body_tabs_fourth_input">
 				    			<div class="allClass_body_tabs_fourth_input_img">
@@ -44,61 +46,59 @@
 				    			</div>
 				    			<p class="allClass_body_tabs_fourth_input_img_name l">James</p>
 				    			<el-input class="allClass_body_tabs_fourth_input_textarea l" type="textarea" :rows="6" placeholder="不超过300字" v-model="textarea"></el-input>
-				    			<el-button class="r allClass_body_tabs_fourth_input_button" type="primary">发表评论</el-button>
+				    			<el-button class="r allClass_body_tabs_fourth_input_button" @click="saveComment" type="primary">发表评论</el-button>
 				    		</div>
 				    	</div>
 		</div>
 	</div>
 </template>
 <script>
-import page from '../member/page.vue'
 export default {
   data () {
     return {
     	textarea:'',
       users:[],
     	 items:[
-          {
-          type:'rar',
-          word:'压缩文件',
-          img:''
-        },{
-          type:'swf',
-          word:'动画',
-          img:''
-        },{
-          type:'voice',
-          word:'声音',
-          img:''
-        },{
-          type:'doc',
-          word:'文字',
-          img:''
-        },{
-          type:'rar',
-          word:'压缩包',
-          img:''
-        },{
-          type:'rars',
-          word:'压缩文件',
-          img:''
-        },{
-          type:'swf',
-          word:'动画',
-          img:''
-        },{
-          type:'voice',
-          word:'声音',
-          img:''
-        },{
-          type:'doc',
-          word:'文字',
-          img:''
-        },{
-          type:'rar',
-          word:'压缩包',
-          img:''
-        },
+        //   {
+        //   type:'rar',
+        //   word:'压缩文件',
+        //   img:''
+        // },{
+        //   type:'swf',
+        //   word:'动画',
+        //   img:''
+        // },{
+        //   type:'voice',
+        //   word:'声音',
+        //   img:''
+        // },{
+        //   type:'doc',
+        //   word:'文字',
+        //   img:''
+        // },{
+        //   type:'rar',
+        //   word:'压缩包',
+        //   img:''
+        // },{
+        //   word:'压缩文件',
+        //   img:''
+        // },{
+        //   type:'swf',
+        //   word:'动画',
+        //   img:''
+        // },{
+        //   type:'voice',
+        //   word:'声音',
+        //   img:''
+        // },{
+        //   type:'doc',
+        //   word:'文字',
+        //   img:''
+        // },{
+        //   type:'rar',
+        //   word:'压缩包',
+        //   img:''
+        // },
        /*{
         id:1,
         childs:[{
@@ -192,58 +192,77 @@ export default {
           img:''
         }]
       }*/],
-      comments:[{
-        	name:'James',
-        	date:'2017-03-13',
-        	what:'评论了整体课程',
-        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
-        },{
-        	name:'James',
-        	date:'2017-03-13',
-        	what:'评论了整体课程',
-        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
-        },{
-        	name:'James',
-        	date:'2017-03-13',
-        	what:'评论了整体课程',
-        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
-        }],
+      comments:[
+      // {
+      //   	name:'James',
+      //   	date:'2017-03-13',
+      //   	what:'评论了整体课程',
+      //   	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
+      //   },{
+      //   	name:'James',
+      //   	date:'2017-03-13',
+      //   	what:'评论了整体课程',
+      //   	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
+      //   },{
+      //   	name:'James',
+      //   	date:'2017-03-13',
+      //   	what:'评论了整体课程',
+      //   	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
+      //   }
+        ],
+        textarea:'',
         pageIndex:1,
         pageSize:10,
-        totalfourth:60,
+        total:60,
+        pageSizes:[1,10,20,50,100],
      }
   },
-  components:{page},
   created:function(){
     var s = this.$route.params.part;
     //alert(s);
-    for(var i=0;i<this.items.length;i++){
-      this.items[i].img="../../../static/img/defualt/"+this.items[i].type+".png";
+    this.postHttp(this,{courseId:"e232cbdbcf5742e8be6da5ec65eb0df5",pageNum:"1",pageSize:"20"},"teachingfile/study/queryTeachingFilesByType",function(obj,data){
+      obj.items=data.result.list;
+    for(var i=0;i<obj.items.length;i++){
+      obj.items[i].img="../../../static/img/defualt/"+obj.items[i].suffix+".png";
     }
-    console.log(this.items)
-    var childNum=Math.ceil(this.items.length/5);
+    var childNum=Math.ceil(obj.items.length/5);
     var childs=[];
     for(var l=0;l<childNum;l++){
       var id=l+1;
       var e=5*(l+1);
       var s=e-5;
       childs[l] = []
-      childs[l]["childs"]=this.items.slice(s,e);
+      childs[l]["childs"]=obj.items.slice(s,e);
       childs[l]["id"] = id;
     }
-    this.users=childs;
-    console.log(this.users)
+    obj.users=childs;
+    });
+    this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
+      obj.comments=data.result.list;
+      obj.total=data.result.total;
+    });
   },
   methods:{
-  	parentLisenfourth:function(pageIndex,pageSize){
-	    this.pageIndex=pageIndex;
-	    this.pageSize=pageSize;
-	    this.fetchData();
-	},
-	fetchData:function(){
-	    alert("开课"+this.pageSize);
-	    alert("开课"+this.pageIndex);
-	},
+  	sizeChange: function (pageSize) {   //每页显示条数
+        this.pageSize = pageSize;
+        this.fetchData();
+    },
+    pageIndexChange: function (pageIndex) {   //第几页
+        this.pageIndex = pageIndex;
+        this.fetchData();
+    },
+    fetchData:function(){
+      this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
+        obj.comments=data.result.list;
+        obj.total=data.result.total;
+      });
+      },
+    saveComment:function(){
+        this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",comment:this.textarea},"comment/saveComment",function(obj,data){
+        });
+        this.textarea="";
+        this.fetchData();
+      },
   	}
 }
 </script>
