@@ -5,15 +5,17 @@
 		</div>
 		<div class="living_banner">
 			 <el-carousel indicator-position="outside" arrow="always" :autoplay="false">
-			    <el-carousel-item v-for="item in items" :key="item.id">
+			    <el-carousel-item v-for="item in users" :key="item.id">
 			       <div class="banner_bar l" v-for="child in item.childs">
-			         <img v-if="child.type=='rar'" src="../../../static/img/defualt/rar.png" />
+			         <!-- <img v-if="child.type=='rar'" src="../../../static/img/defualt/rar.png" />
 			         <img v-if="child.type=='png'" src="../../../static/img/defualt/img.png" />
 			         <img v-if="child.type=='fla'" src="../../../static/img/defualt/swf.png" />
 			         <img v-if="child.type=='mp3'" src="../../../static/img/defualt/voice.png" />
 			         <img v-if="child.type=='avi'" src="../../../static/img/defualt/video.png" />
 			         <img v-if="child.type=='word'" src="../../../static/img/defualt/doc.png" />
-			         <img v-if="child.type=='exe'" src="../../../static/img/defualt/exe.png" />
+			         <img v-if="child.type=='exe'" src="../../../static/img/defualt/exe.png" /> -->
+               <img v-if="child.type==''" src="../../../static/img/defualt/noRecord.png" height="100%" width="100%">
+               <img v-else :src="child.img">
 			         <p class="tc banner_bar_word">{{child.word}}</p>
 			       </div>
 			    </el-carousel-item>
@@ -54,79 +56,142 @@ export default {
   data () {
     return {
     	textarea:'',
-    	 items:[{
+      users:[],
+    	 items:[
+          {
+          type:'rar',
+          word:'压缩文件',
+          img:''
+        },{
+          type:'swf',
+          word:'动画',
+          img:''
+        },{
+          type:'voice',
+          word:'声音',
+          img:''
+        },{
+          type:'doc',
+          word:'文字',
+          img:''
+        },{
+          type:'rar',
+          word:'压缩包',
+          img:''
+        },{
+          type:'rars',
+          word:'压缩文件',
+          img:''
+        },{
+          type:'swf',
+          word:'动画',
+          img:''
+        },{
+          type:'voice',
+          word:'声音',
+          img:''
+        },{
+          type:'doc',
+          word:'文字',
+          img:''
+        },{
+          type:'rar',
+          word:'压缩包',
+          img:''
+        },
+       /*{
         id:1,
         childs:[{
           type:'rar',
           word:'压缩文件',
+          img:''
         },{
           type:'fla',
           word:'动画',
+          img:''
         },{
           type:'mp3',
           word:'声音',
+          img:''
         },{
           type:'word',
           word:'文字',
+          img:''
         },{
           type:'rar',
           word:'压缩包',
+          img:''
         }],
       },{
         id:2,
         childs:[{
           type:'rar',
           word:'压缩包',
+          img:''
         },{
           type:'fla',
           word:'动画',
+          img:''
         },{
           type:'mp3',
           word:'声音',
+          img:''
         },{
           type:'word',
           word:'文字',
+          img:''
         },{
           type:'rar',
           word:'压缩文件',
+          img:''
         }]
       },{
         id:3,
         childs:[{
           type:'rar',
           word:'压缩包',
+          img:''
         },{
           type:'fla',
           word:'动画',
+          img:''
         },{
           type:'mp3',
           word:'声音',
+          img:''
         },{
           type:'word',
           word:'文字',
+          img:''
         },{
           type:'rar',
           word:'压缩文件',
+          img:''
         }]
       },{
         id:4,
         childs:[{
           type:'rar',
           word:'压缩文件',
+          img:''
         },{
           type:'fla',
           word:'动画',
+          img:''
         },{
           type:'mp3',
           word:'声音',
+          img:''
         },{
           type:'word',
           word:'文字',
+          img:''
         },{
           type:'rar',
           word:'压缩包',
+          img:''
         }]
-      }],
+      }*/],
       comments:[{
         	name:'James',
         	date:'2017-03-13',
@@ -151,7 +216,23 @@ export default {
   components:{page},
   created:function(){
     var s = this.$route.params.part;
-    alert(s);
+    //alert(s);
+    for(var i=0;i<this.items.length;i++){
+      this.items[i].img="../../../static/img/defualt/"+this.items[i].type+".png";
+    }
+    console.log(this.items)
+    var childNum=Math.ceil(this.items.length/5);
+    var childs=[];
+    for(var l=0;l<childNum;l++){
+      var id=l+1;
+      var e=5*(l+1);
+      var s=e-5;
+      childs[l] = []
+      childs[l]["childs"]=this.items.slice(s,e);
+      childs[l]["id"] = id;
+    }
+    this.users=childs;
+    console.log(this.users)
   },
   methods:{
   	parentLisenfourth:function(pageIndex,pageSize){
@@ -218,7 +299,9 @@ export default {
     height: 200px;
     margin-top: 20px;
     margin-left: 23px;
-    background-color: red;
+  }
+  #living .banner_bar img{
+    height: 200px;
   }
   #living .banner_bar_word{
     margin-top: 20px;

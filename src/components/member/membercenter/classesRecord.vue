@@ -9,26 +9,27 @@
 	<div class="classesrecord_table">
 		<template>
 		    <el-table :data="tableData" style="width: 100%">
-		      <el-table-column prop="lesson" label="课程"></el-table-column>
-		      <el-table-column prop="lessonStart" label="开课时间"></el-table-column>
-		      <el-table-column prop="lessonTime" label="课时"></el-table-column>
-		      <el-table-column prop="followersNumber" label="关注人数"></el-table-column>
-		      <el-table-column prop="playNumber" label="播放量"></el-table-column>
+		      <el-table-column prop="name" label="课程"></el-table-column>
+		      <el-table-column prop="startDate" :formatter="timeFormat" label="开课时间"></el-table-column>
+		      <el-table-column prop="courseDuration" label="课时"></el-table-column>
+		      <el-table-column prop="concernedNum" label="关注人数"></el-table-column>
+		      <el-table-column prop="playedNum" label="播放量"></el-table-column>
 		    </el-table>
 		 </template>
 	</div>
 	<div class="classesrecord_paging tc">
-		<page :totalNumber="total" @newNOdeEvents="parentLisen"></page>
+		<el-pagination v-bind:current-Page="pageIndex" v-bind:page-size="pageSize" :total="totalNumber"
+	   	layout="total,sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSize" :current-page="pageIndex"
+	    v-on:size-change="sizeChange" v-on:current-change="pageIndexChange"></el-pagination>
 	</div>
 </div>
 </template>
 
 <script>
-import page from '../page.vue'
 export default {
      data() {
         return {
-          tableData: [{
+          tableData: [/*{
             lesson:'语文',
             lessonStart:'2017-09-02 14:30',
             lessonTime:'1小时',
@@ -46,22 +47,38 @@ export default {
             lessonTime:'1小时',
             followersNumber:'223',
             playNumber:'1000',
-          }],
+          }*/],
           pageIndex:1,
-          pageSize:10,
           total:60,
+          pageSize:[1,10,20,50,100],
         }
       },
       created:function(){
       	this.getdata();
       },
-      components:{page},
       methods: {
       	getdata:function(){
       		this.$emit('newfind');
+      		this.postHttp(this,{tab:"name",pageNum:1,pageSize:10},"course/findMyCourseOfTeacher",function(obj,data){
+				obj.tableData=data.result.list;
+				obj.total=data.result.total;
+			});
+
       	},
-	    parentLisen:function(pageIndex,pageSize){
-	    	this.pageIndex=pageIndex;
+      	timeFormat(row,column){
+		  	var date = row[column.property]; 
+		  	if (date == undefined) {  
+		     return "";  
+		  	}  
+		  	return this.timeF(date).format("YYYY-MM-DD HH:mm:ss");  
+		},
+      	sizeChange: function (pageIndex,pageSize) {   //每页显示条数
+	     	this.pageIndex=pageIndex;
+	    	this.pageSize=pageSize;
+	    	this.fetchData();
+	    },
+	   pageIndexChange: function (pageIndex,pageSize) {   //第几页
+	      	this.pageIndex=pageIndex;
 	    	this.pageSize=pageSize;
 	    	this.fetchData();
 	    },
@@ -71,16 +88,28 @@ export default {
 	    },
 	    classesrecordOrder:function(e){
 	    	if(e==1){
-	    		alert(1);
+	    		this.postHttp(this,{tab:"name",pageNum:1,pageSize:10},"course/findMyCourseOfTeacher",function(obj,data){
+				obj.tableData=data.result.list;
+				obj.total=data.result.total;
+				});
 	    	}
 	    	if(e==2){
-	    		alert(2);
+	    		this.postHttp(this,{tab:"start_date",pageNum:1,pageSize:10},"course/findMyCourseOfTeacher",function(obj,data){
+				obj.tableData=data.result.list;
+				obj.total=data.result.total;
+				});
 	    	}
 	    	if(e==3){
-	    		alert(3);
+	    		this.postHttp(this,{tab:"concerned_num",pageNum:1,pageSize:10},"course/findMyCourseOfTeacher",function(obj,data){
+				obj.tableData=data.result.list;
+				obj.total=data.result.total;
+				});
 	    	}
 	    	if(e==4){
-	    		alert(4);
+	    		this.postHttp(this,{tab:"played_num",pageNum:1,pageSize:10},"course/findMyCourseOfTeacher",function(obj,data){
+				obj.tableData=data.result.list;
+				obj.total=data.result.total;
+				});
 	    	}
 	    }
     },
