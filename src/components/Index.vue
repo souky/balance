@@ -7,10 +7,10 @@
 				<div class="title_more">查看更多</div>
 			</div>
 			<el-table :data="tableData" :show-header="false" :row-style="tableStyle" style="width: 100%;margin-top:20px">
-				<el-table-column prop="name" align="center" ></el-table-column>
-				<el-table-column prop="sourceName" align="center"  ></el-table-column>
-				<el-table-column prop="startDate" align="center" ></el-table-column>
-				<el-table-column align="center" >
+				<el-table-column prop="name" align="center" show-overflow-tooltip ></el-table-column>
+				<el-table-column prop="sourceName" align="center" show-overflow-tooltip ></el-table-column>
+				<el-table-column prop="startDate" :formatter="timeFormat" align="center" ></el-table-column>
+				<el-table-column align="center">
 					<template scope="scope">
                         <span v-if="scope.row.status == '1'" style="color:#6ED56C">直播中</span>
                         <span v-else style="color:#272727">未开始</span>
@@ -29,17 +29,18 @@
 				
 				<div v-for="e in recommendList" class="recommend_items l">
 					<div class="items_img">
-						<img :src="e.src" width="100%" />
+						<img v-if="e.coverImg!=''" :src="e.coverImg" width="100%" />
+						<img v-else src="../../static/img/temp/fm1.png" width="100%" />
 					</div>
 					<div class="items_name ell" :title="e.name">
 						{{e.name}}
 					</div>
 					<div class="items_source fix">
 						<div class="source_name l">
-							{{e.sourceName}}
+							{{e.schoolName}}
 						</div>
 						<div class="source_count r">
-							{{e.count}}次播放
+							{{e.playedNum}}次播放
 						</div>
 					</div>
 				</div>
@@ -60,7 +61,7 @@
 					</div>
 					<div class="items_right l">
 						<div class="items_name">
-							{{e.name}}
+							{{e.courseName}}
 						</div>
 						<div class="items_school">
 							学校: {{e.schoolName}}
@@ -69,16 +70,16 @@
 							教师: {{e.teacherName}}
 						</div>
 						<div class="items_times">
-							课时: {{e.times}}
+							课时: {{e.courseDuration}}
 						</div>
 						<div class="items_date">
 							开课时间: {{e.startDate}}
 						</div>
 						<div class="items_count">
-							总播放: {{e.count}}次
+							总播放: {{e.playedNum}}次
 						</div>
 						<div class="cross">
-							最近学习: {{e.cross}}
+							最近学习: {{e.lastStudiedFileName}}
 						</div>
 					</div>
 				</div>
@@ -100,11 +101,12 @@
 			<div class="last_update_main fix">
 				<div v-for="e in lastUpdateList" class="last_update_items l fix">
 					<div class="items_left l">
-						<img :src="e.src" width="100%" />
+						<img v-if="e.isVedio" src="../../static/img/defualt/video.png" width="100%" />
+						<img v-else :src="e.suffix" width="100%" />
 					</div>
 					<div class="items_right l">
 						<div class="items_name">{{e.name}}</div>
-						<div class="items_cross">课程: {{e.crossName}}</div>
+						<div class="items_cross">课程: {{e.courseName}}</div>
 						
 						<div class="fix">
 							<div class="items_school l">学校: {{e.schoolName}}</div>
@@ -146,11 +148,40 @@ export default {
   mounted:function(){
   	
   	//假数据  接口对接后删除
-  	this.tableData = this.IndexData.tableData;
-  	this.recommendList = this.IndexData.recommendList;
-  	this.recordList = this.IndexData.recordList;
-  	this.lastUpdateList = this.IndexData.lastUpdateList;
-  	document.body.scrollTop = 800;
+  	//this.tableData = this.IndexData.tableData;
+  	//this.recommendList = this.IndexData.recommendList;
+  	//this.recordList = this.IndexData.recordList;
+  	//this.lastUpdateList = this.IndexData.lastUpdateList;
+  	
+  	//live function
+  	this.postHttp(this,{pageNum:1,pageSize:5,isStatusSort:true},'program/study/findPrograms',function(obj,data){
+  		obj.tableData = data.result.list;
+  	})
+  	
+  	//recommend function
+  	this.postHttp(this,{pageNum:1,pageSize:10},'course/study/findRecommendCourses',function(obj,data){
+  		obj.recommendList = data.result.list;
+  	})
+  	
+  	//record function
+  	this.postHttp(this,{pageNum:1,pageSize:10,tab:'ALL'},'studiedrecord/getStudiedRecList',function(obj,data){
+  		if(data.code=="60000" || data.code=="50000"){
+  			obj.recordList = []
+  		}
+  		var dataS = data.result.list;
+  		//data deal
+  		for(var i = 0;i < dataS.length;i++){
+  			var objs = dataS[i];
+  			var timesize = (parseFloat(objs.courseDuration) / (1000 * 60 * 60) );
+  			objs.courseDuration = timesize.toFixed(0)+'分';
+  			var time = obj.timeF(objs.startDate).format("YYYY-MM-DD HH:mm:ss");
+  			objs.startDate = time;
+  			dataS[i] = objs;
+  		}
+  		obj.recordList = dataS;
+  	});
+  	
+  	initUpdata(this)
   },
   methods:{
   	changeVideo(e){
@@ -158,11 +189,36 @@ export default {
   		var html = obj.innerHTML;
   		if(html == '课堂视频'){
 			this.isVideo = true;
+			initUpdata(this)
   		}else{
   			this.isVideo = false;
+  			initUpdata(this)
   		}
-  	}
+  	},
+	timeFormat(row,column){
+		var date = row[column.property];  
+		if (date == undefined) {  
+		 return "";  
+		}  
+		return this.timeF(date).format("YYYY-MM-DD HH:mm:ss");  
+	},
   }
+}
+
+function initUpdata(objS){
+	//updata function
+  	objS.postHttp(objS,{pageNum:1,pageSize:10,isVedio:objS.isVideo},'teachingfile/study/findTeachingFiles',function(obj,data){
+  		var dataS = data.result.list;
+  		//data deal
+  		for(var i = 0;i < dataS.length;i++){
+  			var objs = dataS[i];
+  			objs.suffix = "../../static/img/defualt/"+objs.suffix+".png";
+  			var time = obj.timeF(objs.updateDate).format("MM-DD");
+  			objs.updateDate = time;
+  			dataS[i] = objs;
+  		}
+  		obj.lastUpdateList = dataS;
+  	})
 }
 </script>
 
@@ -217,15 +273,16 @@ export default {
 }
 #index .recommend_mian .recommend_items{
 	width:200px;
-	margin:30px 25px 0 25px;
+	margin: 30px 16px 0 31px;
 	background: #ececec;
 	cursor: pointer;
 }
 #index .recommend_mian .recommend_items:hover{
-	box-shadow: 1px 1px 10px rgba(0,0,0,.5);
+	box-shadow: 1px 1px 10px #67676780;
 }
 #index .recommend_mian .recommend_items .items_img{
 	width:200px;
+	height:200px;
 }
 #index .recommend_mian .recommend_items .items_name{
 	width:190px;
@@ -256,10 +313,11 @@ export default {
 	position: relative;
 }
 #index .record_main .record_items:hover{
-	box-shadow: 1px 1px 10px #7b7b7b;
+	box-shadow: 1px 1px 10px #67676780;
 }
 #index .record_main .record_items .items_left{
 	width:206px;
+	height:274px;
 }
 #index .record_main .record_items .items_right{
 	padding: 16px 20px;
@@ -294,6 +352,7 @@ export default {
 }
 #index .last_update_main .last_update_items .items_left{
 	width:200px;
+	height:200px;
 }
 #index .last_update_main .last_update_items .items_right{
 	padding: 16px 20px;

@@ -74,7 +74,7 @@ export default {
       this.demo();
     },
     demo:function(){
-      this.postHttp(this,{pageNum:this.pageNum,pageSize:this.pageSize},"message/study/queryMessagesByUserId",function(obj,data){
+      this.postHttp(this,{pageNum:this.pageNum,pageSize:this.pageSize},"message/queryMessagesByUserId",function(obj,data){
         obj.notic = data.result;
       });
     }
