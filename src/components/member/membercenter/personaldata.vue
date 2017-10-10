@@ -2,7 +2,7 @@
 <div id="personaldata">
 	<p class="personaldata_title">个人资料</p>
 	<hr style="width:890px;background-color:#E5E5E5;">
-	<div class="personaldata_padding">
+	<div class="personaldata_padding" v-show="isAlter">
 		<el-form label-position="left" :model="form" label-width="80px">
 			<el-form-item label="头像">
 			    <div class="personaldata_logo">
@@ -56,6 +56,48 @@
 			 </el-form-item>
 		</el-form>
 	</div>
+	<div class="personaldata_padding" v-show="isView">
+		<el-form label-position="left" :model="form" label-width="80px">
+			<el-form-item label="头像">
+			    <div class="personaldata_logo">
+			    	<img :src="imageUrl" width="150px" height="150px">
+			    </div>
+			 </el-form-item>
+			 <el-form-item label="真实姓名">
+			    <p>{{form.name}}</p>
+			 </el-form-item>
+			 <el-form-item label="学校">
+			    <p>{{form.school}}</p>
+			 </el-form-item>
+			 <el-form-item label="年级">
+			    <p>{{form.class}}</p>
+			 </el-form-item>
+			 <el-form-item label="性别">
+			    <p v-if="form.sex=='1'">男</p>
+			    <p v-else>女</p>
+			 </el-form-item>
+			 <el-form-item label="班主任">
+			    <p>{{form.teacher}}</p>
+			 </el-form-item>
+			 <el-form-item label="学号">
+			    <p>{{form.studentid}}</p>
+			 </el-form-item>
+			 <el-form-item label="联系手机">
+			    <p>{{form.phone}}</p>
+			 </el-form-item>
+			 <el-form-item label="邮箱">
+			    <p>{{form.email}}</p>
+			 </el-form-item>
+			 <el-form-item label="个人简介">
+			 	<div style="width:800px">
+			    <p style="word-break:break-all">1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</p>
+			    </div>
+			 </el-form-item>
+			 <el-form-item>
+			    <el-button type="primary" @click="onAlter">编辑</el-button>
+			 </el-form-item>
+		</el-form>
+	</div>
 </div>
 </template>
 <script>
@@ -72,7 +114,7 @@ export default {
        		studentid:'',
        		phone:'',
        		email:'',
-       		
+       		desc:'',
        },
        Sclass:[{
        	id:1,
@@ -83,17 +125,28 @@ export default {
        	teacherName:321,
        }],
        imageUrl:'../../../static/img/toux1.png',
+       isView:true,
+       isAlter:false,
       }
     },
     created:function(){
-//    this.getdata();
+    	this.getdata();
     },
     methods: {
       getdata(){
       	this.$emit('newfind');
+      	this.postHttp(this,{id:"85a938479181450c8f95de5bbadb219b"},"study/user/queryUserById",function(obj,data){
+			
+		});
       },
       onSubmit() {
        alert(1);
+       this.isView=true;
+       this.isAlter=false;
+      },
+      onAlter:function(){
+      	this.isView=false;
+      	this.isAlter=true;
       },
       handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);

@@ -39,13 +39,6 @@ Vue.prototype.postHttp = function(obj,data,address,fn){
 	obj.$axios.post(baseUrl+address,querystring.stringify(data),{withCredentials : true}).then(response => {
   		if(response.data.code == "60000" || response.data.code == "50000"){
   			obj.dialogFormVisible = true;
-  			obj.$notify({
-		      title: '提示',
-		      message:'请先登录',
-		      offset: 100,
-		      duration:1500,
-		      type:'warning'
-		    });
   		}else{
   			fn(obj,response.data);
   		}
@@ -78,7 +71,37 @@ Vue.prototype.notify_jr = function(obj,title,message,type){
     });
 }
 
-/*设置cookie*/
+Vue.prototype.notify_login = function(){
+	this.$notify({
+      title: '提示',
+      message:'请先登录',
+      offset: 100,
+      duration:1500,
+      type:'warning'
+    });
+}
+
+
+/* 
+ * 视频时间转化 毫秒转为时分
+ * msec : 毫秒值
+ * */
+Vue.prototype.formatMsec = function(msec){
+	var regNum = /^[0-9]*$/;
+	var s = '';
+	if(msec && regNum.test(msec)){
+		var second = parseInt(parseFloat(msec) / 1000);
+		var minute = Math.ceil(second / 60);
+		if(minute > 60){
+			var hours = Math.floor(minute / 60);
+			var minute_s = minute % 60;
+			s = hours + '小时' + minute_s + '分钟'
+		}else{
+			s = minute + '分钟';
+		}
+	}
+	return s;
+}
 
 /* eslint-disable no-new */
 new Vue({
