@@ -28,8 +28,8 @@
 					<div class="cl"></div>
 					<div class="allClass_body_content_button">
 						<el-button class="attention_button_public" @click="attentionButton(book.id)" type="primary">进入学习</el-button>
-						<el-button v-if="book.buttonName=='关注'" class="attention_button_public attention_button">关注</el-button>
-						<el-button v-if="book.buttonName=='取消关注'" class="attention_button_public attention_button_sure" type="primary">取消关注</el-button>
+						<el-button v-if="book.buttonName=='关注'" @click="attention(book.id)" class="attention_button_public attention_button">关注</el-button>
+						<el-button v-if="book.buttonName=='取消关注'" @click="unfollow(book.id)" class="attention_button_public attention_button_sure" type="primary">取消关注</el-button>
 					</div>
 				</div>
 				<div class="cl"></div>
@@ -39,24 +39,33 @@
 				  <el-tabs v-model="activeName" @tab-click="handleClick">
 				    <el-tab-pane label="课程内容" name="first">
 				    	<h3>课程简介</h3>
-				    	<p class="mt10">这是使用苏教版教材的语文，欢迎同学们收看学习！</p>
+				    	<p class="mt10">{{tabs1.remark}}</p>
 				    	<h3 class="mt10">课程大纲</h3>
-				    	<p class="mt10 allClass_body_tabs_download">点击下载课程视频进入学习</p>
+				    	<!-- <p class="mt10 allClass_body_tabs_download">点击下载课程视频进入学习</p> -->
 				    	<div class="mt10 allClass_body_tabs_first_content">
 				    		<div class="mt10 allClass_body_tabs_first_middle cl" v-for="proper in propers">
 				    			<p class="l mt10">{{proper.name}}</p>
-				    			<p class="r mt10">{{proper.time}}</p>
+				    			<p class="r mt10">{{proper.duration}}</p>
 				    			<div class="cl"></div>
-				    			<div class="mt10 allClass_body_tabs_first_middle_body cl" v-for="child in proper.childs">
-				    				<p class="l allClass_body_tabs_first_middle_bodyVip mt10">{{child.name}}</p>
-				    				<p class="r mt10">{{child.time}}</p>
+				    			<div class="mt10 allClass_body_tabs_first_middle_body cl" v-for="anotherchild in proper.teachingFiles">
+									<p class="l allClass_body_tabs_first_middle_bodyVipS mt10">{{anotherchild.name}}</p>
+				    				<p class="r mt10">{{anotherchild.duration}}</p>
 				    				<div class="cl"></div>
-				    				<div class="mt10 allClass_body_tabs_first_middle_foot cl" v-for="grandchildren in child.grandchildrens">
+				    			</div>
+				    			<div class="cl"></div>
+				    			<div v-for="child in proper.childCourseSyllabus">
+				    			<div class="mt10 allClass_body_tabs_first_middle_body cl">
+				    				<p class="l allClass_body_tabs_first_middle_bodyVip mt10">{{child.name}}</p>
+				    				<p class="r mt10">{{child.duration}}</p>
+				    				<div class="cl"></div>
+				    				<div class="mt10 allClass_body_tabs_first_middle_foot cl" v-for="grandchildren in child.teachingFiles">
 				    					<p class="l allClass_body_tabs_first_middle_bodyVVip mt10">{{grandchildren.name}}</p>
-				    					<p class="r mt10">{{grandchildren.time}}</p>
+				    					<p class="r mt10">{{grandchildren.duration}}</p>
 				    					<div class="cl"></div>
 				    				</div>
 				    			</div>
+				    			<div class="cl"></div>
+								</div>
 				    		</div>
 				    	</div>
 				    </el-tab-pane>
@@ -94,17 +103,26 @@
 				    	<div class="mt10 allClass_body_tabs_first_content">
 				    		<div class="mt10 allClass_body_tabs_first_middle cl" v-for="proper in propers">
 				    			<p class="l mt10">{{proper.name}}</p>
-				    			<p class="r mt10">{{proper.time}}</p>
+				    			<p class="r mt10">{{proper.duration}}</p>
 				    			<div class="cl"></div>
-				    			<div class="mt10 allClass_body_tabs_first_middle_body cl" v-for="child in proper.childs">
-				    				<p class="l allClass_body_tabs_first_middle_bodyVip mt10">{{child.name}}</p>
-				    				<p class="r mt10">{{child.time}}</p>
+				    			<div class="mt10 allClass_body_tabs_first_middle_body cl" v-for="anotherchild in proper.teachingFiles">
+									<a :href="anotherchild.path"><p class="l allClass_body_tabs_first_middle_bodyVipS mt10">{{anotherchild.name}}</p></a>
+				    				<p class="r mt10">{{anotherchild.duration}}</p>
 				    				<div class="cl"></div>
-				    				<div class="mt10 allClass_body_tabs_first_middle_foot cl" v-for="grandchildren in child.grandchildrens">
-				    					<p class="l allClass_body_tabs_first_middle_bodyVVip mt10">{{grandchildren.name}}</p>
-				    					<p class="r mt10">{{grandchildren.time}}</p>
+				    			</div>
+				    			<div class="cl"></div>
+				    			<div v-for="child in proper.childCourseSyllabus">
+				    			<div class="mt10 allClass_body_tabs_first_middle_body cl">
+				    				<p class="l allClass_body_tabs_first_middle_bodyVip mt10">{{child.name}}</p>
+				    				<p class="r mt10">{{child.duration}}</p>
+				    				<div class="cl"></div>
+				    				<div class="mt10 allClass_body_tabs_first_middle_foot cl" v-for="grandchildren in child.teachingFiles">
+				    					<a :href="grandchildren.path"><p class="l allClass_body_tabs_first_middle_bodyVVip mt10">{{grandchildren.name}}</p></a>
+				    					<p class="r mt10">{{grandchildren.duration}}</p>
 				    					<div class="cl"></div>
 				    				</div>
+				    			</div>
+				    			<div class="cl"></div>
 				    			</div>
 				    		</div>
 				    	</div>
@@ -151,7 +169,7 @@ export default {
   data () {
     return {
     	book:{
-    		id:1,
+    		/*id:1,
 	      	name:'苏州小学语文三年级下册',
 	      	class:'三年级',
 	      	subject:'语文',
@@ -163,7 +181,10 @@ export default {
 	      	mannumber:'900',
 	      	playnumber:'123131',
 	      	attention:'156',
-	      	buttonName:'关注',
+	      	buttonName:'关注',*/
+      	},
+      	tabs1:{
+      		remark:""
       	},
       	pageIndex:1,
         pageSize:10,
@@ -193,7 +214,7 @@ export default {
       		time:'24小时',
       		playNumber:'555',
       	}*/],
-      	propers:[{
+      	propers:[/*{
       		name:'第一组',
       		time:'共45分钟',
       		childs:[{
@@ -245,7 +266,7 @@ export default {
       				time:'共45分钟',
       			}],
       		}],
-      	}],
+      	}*/],
       	activeName: 'first',
       	textarea:'',
         comments:[/*{
@@ -276,8 +297,10 @@ export default {
   },
   	methods: {
   		getdata:function(){
-  			this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9"},"course/study/queryCourseContent",function(obj,data){
+  			this.postHttp(this,{courseId:"930dc374c78d43108a4b8ab07e517daa"},"course/study/queryCourseContent",function(obj,data){
   				obj.book=data.result.course;
+  				obj.propers=data.result.resultSyllabus;
+  				obj.tabs1.remark=data.result.course.remark;
   			});
   			this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndexN,pageSize:this.pageSizeN},"course/study/queryCourseTeacher",function(obj,data){
   				obj.tabs=data.result.courseList.list;
@@ -294,6 +317,7 @@ export default {
       },
       saveComment:function(){
       	this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",comment:this.textarea},"comment/saveComment",function(obj,data){
+      		
 		});
       },
       sizeChange: function (pageSize) {   //每页显示条数
@@ -326,6 +350,24 @@ export default {
 	    },
 	 attentionButton:function(ids){
 	 	 this.$router.push({path:'/playing/'+ids});
+	 },
+	 attention:function(ids){
+	 	this.postHttp(this,{programId:ids,},"subscription/saveSubscription",function(obj,data){
+		});
+		this.postHttp(this,{courseId:"930dc374c78d43108a4b8ab07e517daa"},"course/study/queryCourseContent",function(obj,data){
+  			obj.book=data.result.course;
+  			obj.propers=data.result.resultSyllabus;
+  			obj.tabs1.remark=data.result.course.remark;
+  		});
+	 },
+	 unfollow:function(ids){
+	 	this.postHttp(this,{id:ids,operation:"operation"},"subscription/operateSubscription",function(obj,data){
+		});
+		this.postHttp(this,{courseId:"930dc374c78d43108a4b8ab07e517daa"},"course/study/queryCourseContent",function(obj,data){
+  			obj.book=data.result.course;
+  			obj.propers=data.result.resultSyllabus;
+  			obj.tabs1.remark=data.result.course.remark;
+  		});
 	 }
     }
 }
@@ -493,7 +535,7 @@ export default {
 }
 #allClass .allClass_body_tabs_fourth_input_button{
 	margin-top:20px;
-	margin-right: 50px; 
+	margin-right: 50px;
 	width: 125px;
 	height: 35px;
 }
@@ -513,18 +555,27 @@ export default {
 #allClass .allClass_body_tabs_first_middle_body{
 	border-bottom:1px dashed #000;
 	width: 100%;
-	height: 23px;		
+	height: 23px;
 }
 #allClass .allClass_body_tabs_first_middle_foot{
 	border-bottom:1px dashed #000;
 	width: 100%;
-	height: 23px;		
+	height: 23px;
 }
 #allClass .allClass_body_tabs_first_middle_bodyVip{
 	padding-left: 20px;
 }
+#allClass .allClass_body_tabs_first_middle_bodyVipS{
+	padding-left: 20px;
+}
+#allClass .allClass_body_tabs_first_middle_bodyVipS:hover{
+	color: #6ED56C;
+}
 #allClass .allClass_body_tabs_first_middle_bodyVVip{
-	padding-left: 40px;	
+	padding-left: 40px;
+}
+#allClass .allClass_body_tabs_first_middle_bodyVVip:hover{
+	color: #6ED56C;
 }
 #allClass .el-button{
     border-radius: 25px !important;
