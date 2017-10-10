@@ -4,15 +4,24 @@
 			<div class="selectItem">
 				<div class="itemList">
 					<span class="itemLabel">年级:</span>
-					<span v-for="(item,index) in Grade" :key="item.id" :class="active == index? 'actives': ''" @click="chooseGrade(index)">{{item.name}}</span>
+          <div class="itemDetail">
+            <span :class="active == -1? 'actives': ''" @click="chooseGrade(-1)">全部</span>
+  					<span v-for="(item,index) in Grade" :key="item.id" :class="active == item.id? 'actives': ''" @click="chooseGrade(item.id)">{{item.name}}</span>
+          </div>
 				</div>
 				<div class="itemList">
 					<span class="itemLabel">学科:</span>
-					<span v-for="(item,index) in Subject" :key="item.id" :class="active2 == index? 'actives': ''" @click="chooseSubject(index)">{{item.name}}</span>
+          <div class="itemDetail">
+            <span :class="active2 == -1? 'actives': ''" @click="chooseSubject(-1)">全部</span>
+  					<span v-for="(item,index) in Subject" :key="item.id" :class="active2 == item.dicCode? 'actives': ''" @click="chooseSubject(item.dicCode)">{{item.dicName}}</span>
+          </div>
 				</div>
 				<div class="itemList">
 					<span class="itemLabel">学校:</span>
-					<span v-for="(item,index) in School" :key="item.id" :class="active3 == index? 'actives': ''" @click="chooseSchool(index)">{{item.name}}</span>
+          <div class="itemDetail">
+            <span :class="active3 == -1? 'actives': ''" @click="chooseSchool(-1)">全部</span>
+  					<span v-for="(item,index) in School" :key="item.id" :class="active3 == item.id? 'actives': ''" @click="chooseSchool(item.id)">{{item.name}}</span>
+          </div>
 				</div>
 			</div>
 		</div>
@@ -27,13 +36,15 @@
 				    <el-date-picker
 				      v-model="startTime"
 				      type="datetime"
-				      placeholder="选择开课时间">
+				      placeholder="选择开课时间"
+              :picker-options="pickerOptions0">
 				    </el-date-picker>
 				    <span class="demonstration">~</span>
 				    <el-date-picker
 				      v-model="endTime"
 				      type="datetime"
-				      placeholder="选择开课时间">
+				      placeholder="选择开课时间"
+              :picker-options="pickerOptions1">
 				    </el-date-picker>
 				</div>
 			</div>
@@ -41,31 +52,41 @@
 				<el-row :gutter="13">
 				  <el-col :span="6" v-for="e in recommendList" :key="e.id">
 				  <div class="items_box " @click="goTodetail(e.id)">
-					<div class="items_img"><img :src="e.src" width="100%" /></div>
+					<div class="items_img"><img :src="e.coverImg" width="100%" /></div>
 					<div class="items_name pl10 pr10" :title="e.name">
 						{{e.name}}
 					</div>
 					<div class="items_source pl10 pr10 mt5">
 						<span>
-							学校：{{e.sourceSchool}}
-						</span>
-						<span>
-							教师：{{e.sourceTeacher}}
+							学校：{{e.schoolName}}
 						</span>
 					</div>
-					<div class="items_source pl10 pr10 pb20 pt30">
+          <div class="items_source pl10 pr10 mt5">
+            <span>
+              教师：{{e.teacherName}}
+            </span>
+          </div>
+					<div class="items_source pl10 pr10 pb20 pt20">
 						<span>
-							课时：{{e.sourceTime}}
+							课时：{{e.courseDuration}}小时
 						</span>
 						<span>
-							播放量：{{e.count}}次
+							播放量：{{e.playedNum}}次
 						</span>
 					</div>
 				  </div>
 				  </el-col>
 				</el-row>
 				<div class="cl  tc">
-					<page class="mt20" :totalNumber="total" @newNOdeEvents="parentLisen"></page>
+					<el-pagination
+            @size-change=""
+            @current-change=""
+            :current-page="1"
+            :page-sizes="[10, 20, 30, 40]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total">
+            </el-pagination>
 				</div>
 			</div>
 		</div>
@@ -73,177 +94,81 @@
 </template>
 
 <script>
-import page from '../member/page.vue'
 export default {
   data () {
     return {
     	/** 筛选条件的选中状态设置 */
-    	active: 0,
-    	active2:0,
-    	active3:0,
+    	active: -1,
+    	active2:-1,
+    	active3:-1,
     	active4:'',
     	/** 筛选条件的选中状态设置 */
     	/** 年级选择 */
-      	Grade:[{
-      		id:'0',
-      		name:'全部'
-      	},{
-      		id:'1',
-      		name:'一年级'
-      	},{
-      		id:'2',
-      		name:'二年级'
-      	},{
-      		id:'3',
-      		name:'三年级'
-      	},{
-      		id:'4',
-      		name:'三年级'
-      	}],
+      Grade:{},
       	/** 年纪选择结束 */
       	/** 学科选择 */
-      	Subject:[{
-      		id:'0',
-      		name:'全部'
-      	},{
-      		id:'1',
-      		name:'语文'
-      	},{
-      		id:'2',
-      		name:'数学'
-      	},{
-      		id:'3',
-      		name:'英语'
-      	},{
-      		id:'4',
-      		name:'物理'
-      	}],
+      	Subject:{},
       	/** 学科选择结束 */
       	/** 学校选择 */
-      	School:[{
-      		id:'0',
-      		name:'全部'
-      	},{
-      		id:'1',
-      		name:'苏州中学'
-      	},{
-      		id:'2',
-      		name:'延安中学'
-      	}],
+      	School:{},
       	/** 学校选择结束 */
-      	 pageIndex:1,
+       pageIndex:1,
 	     pageSize:10,
 	     total:60,
 	     // 开始到结束日期选择
 	     startTime:'',
 	     endTime:'',
-	     
-    recommendList:[
-    	{
-    		id:'1',
-  			src:'../../../static/img/temp/fm1.png',
-  			name:'苏州中学三年级下册',
-  			sourceSchool:'苏州中学',
-  			sourceTeacher:'James',
-  			sourceTime:'20小时',
-  			count:'599'
-  		},
-  		{
-  			id:'2',
-  			src:'../../../static/img/temp/fm2.png',
-  			name:'苏州中学三年级下册',
-  			sourceSchool:'苏州中学',
-  			sourceTeacher:'James',
-  			sourceTime:'20小时',
-  			count:'599'
-  		},
-  		{
-  			id:'3',
-  			src:'../../../static/img/temp/fm3.png',
-  			name:'苏州中学三年级下册',
-  			sourceSchool:'苏州中学',
-  			sourceTeacher:'James',
-  			sourceTime:'20小时',
-  			count:'599'
-  		},
-  		{
-  			id:'4',
-  			src:'../../../static/img/temp/fm4.png',
-  			name:'苏州中学三年级下册',
-  			sourceSchool:'苏州中学',
-  			sourceTeacher:'James',
-  			sourceTime:'20小时',
-  			count:'599'
-  		},
-  		{
-  			id:'5',
-  			src:'../../../static/img/temp/fm4.png',
-  			name:'苏州中学三年级下册',
-  			sourceSchool:'苏州中学',
-  			sourceTeacher:'James',
-  			sourceTime:'20小时',
-  			count:'599'
-  		},
-  		{
-  			id:'6',
-  			src:'../../../static/img/temp/fm3.png',
-  			name:'苏州中学三年级下册',
-  			sourceSchool:'苏州中学',
-  			sourceTeacher:'James',
-  			sourceTime:'20小时',
-  			count:'599'
-  		},
-  		{
-  			id:'7',
-  			src:'../../../static/img/temp/fm2.png',
-  			name:'苏州中学三年级下册',
-  			sourceSchool:'苏州中学',
-  			sourceTeacher:'James',
-  			sourceTime:'20小时',
-  			count:'599'
-  		},
-  		{
-  			id:'8',
-  			src:'../../../static/img/temp/fm1.png',
-  			name:'苏州中学三年级下册',
-  			sourceSchool:'苏州中学',
-  			sourceTeacher:'James',
-  			sourceTime:'20小时',
-  			count:'599'
-  		},
-  		{
-  			id:'9',
-  			src:'../../../static/img/temp/fm1.png',
-  			name:'苏州中学三年级下册',
-  			sourceSchool:'苏州中学',
-  			sourceTeacher:'James',
-  			sourceTime:'20小时',
-  			count:'599'
-  		},
-  		{
-  			id:'10',
-  			src:'../../../static/img/temp/fm1.png',
-  			name:'苏州中学三年级下册',
-  			sourceSchool:'苏州中学',
-  			sourceTeacher:'James',
-  			sourceTime:'20小时',
-  			count:'599'
-  		}
-
-    ]
+	    recommendList:{},
+      pickerOptions0: {
+          disabledDate: (time) => {
+              let endDateVal = this.endTime;
+              if (endDateVal) {
+                  return time.getTime() > endDateVal;
+              }
+          }
+        },
+        pickerOptions1: {
+          
+          disabledDate:(time) => {
+             let beginDateVal = this.startTime;
+              if (beginDateVal) {
+                  return time.getTime() < beginDateVal;
+              }
+          }
+        },
+        itemList:{
+          grade:'',
+          subject:'',
+          school:''
+        }
   	}
   },
-  components:{page},
+  mounted:function(){
+     this.itemInit();
+     this.classInit();
+  },
   methods:{
 		chooseGrade(index) {
 	      this.active = index;
 	      //后台请求
+        if(index == -1)
+          this.itemList.grade = '';
+        else
+          this.itemList.grade = index;
 	    },
 	    chooseSubject(index){
 		  this.active2 = index;
+      if(index == -1)
+          this.itemList.subject = '';
+        else
+          this.itemList.subject = index;
 	    },
 	    chooseSchool(index){
 	      this.active3 = index;
+        if(index == -1)
+          this.itemList.school = '';
+        else
+          this.itemList.school = index;
 	    },
 	    deFault(strs){
 	    	this.active4 = strs;
@@ -261,10 +186,37 @@ export default {
 		},
 		goTodetail(ids){
 			// sessionStorage.setItem("classID", ids); 
-			 // this.$router.push({path:'/allClassMore/',params:{news_id: 123}});
+			// this.$router.push({path:'/allClassMore/',params:{news_id: 123}});
 			//this.$router.push({ name: '课程详情', query: { userId: ids }})
       		this.$router.push({path:'/allClassMore/'+ids});
-		}
+		},
+    classInit:function(){
+        var needData = {gradeId:this.itemList.grade,
+                        subject:this.itemList.subject,
+                        schoolId:this.itemList.school,
+                        pageNum:this.pageIndex,
+                        pageSize:this.pageSize,
+                        tab:this.tab}
+        this.postHttp(this,needData,"course/study/findCourses",function(obj,data){
+          obj.recommendList  = data.result.list;
+          obj.total = data.result.total;
+          // if(data.result.total >0){
+          //   for(var i = 0;i<obj.curriculum.length;i++){
+          //    obj.curriculum[i].imgsrc = "../../../static/img/defualt/"+obj.curriculum[i].suffix+".png";
+          //   }
+          // }
+          console.log(data.result.list);
+        });
+      },
+      itemInit:function(){
+       this.postHttp(this,'',"course/study/initParamList",function(obj,data){
+         obj.Grade = data.result.gradeList;
+         obj.Subject = data.result.subjectList;
+         obj.School = data.result.schoolList;
+        });
+       
+      }
+
 	}
 }
 </script>
@@ -276,7 +228,11 @@ export default {
 #allClassMain .itemList{padding:16px 0 0 0;border-bottom:1px dashed #e5e5e5;}
 #allClassMain .itemList:last-child{border-bottom: 0}
 #allClassMain .classSelect .actives,#allClassMain .classMain .actives{color:#6ED56C;}
-#allClassMain .itemLabel{color:#999;cursor: default;}
+#allClassMain .itemLabel{color:#999;cursor: default;vertical-align: top;}
+#allClassMain .itemDetail {
+    display: inline-block;
+    width: 1050px;
+}
 #allClassMain .itemList span{margin-right: 20px;display: inline-block;margin-bottom: 16px;cursor: pointer;font-size: 16px}
 #allClassMain .classMain .classtitle{padding: 40px 0 10px 0;border-bottom: 2px #6ED56C solid}
 #allClassMain .classtitle span{margin-right: 20px;display: inline-block;cursor: pointer;font-size: 16px}

@@ -188,6 +188,7 @@ export default {
   		var pageData = {pageNum:mypageNum,pageSize:mypageSize};
 	  	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
 	  		obj.person = data.result;
+	  		sessionStorage.setItem("jyids",data.result.id);
 		});
 	  	this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
 	  		obj.notic = data.result;
@@ -258,7 +259,7 @@ function login_press(obj,data){
 	    });
   	}else{
   		// setCookie("jyname",obj.isshow,1000*60);
-  		sessionStorage.setItem("jyname", obj.isshow,1000*60);
+  		sessionStorage.setItem("jyname",obj.isshow);
   		obj.loading = false;
 		obj.dialogFormVisible = false;
 		obj.$router.go(0)
