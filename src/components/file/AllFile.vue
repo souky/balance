@@ -58,7 +58,7 @@
 				      v-for="item in select.options3"
 				      :key="item.id"
 				      :label="item.dicName"
-				      :value="item.id">
+				      :value="item.dicCode">
 				    </el-option>
 				 </el-select>
 			 </div></el-col>
@@ -230,18 +230,10 @@ export default {
       },
       chooseCourse(val){
         this.itemList.select2 = val;
-        var id ={id:val}
-        this.postHttp(this,id,"teachingfile/study/initParamList",function(obj,data){
-          obj.select.options2 = data.result.courseList;
-        });
         this.filesInit();
       },
       chooseFilesType(val){
-        this.active2 = val;
-        if(val == -1)
-          this.itemList.subject = '';
-        else
-          this.itemList.subject = val;
+        this.itemList.select3 = val;
         this.filesInit();
       },
 	    updataTime(strs){
@@ -309,6 +301,7 @@ export default {
 </script>
 
 <style>
+
 #allFile {padding-bottom: 40px}
 #allFile .fileSelect{margin-top:30px;border: 1px solid #E5E5E5;border-radius: 3px;background: #fff;padding:0 40px;}
 #allFile .selectItem{}
