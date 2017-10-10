@@ -4,7 +4,7 @@
     <div class="notic_top">
       系统消息
     </div>
-    <div class="notic_item" @click="" v-for="(item,index) in notic.list" :key="item.id">
+    <div class="notic_item" @click="changeRead(item)" v-for="(item,index) in notic.list" :key="item.id">
       <div class="notic_left">
         <el-badge v-if="item.isRead == 0" :is-dot="true" class="item">
           <img src="../../../static/img/header/shi.png" />
@@ -17,16 +17,16 @@
         <p class="notic_title">直播提醒 <span>{{timeF(item.updateDate).format("MM-DD HH:mm")}}</span></p>
         <P class="notic_detail">{{item.content}}</P>
       </div>
-      <div class="fr delNotic" @click="delList(item.id,index)">
+      <div class="fr delNotic" @click="delList(item.id)">
         删除
       </div>
     </div>
-     <div class="classesrecord_paging tc">
+    <div class="classesrecord_paging tc">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="1"
-        :page-sizes="[1, 20, 30, 40]"
+        :page-sizes="[10, 20, 30, 40]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="notic.total">
@@ -45,23 +45,44 @@ export default {
       isnotic:true,//notic开关
       notic:{},
       pageNum: 1,
-      pageSize:1
+      pageSize:10
   }},
   mounted:function(){
+      this.init();
+  },
+  methods:{
+    init:function(){
       var mypageNum = this.pageNum;
       var mypageSize = this.pageSize;
       var pageData = {pageNum:mypageNum,pageSize:mypageSize};
-     this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
+      this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
         obj.notic = data.result;
       });
-  },
-  methods:{
+    },
     backIndex:function(){
       this.$router.push({path:'/'})
     },
-    delList:function(ids,indexs){
-      this.postHttp(this,ids,"message/logicDeleteMessageById",function(obj,data){
-        
+    delList:function(ids){
+      var myid = {id:ids}
+      this.postHttp(this,myid,"message/logicDeleteMessageById",function(obj,data){
+          var code = data.code;
+          if(code != "10000") {
+            
+          }else{
+            obj.init();
+          }
+      });
+    },
+    changeRead(val){
+      val.isRead = 1;
+      var ids = {id:val.id}
+      this.postHttp(this,ids,"message/markMessageAsRead",function(obj,data){
+          var code = data.code;
+          if(code != "10000") {
+            
+          }else{
+            obj.init();
+          }
       });
     },
     handleSizeChange:function(val){

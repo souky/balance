@@ -28,27 +28,31 @@
 		<div class="classMain">
 			<div class="classtitle">
 				<span class="itemLabel">排序:</span>
-				<span @click="deFault('default')" :class="active4 == 'default'? 'actives': ''">默认</span>
-				<span @click="attention('attention')" :class="active4 == 'attention'? 'actives': ''">关注人数</span>
-				<span @click="plays('plays')" :class="active4 == 'plays'? 'actives': ''">播放量</span>
+				<span @click="deFault('start_date')" :class="active4 == 'start_date'? 'actives': ''">默认</span>
+				<span @click="attention('concerned_num')" :class="active4 == 'concerned_num'? 'actives': ''">关注人数</span>
+				<span @click="plays('played_num')" :class="active4 == 'played_num'? 'actives': ''">播放量</span>
 				<div class="time_block">
 				    <span class="demonstration">开课日期</span>
 				    <el-date-picker
 				      v-model="startTime"
 				      type="datetime"
 				      placeholder="选择开课时间"
-              :picker-options="pickerOptions0">
+              :picker-options="pickerOptions0"
+              @change="chooseStratTime"
+              >
 				    </el-date-picker>
 				    <span class="demonstration">~</span>
 				    <el-date-picker
 				      v-model="endTime"
 				      type="datetime"
 				      placeholder="选择开课时间"
-              :picker-options="pickerOptions1">
+              :picker-options="pickerOptions1"
+              @change="chooseEndTime"
+              >
 				    </el-date-picker>
 				</div>
 			</div>
-			<div class="classList">
+			<div v-if="total != 0" class="classList">
 				<el-row :gutter="13">
 				  <el-col :span="6" v-for="e in recommendList" :key="e.id">
 				  <div class="items_box " @click="goTodetail(e.id)">
@@ -66,7 +70,7 @@
               教师：{{e.teacherName}}
             </span>
           </div>
-					<div class="items_source pl10 pr10 pb20 pt20">
+					<div class="items_source pl10 pr10 pb20 pt10">
 						<span>
 							课时：{{e.courseDuration}}小时
 						</span>
@@ -79,8 +83,8 @@
 				</el-row>
 				<div class="cl  tc">
 					<el-pagination
-            @size-change=""
-            @current-change=""
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
             :current-page="1"
             :page-sizes="[10, 20, 30, 40]"
             :page-size="pageSize"
@@ -89,6 +93,13 @@
             </el-pagination>
 				</div>
 			</div>
+      <div v-else class="classList">
+        <el-row :gutter="20">
+          <el-col :span="4" :offset="10">
+            <img src="../../../static/img/defualt/noRecord.png" />
+          </el-col>
+        </el-row>
+      </div>
 		</div>
 	</div>
 </template>
@@ -101,7 +112,7 @@ export default {
     	active: -1,
     	active2:-1,
     	active3:-1,
-    	active4:'',
+    	active4:'start_date',
     	/** 筛选条件的选中状态设置 */
     	/** 年级选择 */
       Grade:{},
@@ -114,7 +125,7 @@ export default {
       	/** 学校选择结束 */
        pageIndex:1,
 	     pageSize:10,
-	     total:60,
+	     total:0,
 	     // 开始到结束日期选择
 	     startTime:'',
 	     endTime:'',
@@ -148,37 +159,51 @@ export default {
      this.classInit();
   },
   methods:{
-		chooseGrade(index) {
-	      this.active = index;
+    chooseStratTime(val){
+      this.startTime = val;
+      this.classInit();
+    },
+    chooseEndTime(val){
+      this.endTime = val;
+      this.classInit();
+    },
+		chooseGrade(val) {
+	      this.active = val;
 	      //后台请求
-        if(index == -1)
+        if(val == -1)
           this.itemList.grade = '';
         else
-          this.itemList.grade = index;
+          this.itemList.grade = val;
+        this.classInit();
 	    },
-	    chooseSubject(index){
-		  this.active2 = index;
-      if(index == -1)
+	    chooseSubject(val){
+		  this.active2 = val;
+      if(val == -1)
           this.itemList.subject = '';
         else
-          this.itemList.subject = index;
+          this.itemList.subject = val;
+        this.classInit();
 	    },
-	    chooseSchool(index){
-	      this.active3 = index;
-        if(index == -1)
+	    chooseSchool(val){
+	      this.active3 = val;
+        if(val == -1)
           this.itemList.school = '';
         else
-          this.itemList.school = index;
+          this.itemList.school = val;
+        this.classInit();
 	    },
 	    deFault(strs){
 	    	this.active4 = strs;
 	    	//后台查询请求
+        this.classInit();
 	    },
 	    attention(strs){
 	    	this.active4 = strs;
+        this.classInit();
 	    },
 	    plays(strs){
 	    	this.active4 = strs;
+        this.classInit();
 	    },
 	    parentLisen:function(pageIndex,pageSize){
 		    this.pageIndex=pageIndex;
@@ -190,13 +215,26 @@ export default {
 			//this.$router.push({ name: '课程详情', query: { userId: ids }})
       		this.$router.push({path:'/allClassMore/'+ids});
 		},
+    handleSizeChange:function(val){
+        this.pageSize = val;
+        this.pageIndex = 1;
+        this.classInit();
+    },
+    handleCurrentChange:function(val){
+        this.pageIndex = val;
+        this.classInit();
+    },
     classInit:function(){
         var needData = {gradeId:this.itemList.grade,
                         subject:this.itemList.subject,
                         schoolId:this.itemList.school,
                         pageNum:this.pageIndex,
                         pageSize:this.pageSize,
-                        tab:this.tab}
+                        sort:this.active4,
+                        sortType:'DESC',
+                        fromDate:this.startTime,
+                        toDate:this.endTime
+                        }
         this.postHttp(this,needData,"course/study/findCourses",function(obj,data){
           obj.recommendList  = data.result.list;
           obj.total = data.result.total;
@@ -205,7 +243,6 @@ export default {
           //    obj.curriculum[i].imgsrc = "../../../static/img/defualt/"+obj.curriculum[i].suffix+".png";
           //   }
           // }
-          console.log(data.result.list);
         });
       },
       itemInit:function(){
@@ -242,6 +279,7 @@ export default {
 #allClassMain .classList .el-col{margin-bottom: 15px}
 #allClassMain .items_box{background-color: #f5f5f5;cursor: pointer;}
 #allClassMain .items_box:hover{box-shadow: 1px 1px 10px rgba(0,0,0,.2);}
+#allClassMain .items_box .items_img{height:246px;}
 #allClassMain .items_box .items_img img{height: 246px}
 #allClassMain .items_name{color: #272727;font-size: 16px;margin-top: 16px;}
 #allClassMain .items_source{color:#999;font-size: 14px;}
