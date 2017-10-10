@@ -53,7 +53,8 @@
 				    				<div class="cl"></div>
 				    			</div>
 				    			<div class="cl"></div>
-				    			<div class="mt10 allClass_body_tabs_first_middle_body cl" v-for="child in proper.childCourseSyllabus">
+				    			<div v-for="child in proper.childCourseSyllabus">
+				    			<div class="mt10 allClass_body_tabs_first_middle_body cl">
 				    				<p class="l allClass_body_tabs_first_middle_bodyVip mt10">{{child.name}}</p>
 				    				<p class="r mt10">{{child.duration}}</p>
 				    				<div class="cl"></div>
@@ -63,6 +64,8 @@
 				    					<div class="cl"></div>
 				    				</div>
 				    			</div>
+				    			<div class="cl"></div>
+								</div>
 				    		</div>
 				    	</div>
 				    </el-tab-pane>
@@ -108,7 +111,8 @@
 				    				<div class="cl"></div>
 				    			</div>
 				    			<div class="cl"></div>
-				    			<div class="mt10 allClass_body_tabs_first_middle_body cl" v-for="child in proper.childCourseSyllabus">
+				    			<div v-for="child in proper.childCourseSyllabus">
+				    			<div class="mt10 allClass_body_tabs_first_middle_body cl">
 				    				<p class="l allClass_body_tabs_first_middle_bodyVip mt10">{{child.name}}</p>
 				    				<p class="r mt10">{{child.duration}}</p>
 				    				<div class="cl"></div>
@@ -117,6 +121,8 @@
 				    					<p class="r mt10">{{grandchildren.duration}}</p>
 				    					<div class="cl"></div>
 				    				</div>
+				    			</div>
+				    			<div class="cl"></div>
 				    			</div>
 				    		</div>
 				    	</div>
@@ -311,6 +317,7 @@ export default {
       },
       saveComment:function(){
       	this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",comment:this.textarea},"comment/saveComment",function(obj,data){
+      		
 		});
       },
       sizeChange: function (pageSize) {   //每页显示条数
