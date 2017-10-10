@@ -12,7 +12,7 @@
 			</div>
 			<div class="middle2">
 				祝贺您注册成功！<br  />
-				你的账号是James，您可前往账户中进一步修改资料或修改密码
+				你的账号是{{userForm.userName}}，您可前往账户中进一步修改资料或修改密码
 			</div>
 			<div class="bottom">
 				<el-button type="primary" @click="backfirstpage('val')">完成返回首页</el-button>
@@ -31,31 +31,27 @@
 			 	<div class="dengru">我已注册，现在就去<a class="pointer" herf="" @click="login()">登入</a></div>
 			</div>
            <el-form  :model="userForm" :rules="rules" ref="userForm" label-width="100px" class="demo-userForm">
-								<el-form-item class="fleft psition" label="账户名" prop="account" >
-								    <el-input v-model="userForm.account" auto-complete="off" placeholder="请输入文字"></el-input>
+								<el-form-item class="fleft psition" label="账户名" prop="userName" >
+								    <el-input v-model="userForm.userName" auto-complete="off" placeholder="请输入账户名"></el-input>
 								</el-form-item> 
-						        <div class="fright">6-18个字符，可用字母，数字，下划线，请以字母开通</div>
+						        <div class="fright">6-18个字符，可用字母，数字，下划线，请以字母开头</div>
                                 <el-form-item class="fleft psition clear"  label="姓名" prop="name"  >
-								    <el-input v-model="userForm.name" auto-complete="off" placeholder="请输入文字"></el-input>
+								    <el-input v-model="userForm.name" auto-complete="off" placeholder="请输入真实姓名"></el-input>
 								</el-form-item>
 								<div class="fright">请输入真实的姓名，用于审核身份</div>
-								 <!--<div class="clear school">
 								
-								 </div>-->
 								<el-form-item label="学校" prop="schools"  class="clear">
 									
-								    <!--<el-input v-model="userForm.school" auto-complete="off" placeholder="请输入文字">-->
-								    <el-select  v-model="value" placeholder="请选择">
-								        <el-option  v-for="item in schools" :key="item.value" :label="item.label" v-model="item.value">
+								    <el-select  v-model="userForm.orgId" placeholder="请选择学校" @change="change_school()">
+								        <el-option  v-for="item in schools" :key="item.id" :label="item.name" v-model="item.id">
 								        </el-option>
 								    </el-select>
                                 </el-form-item>
 								
 								
                                 <el-form-item class="fleft psition clear"  label="班主任" prop="teachers" >
-								    <!--<el-input v-model="userForm.teacher" auto-complete="off" placeholder="请输入文字"></el-input>-->
-								    <el-select  v-model="value" placeholder="请选择">
-								        <el-option  v-for="item in teachers" :label="item.label" :key="item.value" v-model="item.value">
+								    <el-select  v-model="userForm.teacherId" placeholder="请选择老师">
+								        <el-option  v-for="item in teachers" :key="item.id" :label="item.name" v-model="item.id">
 								        </el-option>
 								    </el-select>
 								</el-form-item>
@@ -63,11 +59,11 @@
 								
                                 <div class="fright">请输入真实的姓名，用于审核身份</div>
                                 <el-form-item class="fleft psition clear" label="设置密码" prop="psw"  >
-								    <el-input v-model="userForm.psw" auto-complete="off" placeholder="请输入文字"></el-input>
+								    <el-input type="password" v-model="userForm.psw" auto-complete="off" placeholder="请输入密码"></el-input>
 								</el-form-item>
-                                <div class="fright">密码长度8-16位，且必须数字，字母，字符任意两种以上组合</div>
+                                <div class="fright">密码长度6-16位，且必须数字，字母，字符任意两种以上组合</div>
                                 <el-form-item label="确认密码" prop="checkpsw"  class="clear">
-								    <el-input v-model="userForm.checkpsw" auto-complete="off" placeholder="请输入文字"></el-input>
+								    <el-input type="password" v-model="userForm.checkpsw" auto-complete="off" placeholder="请再次输入密码"></el-input>
 								</el-form-item>
 								<!--<el-form-item>
 									<el-button class="button" type="primary" @click="submitForm('userForm')">立即注册</el-button>
@@ -88,17 +84,17 @@
 export default {
   data () {
   	var validatename = (rule, value, callback) => {
-  		var pattern = /^[\w\u4e00-\u9fa5]{3,10}$/g
+  		var pattern = /^[\w\u4e00-\u9fa5]{2,10}$/g
   		if(!value){
   			callback(new Error('请输入姓名'));
   		}else if(!pattern.test(value)){
-  			callback(new Error('请输入3-10个字母/汉字/数字/下划线'))
+  			callback(new Error('请输入3-10个字母/汉字'))
   		}else{
   			callback()
   		}
   	};
   	var validateaccount = (rule, value, callback) => {
-  		if(value===''){
+  		if(value==''){
   			callback(new Error('请输入账户名'));
   		}else if(value.length < 6 || value.length > 18 ){
   			callback(new Error('账户名6-18字符'));	
@@ -107,10 +103,10 @@ export default {
   		}	
   	};
   	var validatepsw = (rule, value, callback) => {
-  		 if (value === '') {
+  		 if (value == '') {
           callback(new Error('请输入密码'));
-        }else if (value.length < 8 || value.length > 18 ){
-          callback(new Error('账户名8-18字符'));
+        }else if (value.length < 6 || value.length > 18 ){
+          callback(new Error('密码6-18字符'));
         }
         else {
           if (this.userForm.checkpsw !== '') {
@@ -120,9 +116,9 @@ export default {
         }	
   	};
   	var validatecheckpsw = (rule, value, callback) => {
-  		if(value===''){
+  		if(value==''){
   			callback(new Error('请再次输入密码'));
-  		}else if(value !== this.userForm.psw){
+  		}else if(value != this.userForm.psw){
   			callback(new Error('两次输入密码不一致'));	
   		}else{
   			callback();
@@ -130,19 +126,20 @@ export default {
   	};
     return {
       value:'',	
-      schools:[{value:'选项1',label:'苏州大学'},{value:'选项2',label:'江南大学'}],
-      teachers:[{value:'选项1',label:'李老师'},{value:'选项2',label:'王老师'}], 
+      schools:[],
+      teachers:[], 
       showpage2:false,	
       showpage1:true,	
       userForm:{
-      	account:'',
+      	userName:'',
       	name:'',
-      
+      	orgId:'',
+      	teacherId:'',
       	psw:'',
       	checkpsw:'',
       },
       rules:{
-      	account:[
+      	userName:[
       	{validator: validateaccount, trigger:'blur'}
       	],
       	name:[
@@ -164,9 +161,16 @@ export default {
   		 //验证整个userForm,并上传到后台
   		 this.$refs[userForm].validate((valid) => {
            if (valid) {
-           	 var data = userForm ;
-             this.showpage1 = false;
-           	 this.showpage2 = true;
+           	 var data = this.userForm ;
+           	 this.postHttp(this,data,'study/user/register',function(obj,data){
+           	 	if(data.code == '10000'){
+           	 		obj.showpage1 = false;
+           	 		obj.showpage2 = true;
+           	 	}else{
+           	 		obj.notify_jr(obj,'错误',data.message,'error');
+           	 	}
+           	 })
+             
           } else {
             console.log('error submit!!');
             return false;
@@ -182,31 +186,25 @@ export default {
   		 this.showpage1 = true;
   		 this.showpage2 = false;
   	},
-  	
-  	//初始化个人首页
-  	initUserData(obj,data){
-    		this.user = data.result;
-	},
-    //验证提交时后台返回的code
-  	ajax_handle(obj,data){
-		if(data.code=="10000"){
-			this.notify_jr(this,this.infoTitles,'注册成功','success');
-			initUser(this,this.initUserData);
-			if(this.Login){
-				this.postHttp(this,data,"logout",null);
-					this.$router.push({ path: '/login' });
-			}
-		}else{
-			this.notify_jr(this,this.infoTitles,data.message,'error');
-			return false
-			
-		}
-	},
+  	change_school(){
+  		var orgId = this.userForm.orgId;
+  		var data = {
+  			role:'教师',
+  			orgId:orgId
+  		}
+  		this.postHttp(this,data,"study/user/queryUsersByOrgId",function(obj,data){
+	  		obj.teachers = data.result;
+	  	})
+  	},
   	
   },
   mounted:function(){
   	var height = document.documentElement.clientHeight - 60;
   	document.getElementById("register").style.height = height+'px';
+  	
+  	this.postHttp(this,{type:'SCHOOL'},"organization/study/getOrganizationsByType",function(obj,data){
+  		obj.schools = data.result;
+  	})
   }
 }
 </script>
@@ -280,7 +278,7 @@ export default {
 	#register .img{margin-top:0px;}
 	#register .page1{width:1200px;margin: auto;}
 	#register .page2{width:100%;height:100%}
-	#register .main{background-color: white;width:1200px;height:600px;margin: auto;}
+	#register .main{background-color: white;width:1200px;height:600px;margin: auto;margin-top: 5%;}
 	#register .top{height:36px;color: #272727;font-size:36px;
 	               margin: auto;padding-top:38px ; margin-bottom: 39.8px;}
 	#register .middle2{width:491px;height:60px;font-size: 16px; line-height:30px;margin: auto;
