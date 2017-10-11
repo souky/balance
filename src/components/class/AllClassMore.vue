@@ -28,8 +28,8 @@
 					<div class="cl"></div>
 					<div class="allClass_body_content_button">
 						<el-button class="attention_button_public" @click="attentionButton(book.id)" type="primary">进入学习</el-button>
-						<el-button v-if="book.buttonName=='关注'" @click="attention(book.id)" class="attention_button_public attention_button">关注</el-button>
-						<el-button v-if="book.buttonName=='取消关注'" @click="unfollow(book.id)" class="attention_button_public attention_button_sure" type="primary">取消关注</el-button>
+						<el-button v-if="book.buttonName=='关注'" @click="attention(book.id)" class="attention_button_public attention_button">报名</el-button>
+						<el-button v-if="book.buttonName=='取消关注'" @click="unfollow(book.id)" class="attention_button_public attention_button_sure" type="primary">已报名</el-button>
 					</div>
 				</div>
 				<div class="cl"></div>
@@ -292,21 +292,21 @@ export default {
   },
   components:{page},
    created:function(){
-  	var s = this.$route.params.part;
   	this.getdata();
   },
   	methods: {
   		getdata:function(){
-  			this.postHttp(this,{courseId:"930dc374c78d43108a4b8ab07e517daa"},"course/study/queryCourseContent",function(obj,data){
+  			var s = this.$route.params.part;
+  			this.postHttp(this,{courseId:s},"course/study/queryCourseContent",function(obj,data){
   				obj.book=data.result.course;
   				obj.propers=data.result.resultSyllabus;
   				obj.tabs1.remark=data.result.course.remark;
   			});
-  			this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndexN,pageSize:this.pageSizeN},"course/study/queryCourseTeacher",function(obj,data){
+  			this.postHttp(this,{courseId:s,pageNum:this.pageIndexN,pageSize:this.pageSizeN},"course/study/queryCourseTeacher",function(obj,data){
   				obj.tabs=data.result.courseList.list;
   				obj.totalN=data.result.courseList.total;
   			});
-  			this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
+  			this.postHttp(this,{courseId:s,pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
   				obj.comments=data.result.list;
 				obj.total=data.result.total;
 				obj.tabs4.total=data.result.total;
@@ -316,7 +316,8 @@ export default {
         console.log(tab, event);
       },
       saveComment:function(){
-      	this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",comment:this.textarea},"comment/saveComment",function(obj,data){
+      	var s = this.$route.params.part;
+      	this.postHttp(this,{courseId:s,comment:this.textarea},"comment/saveComment",function(obj,data){
       		
 		});
       },
@@ -329,7 +330,8 @@ export default {
 	      this.fetchData();
 	  },
 	  fetchData:function(){
-	    this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
+	  	var s = this.$route.params.part;
+	    this.postHttp(this,{courseId:s,pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
 			obj.comments=data.result.list;
 			obj.total=data.result.total;
 			});
@@ -343,7 +345,8 @@ export default {
 	      this.fetchDataN();
 	  },
 	  fetchDataN:function(){
-	    this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndexN,pageSize:this.pageSizeN},"course/study/queryCourseTeacher",function(obj,data){
+	  	var s = this.$route.params.part;
+	    this.postHttp(this,{courseId:s,pageNum:this.pageIndexN,pageSize:this.pageSizeN},"course/study/queryCourseTeacher",function(obj,data){
 			obj.tabs=data.result.courseList.list;
 			obj.totalN=data.result.courseList.total;
 			});
@@ -352,18 +355,20 @@ export default {
 	 	 this.$router.push({path:'/playing/'+ids});
 	 },
 	 attention:function(ids){
+	 	var s = this.$route.params.part;
 	 	this.postHttp(this,{programId:ids,},"subscription/saveSubscription",function(obj,data){
 		});
-		this.postHttp(this,{courseId:"930dc374c78d43108a4b8ab07e517daa"},"course/study/queryCourseContent",function(obj,data){
+		this.postHttp(this,{courseId:s},"course/study/queryCourseContent",function(obj,data){
   			obj.book=data.result.course;
   			obj.propers=data.result.resultSyllabus;
   			obj.tabs1.remark=data.result.course.remark;
   		});
 	 },
 	 unfollow:function(ids){
+	 	var s = this.$route.params.part;
 	 	this.postHttp(this,{id:ids,operation:"operation"},"subscription/operateSubscription",function(obj,data){
 		});
-		this.postHttp(this,{courseId:"930dc374c78d43108a4b8ab07e517daa"},"course/study/queryCourseContent",function(obj,data){
+		this.postHttp(this,{courseId:s},"course/study/queryCourseContent",function(obj,data){
   			obj.book=data.result.course;
   			obj.propers=data.result.resultSyllabus;
   			obj.tabs1.remark=data.result.course.remark;

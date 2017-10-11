@@ -3,23 +3,23 @@
 		<div class="live_header">
 			<el-form ref="form" :model="form" label-width="60px">
 				<el-form-item class="l ml30 mt20 live_select" label="学校">
-				    <el-select v-model="form.region">
-				      <el-option v-for="item in schools" :key="item.id" :label="item.regionName" :value="item.id"></el-option>
+				    <el-select v-model="form.schoolid">
+				      <el-option v-for="item in schools" :key="item.id" :label="item.name" :value="item.id"></el-option>
 				    </el-select>
 				</el-form-item>
 				<el-form-item class="l ml30 mt20 live_select" label="年级">
-				    <el-select v-model="form.region">
-				      <el-option v-for="item in grades" :key="item.id" :label="item.regionName" :value="item.id"></el-option>
+				    <el-select v-model="form.gradesid">
+				      <el-option v-for="item in grades" :key="item.id" :label="item.name" :value="item.id"></el-option>
 				    </el-select>
 				</el-form-item>
 				<el-form-item class="l ml30 mt20 live_select" label="教师">
-				    <el-select v-model="form.region">
-				      <el-option v-for="item in teachers" :key="item.id" :label="item.regionName" :value="item.id"></el-option>
+				    <el-select v-model="form.teachersid">
+				      <el-option v-for="item in teachers" :key="item.id" :label="item.name" :value="item.id"></el-option>
 				    </el-select>
 				</el-form-item>
 				<el-form-item class="l ml30 mt20 live_select" label="学科">
-				    <el-select v-model="form.region">
-				      <el-option v-for="item in subjects" :key="item.id" :label="item.regionName" :value="item.id"></el-option>
+				    <el-select v-model="form.subjectsid">
+				      <el-option v-for="item in subjects" :key="item.id" :label="item.dicName" :value="item.dicCode"></el-option>
 				    </el-select>
 				</el-form-item>
 				<div class="cl"></div>
@@ -28,11 +28,11 @@
 				</el-form-item>
 				<el-form-item class="l ml30" label="日期的" placeholder="请选择节目状态">
 				    <el-col class="live_select_date">
-				      <el-date-picker v-model="form.date1" type="datetime" placeholder="选择开始日期时间" style="width: 100%;" @change="dateChange1"></el-date-picker>
+				      <el-date-picker v-model="form.date1" type="datetime" placeholder="选择开始日期时间" style="width: 100%;"></el-date-picker>
 				    </el-col>
 				    <el-col class="tc live_select_date_pagging">-</el-col>
 				    <el-col class="live_select_date">
-				      <el-date-picker v-model="form.date2" type="datetime" placeholder="选择结束日期时间" style="width: 100%;" @change="dateChange2"></el-date-picker>
+				      <el-date-picker v-model="form.date2" type="datetime" placeholder="选择结束日期时间" style="width: 100%;"></el-date-picker>
 				    </el-col>
 				</el-form-item>
 			</el-form>
@@ -45,24 +45,24 @@
 				<div class="live_body_content l" v-for="tab in tabs">
 					<div class="live_body_content_bar l">
 						<div class="l live_body_content_bar_img">
-							<img src="../../../static/img/temp/fm7.png" width="206px" height="274px">
+							<img :src="tab.courseImg" width="206px" height="274px">
 						</div>
 						<div class="l ml10">
-							<p class="mt15 live_body_content_bar_p">{{tab.title}}</p>
+							<p class="mt15 live_body_content_bar_p">{{tab.name}}</p>
 							<div class="mt10 live_body_content_bar_vp">
-								<p class="l">课程名：</p><p class="l">{{tab.name}}</p> <p class="l ml20">学校：</p><p class="l">{{tab.school}}</p>
+								<p class="l">课程名：</p><p class="l">{{tab.courseName}}</p> <p class="l ml20">学校：</p><p class="l">{{tab.schoolName}}</p>
 							</div>
 							<div class="cl"></div>
 							<div class="mt10 live_body_content_bar_vp">
-								<p class="l">大纲进度：</p><p class="l">{{tab.progress}}</p>
+								<p class="l">大纲进度：</p><p class="l">{{tab.syllabusName}}</p>
 							</div>
 							<div class="cl"></div>
 							<div class="mt20 live_body_content_bar_vp">
-								<p class="l">{{tab.time}}</p><p class="l ml20 live_body_content_bar_color">{{tab.state}}</p>
+								<p class="l">{{tab.startDate}}</p><p class="l ml20 live_body_content_bar_color">{{tab.state}}</p>
 							</div>
 							<div class="cl"></div>
 							<div class="mt80 live_body_content_bar_vp">
-								<p class="l">教师：</p><p class="l">{{tab.teacherName}}</p><p class="l ml20">播放总{{tab.number}}次</p>
+								<p class="l">教师：</p><p class="l">{{tab.teacherName}}</p><p class="l ml20">播放:&nbsp总{{tab.playedNum}}次</p>
 								<button v-if="tab.buttonName=='观看直播'" @click="tableButton(tab.id)" class="l mt-5 live_new_button"><span>{{tab.buttonName}}</span></button>
 								<button v-if="tab.buttonName=='预约'" class="l mt-5 live_new_button live_new_button_red"><span>{{tab.buttonName}}</span></button>
 								<button v-if="tab.buttonName=='已预约'" class="l mt-5 live_new_button live_new_button_blue"><span>{{tab.buttonName}}</span></button>
@@ -73,7 +73,9 @@
 			</div>
 		</div>	
 		<div class="cl live_foot tc">
-			<page class="mt20" :totalNumber="total" @newNOdeEvents="parentLisen"></page>
+			<el-pagination class="mt20" v-bind:current-Page="pageIndex" v-bind:page-size="pageSize" :total="total"
+                    layout="total,sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSizes" :current-page="pageIndex"
+                    v-on:size-change="sizeChange" v-on:current-change="pageIndexChange"></el-pagination>
 		</div>
 	</div>
 </template>
@@ -85,7 +87,10 @@ export default {
     return {
       form:{
       		name:'',
-			region: '',
+			gradesid:'',
+			schoolid:'',
+			teachersid:'',
+			subjectsid:'',
 		    date1: '',
 		    date2: '',
 		},
@@ -123,85 +128,62 @@ export default {
 		    number:'12313',
 		    buttonName:'已预约',
 		}],
-	  Sregion:[{
-			id:11,
-			regionName:'测试',
-		}],
-		schools:[{
-			id:1,
-			regionName:'苏州小学',
-		},{
-			id:2,
-			regionName:'苏州第一小学',
-		}],
-		grades:[{
-			id:1,
-			regionName:'一年级'
-		},{
-			id:2,
-			regionName:'二年级'
-		},{
-			id:3,
-			regionName:'三年级'
-		},{
-			id:4,
-			regionName:'四年级'
-		}],
-		teachers:[{
-			id:1,
-			regionName:'James'
-		},{
-			id:2,
-			regionName:'Jim'
-		},{
-			id:3,
-			regionName:'Tom'
-		}],
-		subjects:[{
-			id:1,
-			regionName:'语文'
-		},{
-			id:2,
-			regionName:'数学'
-		},{
-			id:3,
-			regionName:'英语'
-		}],
+		schools:[],
+		grades:[],
+		teachers:[],
+		subjects:[],
 		pageIndex:1,
         pageSize:10,
         total:60,
+        pageSizes:[1,10,20,50,100],
     }
   },
   components:{page},
+  created:function(){
+  	this.postHttp(this,{pageNum:1,pageSize:10},"program/study/queryStudyLivePrograms",function(obj,data){
+     	obj.tabs=data.result.list;
+     	obj.total=data.result.total;
+    });
+    this.postHttp(this,{},"teachingfile/study/initParamList",function(obj,data){
+     	obj.schools=data.result.schoolList;
+     	obj.grades=data.result.gradeList;
+     	obj.teachers=data.result.teacherList;
+     	obj.subjects=data.result.subjectList;
+    });
+  },
   methods:{
-  	dateChange1(val) {
-		this.form.date1=val;
-		this.form.date1=this.form.date1.substring(0, 16);
-	},
-	dateChange2(val){
-		this.form.date2=val;
-		this.form.date2=this.form.date2.substring(0, 16);
-	},
 	query:function(){
-		this.form.date1=(new Date(this.form.date1)).toLocaleString().slice(0, 15);
-		alert(this.form.date1);
-		alert(this.form.date2);
+		this.postHttp(this,{pageNum:1,pageSize:10,schoolId:this.form.schoolid,gradeId:this.form.gradesid,teacherId:this.form.teachersid,subject:this.form.subjectsid,name:this.form.name,queryStartDate:this.form.date1,queryEndDate:this.form.date2},"program/study/queryStudyLivePrograms",function(obj,data){
+     	obj.tabs=data.result.list;
+     	obj.total=data.result.total;
+     	obj.form.schoolid="";
+     	obj.form.gradesid="";
+     	obj.form.teachersid="";
+     	obj.form.subjectsid="";
+     	obj.form.name="";
+     	obj.form.date1="";
+     	obj.form.date2="";
+    });
 	},
-	parentLisen:function(pageIndex,pageSize){
-	    this.pageIndex=pageIndex;
-	    this.pageSize=pageSize;
-	    this.fetchData();
-	},
-	fetchData:function(){
-	    alert("开课"+this.pageSize);
-	    alert("开课"+this.pageIndex);
-	},
+	sizeChange: function (pageSize) {   //每页显示条数
+        this.pageSize = pageSize;
+        this.fetchData();
+    },
+    pageIndexChange: function (pageIndex) {   //第几页
+        this.pageIndex = pageIndex;
+        this.fetchData();
+    },
+    fetchData:function(){
+      this.postHttp(this,{pageNum:this.pageIndex,pageSize:this.pageSize},"program/study/queryStudyLivePrograms",function(obj,data){
+     	obj.tabs=data.result.list;
+     	obj.total=data.result.total;
+      });
+      },
 	tableButton:function(ids){
 		this.$router.push({path:'/living/'+ids});
 	}
   },
-  created:function(){
-  },
+  
 }
 </script>
 

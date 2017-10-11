@@ -30,8 +30,8 @@
 			 </el-form-item>
 			 <el-form-item label="性别">
 			    <template>
-				  <el-radio class="radio" v-model="form.sex" label="1">男</el-radio>
-				  <el-radio class="radio" v-model="form.sex" label="2">女</el-radio>
+				  <el-radio class="radio" v-model="form.sex" label="M">男</el-radio>
+				  <el-radio class="radio" v-model="form.sex" label="W">女</el-radio>
 				</template>
 			 </el-form-item>
 			 <el-form-item label="班主任">
@@ -60,7 +60,7 @@
 		<el-form label-position="left" :model="form" label-width="80px">
 			<el-form-item label="头像">
 			    <div class="personaldata_logo">
-			    	<img :src="imageUrl" width="150px" height="150px">
+			    	<img :src="img" width="150px" height="150px">
 			    </div>
 			 </el-form-item>
 			 <el-form-item label="真实姓名">
@@ -70,11 +70,11 @@
 			    <p>{{form.school}}</p>
 			 </el-form-item>
 			 <el-form-item label="年级">
-			    <p>{{form.class}}</p>
+			    <p>{{form.gradeName}}</p>
 			 </el-form-item>
 			 <el-form-item label="性别">
-			    <p v-if="form.sex=='1'">男</p>
-			    <p v-else>女</p>
+			    <p v-if="form.sex=='W'">女</p>
+			    <p v-else>男</p>
 			 </el-form-item>
 			 <el-form-item label="班主任">
 			    <p>{{form.teacher}}</p>
@@ -90,7 +90,7 @@
 			 </el-form-item>
 			 <el-form-item label="个人简介">
 			 	<div style="width:800px">
-			    <p style="word-break:break-all">1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</p>
+			    <p style="word-break:break-all"></p>
 			    </div>
 			 </el-form-item>
 			 <el-form-item>
@@ -104,18 +104,7 @@
 export default {
     data() {
       return {
-       form:{
-       		logo:'',
-       		name:'Tom',
-       		school:'第一小学',
-       		class:'',
-       		sex:'1',
-       		teacher:'',
-       		studentid:'',
-       		phone:'',
-       		email:'',
-       		desc:'',
-       },
+       form:{},
        Sclass:[{
        	id:1,
        	className:123,
@@ -135,8 +124,12 @@ export default {
     methods: {
       getdata(){
       	this.$emit('newfind');
-      	this.postHttp(this,{id:"85a938479181450c8f95de5bbadb219b"},"study/user/queryUserById",function(obj,data){
-			
+      	var userid=sessionStorage.getItem("jyids");
+      	this.postHttp(this,{id:userid},"study/user/queryUserById",function(obj,data){
+			obj.form=data.result;
+			if(data.result.sex==""||data.result.sex==null){
+				data.result.sex='M';
+			}
 		});
       },
       onSubmit() {
