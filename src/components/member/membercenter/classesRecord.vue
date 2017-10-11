@@ -18,8 +18,8 @@
 		 </template>
 	</div>
 	<div class="classesrecord_paging tc">
-		<el-pagination v-bind:current-Page="pageIndex" v-bind:page-size="pageSize" :total="totalNumber"
-	   	layout="total,sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSize" :current-page="pageIndex"
+		<el-pagination v-bind:current-Page="pageIndex" v-bind:page-size="pageSize" :total="total"
+	   	layout="total,sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSizes" :current-page="pageIndex"
 	    v-on:size-change="sizeChange" v-on:current-change="pageIndexChange"></el-pagination>
 	</div>
 </div>
@@ -49,8 +49,9 @@ export default {
             playNumber:'1000',
           }*/],
           pageIndex:1,
+          pageSize:1,
           total:60,
-          pageSize:[1,10,20,50,100],
+          pageSizes:[1,10,20,50,100],
         }
       },
       created:function(){
@@ -59,7 +60,7 @@ export default {
       methods: {
       	getdata:function(){
       		this.$emit('newfind');
-      		this.postHttp(this,{tab:"name",pageNum:1,pageSize:10},"course/findMyCourseOfTeacher",function(obj,data){
+      		this.postHttp(this,{tab:"",pageNum:1,pageSize:1},"course/findMyCourseOfTeacher",function(obj,data){
 				obj.tableData=data.result.list;
 				obj.total=data.result.total;
 			});
@@ -72,41 +73,41 @@ export default {
 		  	}  
 		  	return this.timeF(date).format("YYYY-MM-DD HH:mm:ss");  
 		},
-      	sizeChange: function (pageIndex,pageSize) {   //每页显示条数
-	     	this.pageIndex=pageIndex;
+      	sizeChange: function (pageSize) {   //每页显示条数
 	    	this.pageSize=pageSize;
 	    	this.fetchData();
 	    },
-	   pageIndexChange: function (pageIndex,pageSize) {   //第几页
+	   pageIndexChange: function (pageIndex) {   //第几页
 	      	this.pageIndex=pageIndex;
-	    	this.pageSize=pageSize;
 	    	this.fetchData();
 	    },
 	    fetchData:function(){
-	    	alert("开课"+this.pageSize);
-	    	alert("开课"+this.pageIndex);
+	    	this.postHttp(this,{tab:"name",pageNum:this.pageIndex,pageSize:this.pageSize},"course/findMyCourseOfTeacher",function(obj,data){
+				obj.tableData=data.result.list;
+				obj.total=data.result.total;
+			});
 	    },
 	    classesrecordOrder:function(e){
 	    	if(e==1){
-	    		this.postHttp(this,{tab:"name",pageNum:1,pageSize:10},"course/findMyCourseOfTeacher",function(obj,data){
+	    		this.postHttp(this,{tab:"name",pageNum:1,pageSize:1},"course/findMyCourseOfTeacher",function(obj,data){
 				obj.tableData=data.result.list;
 				obj.total=data.result.total;
 				});
 	    	}
 	    	if(e==2){
-	    		this.postHttp(this,{tab:"start_date",pageNum:1,pageSize:10},"course/findMyCourseOfTeacher",function(obj,data){
+	    		this.postHttp(this,{tab:"start_date",pageNum:1,pageSize:1},"course/findMyCourseOfTeacher",function(obj,data){
 				obj.tableData=data.result.list;
 				obj.total=data.result.total;
 				});
 	    	}
 	    	if(e==3){
-	    		this.postHttp(this,{tab:"concerned_num",pageNum:1,pageSize:10},"course/findMyCourseOfTeacher",function(obj,data){
+	    		this.postHttp(this,{tab:"concerned_num",pageNum:1,pageSize:1},"course/findMyCourseOfTeacher",function(obj,data){
 				obj.tableData=data.result.list;
 				obj.total=data.result.total;
 				});
 	    	}
 	    	if(e==4){
-	    		this.postHttp(this,{tab:"played_num",pageNum:1,pageSize:10},"course/findMyCourseOfTeacher",function(obj,data){
+	    		this.postHttp(this,{tab:"played_num",pageNum:1,pageSize:1},"course/findMyCourseOfTeacher",function(obj,data){
 				obj.tableData=data.result.list;
 				obj.total=data.result.total;
 				});

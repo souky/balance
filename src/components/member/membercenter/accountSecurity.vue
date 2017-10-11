@@ -95,6 +95,9 @@ export default {
     		this.$refs[formName].validate((valid) => {
 	          if (valid) {
 	            alert('submit!');
+              this.postHttp(this,{psw:this.ruleForm2.nowpass,newPsw1:this.ruleForm2.pass,newPsw2:this.ruleForm2.checkPass},"study/user/resetPsw",function(obj,data){
+      
+              });
 	            this.resetForm(formName);
 	          } else {
 	            this.$message.error('密码错误！');

@@ -101,7 +101,7 @@ export default {
 }
 #member_center .member_center_content{
 	margin-left: 17px;
-	margin-bottom: 213px;
+	margin-bottom: 20px;
 	width: 971px;
 	background: #fff;
 	border: 1px solid #E5E5E5;
