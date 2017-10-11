@@ -4,11 +4,11 @@
 	<div class="member_center_leftNav tc l">
 		<div class="member_center_leftNav_header">
 			<div class="member_center_leftNav_header_logo">
-				<img src="../../../static/img/toux1.png">
+				<img :src="use.img">
 			</div>
 			<p class="member_center_leftNav_header_padding">{{use.name}}</p>
 			<p>{{use.sex}} {{use.class}}</p>
-			<p>{{use.school}}</p>
+			<p>{{use.organization.name}}</p>
 		</div>
 
 		<div class="member_center_leftNav_button member_center_leftNav_button_top member_center_leftNav_button_padding" @click="personaldataS('personaldata')">
@@ -63,6 +63,16 @@ export default {
   	this.getdata();
   	var s = this.$route.params.part;
 	this.personaldataS(''+s);
+	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+			obj.use=data.result.user;
+			obj.use.class=data.result.grade.name;
+			if(data.result.user.sex=="M"){
+				obj.use.sex="男";
+			}
+			if(data.result.user.sex=="W"){
+				obj.use.sex="女";
+			}
+		});
   },
   watch: {
     '$route' (to, from) {
