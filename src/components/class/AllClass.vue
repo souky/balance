@@ -37,7 +37,6 @@
 				      v-model="startTime"
 				      type="datetime"
 				      placeholder="选择开课时间"
-              :picker-options="pickerOptions0"
               @change="chooseStratTime"
               >
 				    </el-date-picker>
@@ -46,7 +45,6 @@
 				      v-model="endTime"
 				      type="datetime"
 				      placeholder="选择开课时间"
-              :picker-options="pickerOptions1"
               @change="chooseEndTime"
               >
 				    </el-date-picker>
@@ -130,23 +128,6 @@ export default {
 	     startTime:'',
 	     endTime:'',
 	    recommendList:{},
-      pickerOptions0: {
-          disabledDate: (time) => {
-              let endDateVal = this.endTime;
-              if (endDateVal) {
-                  return time.getTime() > endDateVal;
-              }
-          }
-        },
-        pickerOptions1: {
-          
-          disabledDate:(time) => {
-             let beginDateVal = this.startTime;
-              if (beginDateVal) {
-                  return time.getTime() < beginDateVal;
-              }
-          }
-        },
         itemList:{
           grade:'',
           subject:'',
@@ -161,11 +142,23 @@ export default {
   methods:{
     chooseStratTime(val){
       this.startTime = val;
-      this.classInit();
+      if(this.endTime!=''&&this.endTime<this.startTime){
+        alert("结束时间不能小于开始时间");
+        this.startTime = ''
+      }
+      else{
+          this.classInit();
+      }
     },
     chooseEndTime(val){
-      this.endTime = val;
-      this.classInit();
+       this.endTime = val;
+       if(this.startTime!=''&&this.endTime<this.startTime){
+        alert("结束时间不能小于开始时间");
+        this.endTime = ''
+      }
+      else{
+          this.classInit();
+      }
     },
 		chooseGrade(val) {
 	      this.active = val;
