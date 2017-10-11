@@ -57,6 +57,9 @@ export default {
       var pageData = {pageNum:mypageNum,pageSize:mypageSize};
       this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
         obj.notic = data.result;
+        if(data.result.navigatePages == '0'){
+        	obj.$emit('noticFn','');
+        }
       });
     },
     backIndex:function(){
@@ -97,6 +100,7 @@ export default {
     demo:function(){
       this.postHttp(this,{pageNum:this.pageNum,pageSize:this.pageSize},"message/queryMessagesByUserId",function(obj,data){
         obj.notic = data.result;
+        
       });
     }
   }
