@@ -36,7 +36,7 @@
 			<div v-else class="inline__box">
 				<el-dropdown trigger="click">
 					<div class="l rightItems">
-						<el-badge v-if="unReadMsgNum = 0" :is-dot= "false" class="item">
+						<el-badge v-if="unReadMsgNum == 0" :is-dot= "false" class="item">
 						  <img src="../../static/img/header/message.png" />
 						</el-badge>
 						<el-badge v-else :is-dot= "true" class="item">
@@ -193,11 +193,13 @@ export default {
 	  	this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
 	  		obj.notic = data.result;
 	  		obj.unReadMsgNum = data.result.navigatePages;
+	  		
 	  	});
 	  	
   	}else{
   		this.isshow = true;
   	}
+  	
   },
   methods:{
   	handleIconClick(ev){
@@ -229,22 +231,26 @@ export default {
 	            return false;
 	          }
 	        });
-	     },
+    },
 	resetForm(formName) {
 		this.$refs[formName].resetFields();
 		if(this.loading==true)
 		{
 			this.loading = false;
 		}
-      	},
+  	},
     forget(){
     		this.dialogFormVisible = false;
     		this.$router.push({path:'/Forget'})
-    	},
+	},
     register(){
     		this.dialogFormVisible = false;
     		this.$router.push({path:'/register'})
-    	}
+    },
+    changePoint(){
+    	console.log(this)
+    	this.unReadMsgNum = 0;
+    }
   }
 }
 function login_press(obj,data){

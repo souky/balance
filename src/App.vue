@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-  	<b-header></b-header>
+  	<b-header ref="selectHeader"></b-header>
   	<transition name="slide-fade">
-    	<router-view></router-view>
+    	<router-view v-on:noticFn = 'dealwith'></router-view>
     </transition>
   </div>
 </template>
@@ -17,6 +17,11 @@
       var height = document.documentElement.clientHeight;
       document.getElementById("app").style.minHeight = height+"px";
   	},
+  	methods:{
+  		dealwith(){
+				this.$refs.selectHeader.changePoint();
+  		}
+  	}
 	}
 </script>
 
