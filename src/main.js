@@ -71,6 +71,9 @@ Vue.prototype.notify_jr = function(obj,title,message,type){
     });
 }
 
+/* 
+ * 封装未登录提示
+ * */
 Vue.prototype.notify_login = function(){
 	this.$notify({
       title: '提示',
@@ -79,6 +82,10 @@ Vue.prototype.notify_login = function(){
       duration:1500,
       type:'warning'
     });
+}
+
+Vue.prototype.getBaseUrl = function(){
+	return baseUrl;
 }
 
 
