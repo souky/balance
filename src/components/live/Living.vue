@@ -2,6 +2,7 @@
 	<div id="living">
 		<div class="living_play">
 			<img src="../../../static/img/main.png" width="1200px" height="600px">
+      <div class="living_list"></div>
 		</div>
 		<div class="living_banner">
 			 <el-carousel indicator-position="outside" arrow="always" :autoplay="false">
@@ -241,5 +242,14 @@ export default {
 	margin-right: 50px; 
 	width: 125px;
 	height: 35px;
+}
+.living_list{
+  width: 300px;
+  height:600px;
+  background: #282828;
+  float: right;
+  position: absolute;
+  top:90px;
+  left: 1242px;
 }
 </style>

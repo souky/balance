@@ -58,14 +58,16 @@
 							</div>
 							<div class="cl"></div>
 							<div class="mt20 live_body_content_bar_vp">
-								<p class="l">{{tab.startDate}}</p><p class="l ml20 live_body_content_bar_color">{{tab.state}}</p>
+								<p class="l">{{timeF(tab.startDate).format("YYYY/MM/DD hh:mm:ss")}}</p><p class="l ml20 live_body_content_bar_color">{{tab.state}}</p>
 							</div>
 							<div class="cl"></div>
 							<div class="mt80 live_body_content_bar_vp">
 								<p class="l">教师：</p><p class="l">{{tab.teacherName}}</p><p class="l ml20">播放:&nbsp总{{tab.playedNum}}次</p>
-								<button v-if="tab.buttonName=='观看直播'" @click="tableButton(tab.id)" class="l mt-5 live_new_button"><span>{{tab.buttonName}}</span></button>
-								<button v-if="tab.buttonName=='预约'" class="l mt-5 live_new_button live_new_button_red"><span>{{tab.buttonName}}</span></button>
-								<button v-if="tab.buttonName=='已预约'" class="l mt-5 live_new_button live_new_button_blue"><span>{{tab.buttonName}}</span></button>
+								<button v-if="tab.status=='1_ONGOING'" @click="tableButton(tab.id)" class="l mt-5 live_new_button"><span>观看直播</span></button>
+								<button v-if="tab.status=='3_ENDED'"  @click="tableButton(tab.id)" class="l mt-5 live_new_button"><span>回看直播</span></button>
+								<button v-if="tab.status=='PROGRAM_NOT_SUBSCRIBED'" class="l mt-5 live_new_button live_new_button_red"><span>预约</span></button>
+								<button v-if="tab.status=='2_NOT_STARTED'" class="l mt-5 live_new_button live_new_button_red"><span>预约</span></button>
+								<button v-if="tab.status=='PROGRAM_SUBSCRIBED'" class="l mt-5 live_new_button live_new_button_blue"><span>已预约</span></button>
 							</div>
 						</div>
 					</div>

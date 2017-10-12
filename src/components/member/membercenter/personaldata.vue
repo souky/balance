@@ -21,11 +21,11 @@
 			    <p>{{form.name}}</p>
 			 </el-form-item>
 			 <el-form-item label="学校">
-			    <p>{{form.school}}</p>
+			    <p>{{form.organization.name}}</p>
 			 </el-form-item>
 			 <el-form-item label="年级">
-			    <el-select v-model="form.class">
-			    	<el-option v-for="item in Sclass" :key="item.id" :label="item.className" :value="item.id"></el-option>
+			    <el-select v-model="form.orgId">
+			    	<el-option v-for="item in Sclass" :key="item.id" :label="item.name" :value="item.id"></el-option>
 			    </el-select>
 			 </el-form-item>
 			 <el-form-item label="性别">
@@ -35,8 +35,8 @@
 				</template>
 			 </el-form-item>
 			 <el-form-item label="班主任">
-			    <el-select v-model="form.teacher">
-			    	<el-option v-for="item in Steacher" :key="item.id" :label="item.teacherName" :value="item.id"></el-option>
+			    <el-select v-model="form.teacherId">
+			    	<el-option v-for="item in Steacher" :key="item.id" :label="item.name" :value="item.id"></el-option>
 			    </el-select>
 			 </el-form-item>
 			 <el-form-item label="学号">
@@ -49,7 +49,7 @@
 			    <el-input v-model="form.email" style="width:217px;" placeholder="请输入邮箱"></el-input>
 			 </el-form-item>
 			 <el-form-item label="个人简介">
-			    <el-input type="textarea" :autosize="{ minRows: 5, maxRows: 5}" v-model="form.desc" style="width:770px;" placeholder="请输入个人信息"></el-input>
+			    <el-input type="textarea" :autosize="{ minRows: 5, maxRows: 5}" v-model="form.remark" style="width:770px;" placeholder="请输入个人信息"></el-input>
 			 </el-form-item>
 			 <el-form-item>
 			    <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -67,7 +67,7 @@
 			    <p>{{form.name}}</p>
 			 </el-form-item>
 			 <el-form-item label="学校">
-			    <p>{{form.school}}</p>
+			    <p>{{form.organization.name}}</p>
 			 </el-form-item>
 			 <el-form-item label="年级">
 			    <p>{{form.gradeName}}</p>
@@ -90,7 +90,7 @@
 			 </el-form-item>
 			 <el-form-item label="个人简介">
 			 	<div style="width:800px">
-			    <p style="word-break:break-all"></p>
+			    <p style="word-break:break-all">{{form.remark}}</p>
 			    </div>
 			 </el-form-item>
 			 <el-form-item>
@@ -124,16 +124,22 @@ export default {
     methods: {
       getdata(){
       	this.$emit('newfind');
-      	var userid=sessionStorage.getItem("jyids");
-      	this.postHttp(this,{id:userid},"study/user/queryUserById",function(obj,data){
-			obj.form=data.result;
+      	var userid="";
+      	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+			obj.form=data.result.user;
+			obj.form.teacher=data.result.teacher.name;
+			obj.form.gradeName=data.result.grade.name;
+			obj.Sclass=data.result.grades;
+			obj.Steacher=data.result.teachers;
 			if(data.result.sex==""||data.result.sex==null){
 				data.result.sex='M';
 			}
 		});
       },
       onSubmit() {
-       alert(1);
+       this.postHttp(this,{img:"img/user.jpg",gradeId:this.form.class,sex:this.form.sex,teacherId:this.form.teacher,phone:this.form.phone,email:this.form.email,remark:this.form.remark,StudyNum:this.form.studentid,Id:this.form.id,},"/study/user/updateUser",function(obj,data){
+			
+		});
        this.isView=true;
        this.isAlter=false;
       },

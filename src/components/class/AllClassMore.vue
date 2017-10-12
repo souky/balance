@@ -18,7 +18,7 @@
 					<div class="cl"></div>
 					<p class="l allClass_body_content_word_color">授课老师：</p><p class="l">{{book.teacherName}}</p>
 					<div class="cl"></div>
-					<p class="l allClass_body_content_word_color">开课日期：</p><p class="l">{{book.startDate}}</p>
+					<p class="l allClass_body_content_word_color">开课日期：</p><p class="l">{{timeF(book.startDate).format("YYYY/MM/DD hh:mm:ss")}}</p>
 					<div class="cl"></div>
 					<p class="l allClass_body_content_word_color">学习时长：</p><p class="l">{{book.courseDuration}}</p>
 					<div class="cl"></div>
@@ -28,8 +28,8 @@
 					<div class="cl"></div>
 					<div class="allClass_body_content_button">
 						<el-button class="attention_button_public" @click="attentionButton(book.id)" type="primary">进入学习</el-button>
-						<el-button v-if="book.buttonName=='关注'" @click="attention(book.id)" class="attention_button_public attention_button">报名</el-button>
-						<el-button v-if="book.buttonName=='取消关注'" @click="unfollow(book.id)" class="attention_button_public attention_button_sure" type="primary">已报名</el-button>
+						<el-button v-if="book.buttonName==false" @click="attention(book.id)" class="attention_button_public attention_button">报名</el-button>
+						<el-button v-if="book.buttonName==true" class="attention_button_public attention_button_sure" type="primary">已报名</el-button>
 					</div>
 				</div>
 				<div class="cl"></div>
@@ -84,7 +84,7 @@
 				    				<img src="tab.coverImg" width="100%" height="100%">
 				    			</div>
 				    			<p>{{tab.name}}</p>
-				    			<p class="l">开课日期：</p><p class="l">{{tab.startDate}}</p>
+				    			<p class="l">开课日期：</p><p class="l">{{timeF(tab.startDate).format("YYYY/MM/DD hh:mm:ss")}}</p>
 				    			<p class="mr10 r">{{tab.playedNum}}</p><p class="r">播放次数：</p>
 				    			<div class="cl"></div>
 				    			<p class="l">学习时长：</p><p class="l">{{tab.courseDuration}}</p>
@@ -299,6 +299,8 @@ export default {
   			var s = this.$route.params.part;
   			this.postHttp(this,{courseId:s},"course/study/queryCourseContent",function(obj,data){
   				obj.book=data.result.course;
+  				obj.book.buttonName=data.result.concernFlag;
+  				obj.book.login=data.result.loginFlag;
   				obj.propers=data.result.resultSyllabus;
   				obj.tabs1.remark=data.result.course.remark;
   			});
@@ -356,13 +358,13 @@ export default {
 	 },
 	 attention:function(ids){
 	 	var s = this.$route.params.part;
-	 	this.postHttp(this,{programId:ids,},"subscription/saveSubscription",function(obj,data){
+	 	if(this.book.login==false){
+	 		this.notify_login();
+	 		return false;
+	 	}
+	 	this.postHttp(this,{courseId:s,},"studiedrecord/saveStudiedRecord",function(obj,data){
+	 		obj.getdata();
 		});
-		this.postHttp(this,{courseId:s},"course/study/queryCourseContent",function(obj,data){
-  			obj.book=data.result.course;
-  			obj.propers=data.result.resultSyllabus;
-  			obj.tabs1.remark=data.result.course.remark;
-  		});
 	 },
 	 unfollow:function(ids){
 	 	var s = this.$route.params.part;
