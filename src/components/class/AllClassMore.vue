@@ -168,21 +168,7 @@ import page from '../member/page.vue'
 export default {
   data () {
     return {
-    	book:{
-    		/*id:1,
-	      	name:'苏州小学语文三年级下册',
-	      	class:'三年级',
-	      	subject:'语文',
-	      	textbook:'苏教办',
-	      	school:'苏州中学',
-	      	teacher:'James',
-	      	date:'2017-09-24 08:10',
-	      	time:'45分钟',
-	      	mannumber:'900',
-	      	playnumber:'123131',
-	      	attention:'156',
-	      	buttonName:'关注',*/
-      	},
+    	book:{},
       	tabs1:{
       		remark:""
       	},
@@ -195,96 +181,11 @@ export default {
         totalN:90,
         pageSizesN:[1,10,20,50,100],
         lessons:'这门课程讲述的很详细',
-      	tabs:[/*{
-      		titleName:'语文',
-      		date:'2015-09-11',
-      		manNumber:'123',
-      		time:'24小时',
-      		playNumber:'555',
-      	},{
-      		titleName:'数学',
-      		date:'2015-09-11',
-      		manNumber:'123',
-      		time:'24小时',
-      		playNumber:'555',
-      	},{
-      		titleName:'英语',
-      		date:'2015-09-11',
-      		manNumber:'123',
-      		time:'24小时',
-      		playNumber:'555',
-      	}*/],
-      	propers:[/*{
-      		name:'第一组',
-      		time:'共45分钟',
-      		childs:[{
-      			name:'1.古诗两首',
-      			time:'共45分钟',
-      			grandchildrens:[{
-      				name:'咏柳',
-      				time:'共45分钟',
-      			}],
-      		},{
-      			name:'1.古诗两首',
-      			time:'共45分钟',
-      		}],
-      	},{
-      		name:'第二组',
-      		time:'共45分钟',
-      		childs:[{
-      			name:'5.翠鸟',
-      			time:'共45分钟',
-      			grandchildrens:[{
-      				name:'6.燕子专列',
-      				time:'共45分钟',
-      			}],
-      		},{
-      			name:'第三组',
-      			time:'共45分钟',
-      			grandchildrens:[{
-      				name:'10.惊弓之鸟',
-      				time:'共45分钟',
-      			},{
-      				name:'11.画杨桃',
-      				time:'共45分钟',
-      			},{
-      				name:'12*想别人没想到的',
-      				time:'共45分钟',
-      			}],
-      		}],
-      	},{
-      		name:'第四组',
-      		time:'共45分钟',
-      		childs:[{
-      			name:'9.寓言两则',
-      			time:'共45分钟',
-      			grandchildrens:[{
-      				name:'亡羊补牢',
-      				time:'共45分钟',
-      			},{
-      				name:'南辕北辙',
-      				time:'共45分钟',
-      			}],
-      		}],
-      	}*/],
+      	tabs:[],
+      	propers:[],
       	activeName: 'first',
       	textarea:'',
-        comments:[/*{
-        	name:'James',
-        	date:'2017-03-13',
-        	what:'评论了整体课程',
-        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
-        },{
-        	name:'James',
-        	date:'2017-03-13',
-        	what:'评论了整体课程',
-        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
-        },{
-        	name:'James',
-        	date:'2017-03-13',
-        	what:'评论了整体课程',
-        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
-        }*/],
+        comments:[],
         tabs4:{
         	total:''
         },

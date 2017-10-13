@@ -140,7 +140,7 @@ export default {
             obj.profile.newprogram+=data.result.programSNameArray[i];
           }
         });
-     this.postHttp(this,{pageNum:1,pageSize:20},"program/study/queryStudyLivePrograms",function(obj,data){
+     this.postHttp(this,{type:"LIVE",pageNum:1,pageSize:20},"program/study/queryStudyPrograms",function(obj,data){
         obj.items=data.result.list;
         var childNum=Math.ceil(obj.items.length/5);
         var childs=[];

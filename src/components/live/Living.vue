@@ -1,8 +1,38 @@
 <template>
 	<div id="living">
 		<div class="living_play">
-			<img src="../../../static/img/main.png" width="1200px" height="600px">
-      <div class="living_list"></div>
+      <div class="living_main">
+			   <img src="../../../static/img/main.png" width="900px" height="550px">
+         <div class="living_voidTitle">
+           <p class="voidtitle">{{profile.courseName}}</p>
+           <p class="progress">{{profile.newprogram}}</p>
+           <p class="playNumber">共播放{{profile.playNum}}次</p>
+         </div>
+      </div>
+      <div class="living_list">
+          <div class="mt10 allClass_body_tabs_first_content">
+                <div class="mt10 allClass_body_tabs_first_middle cl" v-for="proper in propers">
+                  <p class="l mt10">{{proper.name}}</p>
+                  <div class="cl"></div>
+                  <div class="mt10 allClass_body_tabs_first_middle_body cl" v-for="anotherchild in proper.teachingFiles">
+                  <p  @click="playButton(anotherchild.id)" class="l allClass_body_tabs_first_middle_bodyVipS mt10">{{anotherchild.name}}</p>
+                    <div class="cl"></div>
+                  </div>
+                  <div class="cl"></div>
+                  <div v-for="child in proper.childCourseSyllabus">
+                  <div class="mt10 allClass_body_tabs_first_middle_body cl">
+                    <p class="l allClass_body_tabs_first_middle_bodyVip mt10">{{child.name}}</p>
+                    <div class="cl"></div>
+                    <div class="mt10 allClass_body_tabs_first_middle_foot cl" v-for="grandchildren in child.teachingFiles">
+                      <p  @click="playButton(grandchildren.id)" class="l allClass_body_tabs_first_middle_bodyVVip mt10">{{grandchildren.name}}</p>
+                      <div class="cl"></div>
+                    </div>
+                  </div>
+                  <div class="cl"></div>
+                </div>
+                </div>
+              </div>
+      </div>
 		</div>
 		<div class="living_banner">
 			 <el-carousel indicator-position="outside" arrow="always" :autoplay="false">
@@ -62,16 +92,20 @@ export default {
     	  items:[],
         comments:[],
         textarea:'',
+        propers:[],
         pageIndex:1,
         pageSize:10,
-        total:60,
+        total:"",
         pageSizes:[1,10,20,50,100],
+        lastTeachingFilesId:"",
+        profile:{
+          newprogram:"",
+       },
      }
   },
   created:function(){
     var s = this.$route.params.part;
-    //alert(s);
-    this.postHttp(this,{courseId:"e232cbdbcf5742e8be6da5ec65eb0df5",pageNum:"1",pageSize:"20"},"teachingfile/study/queryTeachingFilesByType",function(obj,data){
+    this.postHttp(this,{courseId:s,pageNum:"1",pageSize:"20"},"teachingfile/study/queryTeachingFilesByType",function(obj,data){
       obj.items=data.result.list;
     for(var i=0;i<obj.items.length;i++){
       obj.items[i].img="../../../static/img/defualt/"+obj.items[i].suffix+".png";
@@ -88,9 +122,20 @@ export default {
     }
     obj.users=childs;
     });
-    this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
+    this.postHttp(this,{courseId:s,pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
       obj.comments=data.result.list;
       obj.total=data.result.total;
+    });
+    this.postHttp(this,{courseId:s},"course/study/queryCourseContent",function(obj,data){
+          obj.propers=data.result.resultSyllabus;
+
+          obj.postHttp(obj,{id:data.result.lastTeachingFilesId},"teachingfile/getTeachingFileById",function(obj1,data1){
+          obj1.profile=data1.result;
+          obj1.profile.newprogram=data1.result.courseSyllabusNameArray[0];
+          for(var i=1;i<data1.result.courseSyllabusNameArray.length;i++){
+            obj1.profile.newprogram+=data1.result.courseSyllabusNameArray[i];
+          }
+        });
     });
   },
   methods:{
@@ -103,17 +148,22 @@ export default {
         this.fetchData();
     },
     fetchData:function(){
-      this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
+      var s = this.$route.params.part;
+      this.postHttp(this,{courseId:s,pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
         obj.comments=data.result.list;
         obj.total=data.result.total;
       });
       },
     saveComment:function(){
-        this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",comment:this.textarea},"comment/saveComment",function(obj,data){
+      var s = this.$route.params.part;
+        this.postHttp(this,{courseId:s,comment:this.textarea},"comment/saveComment",function(obj,data){
         });
         this.textarea="";
         this.fetchData();
       },
+      playButton:function(ids){
+        alert(ids)
+      }
   	}
 }
 </script>
@@ -243,13 +293,84 @@ export default {
 	width: 125px;
 	height: 35px;
 }
-.living_list{
+#living .living_list{
   width: 300px;
   height:600px;
   background: #282828;
   float: right;
-  position: absolute;
-  top:90px;
-  left: 1242px;
+  overflow: auto;
+}
+#living .living_main{
+  width: 900px;
+  height: 550px;
+  float: left;
+}
+#living .living_voidTitle{
+  width: 900px;
+  height: 50px;
+  background: #282828;
+  margin-top:-5px;
+}
+#living .allClass_body_tabs_first_content{
+  width: 100%;
+  overflow: auto;
+}
+#living .allClass_body_tabs_first_middle{
+  width: 100%;
+  height: 23px;
+}
+#living .allClass_body_tabs_first_middle p{
+  height: 18px;
+  color:#fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 250px;
+}
+#living .allClass_body_tabs_first_middle_body{
+  width: 100%;
+  height: 23px;
+}
+#living .allClass_body_tabs_first_middle_foot{
+  width: 100%;
+  height: 23px;
+}
+#living .allClass_body_tabs_first_middle_bodyVip{
+  padding-left: 20px;
+}
+#living .allClass_body_tabs_first_middle_bodyVipS{
+  padding-left: 20px;
+}
+#living .allClass_body_tabs_first_middle_bodyVipS:hover{
+  color: #6ED56C;
+}
+#living .allClass_body_tabs_first_middle_bodyVVip{
+  padding-left: 40px;
+}
+#living .allClass_body_tabs_first_middle_bodyVVip:hover{
+  color: #6ED56C;
+}
+#living .living_voidTitle p{
+  color: #fff;
+  float: left;
+  font-size: 14px;
+}
+#living .living_voidTitle .voidtitle{
+  font-size: 24px;
+  margin-top: 8px;
+}
+#living .living_voidTitle .progress{
+  margin-top: 17px;
+  margin-left: 10px;
+  width:500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#living .living_voidTitle .playNumber{
+  margin-top: 17px;
+  float: right;
 }
 </style>

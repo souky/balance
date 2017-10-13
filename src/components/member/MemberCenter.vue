@@ -4,7 +4,7 @@
 	<div class="member_center_leftNav tc l">
 		<div class="member_center_leftNav_header">
 			<div class="member_center_leftNav_header_logo">
-				<img :src="use.img">
+				<img :src="use.img" height="100px" width="100px">
 			</div>
 			<p class="member_center_leftNav_header_padding">{{use.name}}</p>
 			<p>{{use.sex}} {{use.class}}</p>
@@ -63,7 +63,9 @@ export default {
   	this.getdata();
   	var s = this.$route.params.part;
 	this.personaldataS(''+s);
+	var baseUU = this.getBaseUrl();
 	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+			data.result.user.img = baseUU + data.result.user.img;
 			obj.use=data.result.user;
 			obj.use.class=data.result.grade.name;
 			if(data.result.user.sex=="M"){
@@ -155,6 +157,7 @@ export default {
 	margin:0 auto;
 	margin-top: 41px;
 	border-radius: 50%;
+	overflow: hidden;
 }
 #member_center .member_center_leftNav_header p{
 	color: #999999;

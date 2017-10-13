@@ -8,7 +8,8 @@
 			    <div class="personaldata_logo">
 			    	<el-upload
 					  class="avatar-uploader"
-					  action="https://jsonplaceholder.typicode.com/posts/"
+					  :action="Url"
+					  :with-credentials="true"
 					  :show-file-list="false"
 					  :on-success="handleAvatarSuccess"
 					  :before-upload="beforeAvatarUpload">
@@ -60,7 +61,7 @@
 		<el-form label-position="left" :model="form" label-width="80px">
 			<el-form-item label="头像">
 			    <div class="personaldata_logo">
-			    	<img :src="img" width="150px" height="150px">
+			    	<img :src="form.img" width="150px" height="150px">
 			    </div>
 			 </el-form-item>
 			 <el-form-item label="真实姓名">
@@ -116,16 +117,21 @@ export default {
        imageUrl:'../../../static/img/toux1.png',
        isView:true,
        isAlter:false,
+       Url:'',
       }
     },
     created:function(){
     	this.getdata();
+    	this.Url=this.getBaseUrl()+"uploadFile/upload";
+
     },
     methods: {
       getdata(){
       	this.$emit('newfind');
       	var userid="";
+      	var baseUU = this.getBaseUrl();
       	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+      		data.result.user.img = baseUU + data.result.user.img;
 			obj.form=data.result.user;
 			obj.form.teacher=data.result.teacher.name;
 			obj.form.gradeName=data.result.grade.name;
@@ -134,10 +140,11 @@ export default {
 			if(data.result.sex==""||data.result.sex==null){
 				data.result.sex='M';
 			}
+			console.log(obj.form)
 		});
       },
       onSubmit() {
-       this.postHttp(this,{img:"img/user.jpg",gradeId:this.form.class,sex:this.form.sex,teacherId:this.form.teacher,phone:this.form.phone,email:this.form.email,remark:this.form.remark,StudyNum:this.form.studentid,Id:this.form.id,},"/study/user/updateUser",function(obj,data){
+       this.postHttp(this,{img:this.form.img,gradeId:this.form.class,sex:this.form.sex,teacherId:this.form.teacher,phone:this.form.phone,email:this.form.email,remark:this.form.remark,StudyNum:this.form.studentid,Id:this.form.id,},"/study/user/updateUser",function(obj,data){
 			
 		});
        this.isView=true;
@@ -149,6 +156,7 @@ export default {
       },
       handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
+        this.form.img=res.result.path;
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
@@ -178,8 +186,10 @@ export default {
 	margin-left: 40px;
 }
 #personaldata .personaldata_logo{
-	width: 133px;
-	height: 160px;
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+    overflow: hidden;
 }
 #personaldata .el-form-item{
 	margin-bottom:19px !important;
