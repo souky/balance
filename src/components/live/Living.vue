@@ -57,7 +57,7 @@
 				    		<p>全部评论（{{total}}）</p>
 				    		<div class="allClass_body_tabs_fourth_bar" v-for="comment in comments">
 				    			<div class="allClass_body_tabs_fourth_bar_img l">
-				    				<img src="../../../static/img/defualt/rar.png" width="60px" height="60px" />
+				    				<img :src="comment.userImg" width="60px" height="60px" />
 				    			</div>
 				    			<div class="allClass_body_tabs_fourth_bar_word l">
 				    				<p class="l">{{comment.createUser}}</p><p class="l ml10">{{timeF(comment.createDate).format("YYYY-MM-DD HH:mm:ss")}}</p><p class="l ml10">{{comment.what}}</p>
@@ -73,9 +73,9 @@
 				    		</div>
 				    		<div class="allClass_body_tabs_fourth_input">
 				    			<div class="allClass_body_tabs_fourth_input_img">
-				    				<img src="../../../static/img/defualt/rar.png" width="100px" height="100px" />
+				    				<img :src="userU.img" width="100px" height="100px" />
 				    			</div>
-				    			<p class="allClass_body_tabs_fourth_input_img_name l">James</p>
+				    			<p class="allClass_body_tabs_fourth_input_img_name l">{{userU.name}}</p>
 				    			<el-input class="allClass_body_tabs_fourth_input_textarea l" type="textarea" :rows="6" placeholder="不超过300字" v-model="textarea"></el-input>
 				    			<el-button class="r allClass_body_tabs_fourth_input_button" @click="saveComment" type="primary">发表评论</el-button>
 				    		</div>
@@ -95,12 +95,13 @@ export default {
         propers:[],
         pageIndex:1,
         pageSize:10,
-        total:"",
+        total:0,
         pageSizes:[1,10,20,50,100],
         lastTeachingFilesId:"",
         profile:{
           newprogram:"",
        },
+        userU:{},
      }
   },
   created:function(){
@@ -125,6 +126,9 @@ export default {
     this.postHttp(this,{courseId:s,pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
       obj.comments=data.result.list;
       obj.total=data.result.total;
+    });
+    this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+        obj.userU=data.result.user;
     });
     this.postHttp(this,{courseId:s},"course/study/queryCourseContent",function(obj,data){
           obj.propers=data.result.resultSyllabus;
@@ -274,7 +278,6 @@ export default {
 	width: 100px;
 	height: 100px;
 	border-radius: 50%;
-	background-color: red;
 	margin-left: 30px;
 	overflow: hidden;
 }

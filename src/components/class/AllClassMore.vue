@@ -72,7 +72,7 @@
 				    <el-tab-pane label="授课老师" name="second">
 				    	<h3>教师简介</h3>
 				    	<div class="allClass_body_tabs_Vimg mt10 l">
-				    		<img src="../../../static/img/temp/fm7.png" width="125px" height="155px">
+				    		<img :src="teacherImg" width="125px" height="155px">
 				    	</div>
 				    	<p class="l allClass_body_tabs_word ml10 mt10">{{lessons}}</p>
 				    	<div class="cl"></div>
@@ -132,7 +132,7 @@
 				    		<p>全部评论（{{tabs4.total}}）</p>
 				    		<div class="allClass_body_tabs_fourth_bar" v-for="comment in comments">
 				    			<div class="allClass_body_tabs_fourth_bar_img l">
-				    				<img src="../../../static/img/defualt/rar.png" width="60px" height="60px" />
+				    				<img :src="comment.userImg" width="60px" height="60px" />
 				    			</div>
 				    			<div class="allClass_body_tabs_fourth_bar_word l">
 				    				<p class="l">{{comment.createUser}}</p><p class="l ml10">{{timeF(comment.createDate).format("YYYY-MM-DD HH:mm:ss")}}</p><p class="l ml10">{{comment.what}}</p>
@@ -148,9 +148,9 @@
 				    		</div>
 				    		<div class="allClass_body_tabs_fourth_input">
 				    			<div class="allClass_body_tabs_fourth_input_img">
-				    				<img src="../../../static/img/defualt/rar.png" width="100px" height="100px" />
+				    				<img :src="user.img" width="100px" height="100px" />
 				    			</div>
-				    			<p class="allClass_body_tabs_fourth_input_img_name l">James</p>
+				    			<p class="allClass_body_tabs_fourth_input_img_name l">{{user.name}}</p>
 				    			<el-input class="allClass_body_tabs_fourth_input_textarea l" type="textarea" :rows="6" placeholder="不超过300字" v-model="textarea"></el-input>
 				    			<el-button class="r allClass_body_tabs_fourth_input_button" @click="saveComment" type="primary">发表评论</el-button>
 				    		</div>
@@ -181,6 +181,7 @@ export default {
         totalN:90,
         pageSizesN:[1,10,20,50,100],
         lessons:'这门课程讲述的很详细',
+        teacherImg:'',
       	tabs:[],
       	propers:[],
       	activeName: 'first',
@@ -189,6 +190,7 @@ export default {
         tabs4:{
         	total:''
         },
+        user:{},
     }
   },
   components:{page},
@@ -205,9 +207,14 @@ export default {
   				obj.propers=data.result.resultSyllabus;
   				obj.tabs1.remark=data.result.course.remark;
   			});
+  			this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+	          obj.user=data.result.user;
+	        });
   			this.postHttp(this,{courseId:s,pageNum:this.pageIndexN,pageSize:this.pageSizeN},"course/study/queryCourseTeacher",function(obj,data){
   				obj.tabs=data.result.courseList.list;
   				obj.totalN=data.result.courseList.total;
+  				obj.teacherImg=data.result.teacher.img;
+  				obj.lessons=data.result.teacher.remark;
   			});
   			this.postHttp(this,{courseId:s,pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
   				obj.comments=data.result.list;
@@ -216,7 +223,6 @@ export default {
   			})
   		},
   	   handleClick(tab, event) {
-        console.log(tab, event);
       },
       saveComment:function(){
       	var s = this.$route.params.part;
@@ -401,7 +407,6 @@ export default {
 	width: 60px;
 	height: 60px;
 	border-radius: 50%;
-	background-color: red;
 	overflow: hidden;
 }
 #allClass .allClass_body_tabs_fourth_bar_word{

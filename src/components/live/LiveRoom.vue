@@ -103,7 +103,7 @@ export default {
 		subjects:[],
 		pageIndex:1,
         pageSize:10,
-        total:"",
+        total:0,
         pageSizes:[1,10,20,50,100],
     }
   },

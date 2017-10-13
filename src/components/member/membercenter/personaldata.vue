@@ -106,14 +106,8 @@ export default {
     data() {
       return {
        form:{},
-       Sclass:[{
-       	id:1,
-       	className:123,
-       }],
-       Steacher:[{
-       	id:1,
-       	teacherName:321,
-       }],
+       Sclass:[],
+       Steacher:[],
        imageUrl:'../../../static/img/toux1.png',
        isView:true,
        isAlter:false,
@@ -133,6 +127,7 @@ export default {
       	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
       		data.result.user.img = baseUU + data.result.user.img;
 			obj.form=data.result.user;
+			obj.imageUrl=data.result.user.img;
 			obj.form.teacher=data.result.teacher.name;
 			obj.form.gradeName=data.result.grade.name;
 			obj.Sclass=data.result.grades;
@@ -198,5 +193,8 @@ export default {
 	padding: 6px 47px !important;
 	border-radius: 25px !important;
 }
-
+#personaldata .avatar{
+	width: 150px;
+	height: 150px;
+}
 </style>
