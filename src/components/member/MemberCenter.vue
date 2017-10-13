@@ -1,39 +1,41 @@
 <template>
 <div id="member_center" class="main_body">
 <div class="member_center_style fix">
-	<div class="member_center_leftNav tc l">
-		<div class="member_center_leftNav_header">
-			<div class="member_center_leftNav_header_logo">
-				<img :src="use.img" height="100px" width="100px">
-			</div>
-			<p class="member_center_leftNav_header_padding">{{use.name}}</p>
-			<p>{{use.sex}} {{use.class}}</p>
-			<p>{{use.organization.name}}</p>
-		</div>
-
-		<div class="member_center_leftNav_button member_center_leftNav_button_top member_center_leftNav_button_padding" @click="personaldataS('personaldata')">
-			<div v-show="showPage == 'personaldata'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>个人资料</p>
-		</div>
-		<div class="member_center_leftNav_button member_center_leftNav_button_bottom" @click="personaldataS('accountsecurity')">
-			<div v-show="showPage == 'accountsecurity'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>账号安全</p>
-		</div>
-
-		<div class="member_center_leftNav_button member_center_leftNav_button_top member_center_leftNav_button_padding" @click="personaldataS('classesrecord')">
-			<div v-show="showPage == 'classesrecord'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的开课记录</p>
-		</div>
-		<div class="member_center_leftNav_button member_center_leftNav_button_top" @click="personaldataS('studyrecord')">
-			<div v-show="showPage == 'studyrecord'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的学习记录</p>
-		</div>
-		<div class="member_center_leftNav_button member_center_leftNav_button_bottom" @click="personaldataS('orderrecord')">
-			<div v-show="showPage == 'orderrecord'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的预约记录</p>
-		</div>
-	</div>
-	<div class="member_center_content l">
+	
+	<div class="member_center_content ">
 		<personal-data v-if="showPage == 'personaldata'"></personal-data>
 		<account-security  v-if="showPage == 'accountsecurity'"></account-security>
 		<classes-record  v-if="showPage == 'classesrecord'"></classes-record>
 		<study-record  v-if="showPage == 'studyrecord'"></study-record>
 		<order-record  v-if="showPage == 'orderrecord'"></order-record>
+		
+		<div class="member_center_leftNav tc">
+			<div class="member_center_leftNav_header">
+				<div class="member_center_leftNav_header_logo">
+					<img :src="use.img" height="100px" width="100px">
+				</div>
+				<p class="member_center_leftNav_header_padding">{{use.name}}</p>
+				<p>{{use.sex}} {{use.class}}</p>
+				<p>{{use.organization.name}}</p>
+			</div>
+	
+			<div class="member_center_leftNav_button member_center_leftNav_button_top member_center_leftNav_button_padding" @click="personaldataS('personaldata')">
+				<div v-show="showPage == 'personaldata'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>个人资料</p>
+			</div>
+			<div class="member_center_leftNav_button member_center_leftNav_button_bottom" @click="personaldataS('accountsecurity')">
+				<div v-show="showPage == 'accountsecurity'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>账号安全</p>
+			</div>
+	
+			<div class="member_center_leftNav_button member_center_leftNav_button_top member_center_leftNav_button_padding" @click="personaldataS('classesrecord')">
+				<div v-show="showPage == 'classesrecord'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的开课记录</p>
+			</div>
+			<div class="member_center_leftNav_button member_center_leftNav_button_top" @click="personaldataS('studyrecord')">
+				<div v-show="showPage == 'studyrecord'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的学习记录</p>
+			</div>
+			<div class="member_center_leftNav_button member_center_leftNav_button_bottom" @click="personaldataS('orderrecord')">
+				<div v-show="showPage == 'orderrecord'" class="member_center_leftNav_isactive"><i class="iconstyle el-icon-arrow-right"></i></div><p>我的预约记录</p>
+			</div>
+		</div>
 	</div>
 </div>
 </div>
@@ -110,15 +112,19 @@ export default {
 <style>
 #member_center .member_center_leftNav{
 	width: 200px;
+	position: absolute;
+	top:0px;
+	left:-220px;
 }
 #member_center .member_center_content{
-	margin-left: 17px;
+	margin:auto;
 	margin-bottom: 20px;
-	width: 971px;
+	width: 1100px;
 	background: #fff;
 	border: 1px solid #E5E5E5;
 	border-radius: 3px;
 	min-height:565px;
+	position: relative;
 }
 #member_center .member_center_style{
 	width: 1200px;

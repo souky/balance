@@ -1,7 +1,7 @@
 <template>
 <div id="personaldata">
 	<p class="personaldata_title">个人资料</p>
-	<hr style="width:890px;background-color:#E5E5E5;">
+	<hr style="width:95%;background-color:#E5E5E5;">
 	<div class="personaldata_padding" v-show="isAlter">
 		<el-form label-position="left" :model="form" label-width="80px">
 			<el-form-item label="头像">

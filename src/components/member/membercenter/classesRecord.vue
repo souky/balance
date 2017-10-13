@@ -5,7 +5,7 @@
 	<p class="l ml10 mt36" @click="classesrecordOrder('2')">开课日期</p>
 	<p class="l ml10 mt36" @click="classesrecordOrder('3')">关注人数</p>
 	<p class="l ml10 mt36" @click="classesrecordOrder('4')">播放量</p>
-	<hr style="width:890px;background-color:#E5E5E5;">
+	<hr style="width: 95%;background-color:#E5E5E5;">
 	<div class="classesrecord_table">
 		<template>
 		    <el-table :data="tableData" style="width: 100%">
@@ -132,7 +132,7 @@ export default {
 #classesrecord .classesrecord_table{
 	margin: 0 auto;
 	margin-top: 20px;
-	width: 90%;
+	width: 95%;
 	min-height: 360px;
 }
 #classesrecord .classesrecord_paging{

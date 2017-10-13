@@ -1,7 +1,7 @@
 <template>
 <div id="accountSecurity">
 	<p class="accountSecurity_title">{{title}}</p>
-	<hr style="width:890px;background-color:#E5E5E5;">
+	<hr style="width:95%;background-color:#E5E5E5;">
 	<div class="accountSecurity_control">
 		<div class="accountSecurity_control_password" v-show="accountSecurityControlStyle" @click="accountSecurityControlButton">
 			<img src="../../../../static/img/passwordLogo.png">
