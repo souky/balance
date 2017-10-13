@@ -123,9 +123,7 @@ export default {
       getdata(){
       	this.$emit('newfind');
       	var userid="";
-      	var baseUU = this.getBaseUrl();
       	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
-      		data.result.user.img = baseUU + data.result.user.img;
 			obj.form=data.result.user;
 			obj.imageUrl=data.result.user.img;
 			obj.form.teacher=data.result.teacher.name;

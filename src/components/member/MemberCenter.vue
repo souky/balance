@@ -65,9 +65,7 @@ export default {
   	this.getdata();
   	var s = this.$route.params.part;
 	this.personaldataS(''+s);
-	var baseUU = this.getBaseUrl();
 	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
-			data.result.user.img = baseUU + data.result.user.img;
 			obj.use=data.result.user;
 			obj.use.class=data.result.grade.name;
 			if(data.result.user.sex=="M"){
