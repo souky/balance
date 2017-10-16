@@ -5,28 +5,42 @@
     </div>
 		<div class="living_banner">
 			 <el-carousel indicator-position="outside" arrow="always" :autoplay="false">
-			    <el-carousel-item v-for="item in items" :key="item.id">
+			    <el-carousel-item v-for="item in users" :key="item.id">
 			       <div class="banner_bar l" v-for="child in item.childs">
-			         <div v-if="child.type=='past'" class="banner_bar_content_past">
-                  <p class="tc mt30 f20">{{child.date}}</p>   
-                  <p class="tc mt10 f12">{{child.state}}</p>
-                  <p class="tc mt30 f12">{{child.class}}</p>
-                  <p class="tc mt10 f12">{{child.course}}</p>
+			         <div v-if="child.status=='3_ENDED'" class="banner_bar_content_past">
+                  <p class="tc mt30 f20">{{timeF(child.startDate).format("MM/DD hh:mm:ss")}}-{{timeF(child.endDate).format("hh:mm:ss")}}</p>   
+                  <p class="tc mt10 f12">已结束</p>
+                  <p class="tc mt30 f12">{{child.gradeName}}</p>
+                  <p class="tc mt10 f12">{{child.syllabusName}}</p>
                   <el-button class="banner_bar_content_button">查看回放</el-button>
                </div>
-               <div v-if="child.type=='now'" class="banner_bar_content_now">
-                  <p class="tc mt30 f20">{{child.date}}</p>   
-                  <p class="tc mt10 f12">{{child.state}}</p>
-                  <p class="tc mt30 f12">{{child.class}}</p>
-                  <p class="tc mt10 f12">{{child.course}}</p>
-                  <el-button class="banner_bar_content_button_now">查看回放</el-button>
+               <div v-if="child.status=='1_ONGOING'" class="banner_bar_content_now">
+                  <p class="tc mt30 f20">{{timeF(child.startDate).format("MM/DD hh:mm:ss")}}-{{timeF(child.endDate).format("hh:mm:ss")}}</p>   
+                  <p class="tc mt10 f12">进行中</p>
+                  <p class="tc mt30 f12">{{child.gradeName}}</p>
+                  <p class="tc mt10 f12">{{child.syllabusName}}</p>
+                  <el-button class="banner_bar_content_button_now">观看直播</el-button>
                </div>
-               <div v-if="child.type=='future'" class="banner_bar_content_future">
-                  <p class="tc mt30 f20">{{child.date}}</p>   
-                  <p class="tc mt10 f12">{{child.state}}</p>
-                  <p class="tc mt30 f12">{{child.class}}</p>
-                  <p class="tc mt10 f12">{{child.course}}</p>
-                  <el-button class="banner_bar_content_button_future">查看回放</el-button>
+               <div v-if="child.status=='2_NOT_STARTED'" class="banner_bar_content_future">
+                  <p class="tc mt30 f20">{{timeF(child.startDate).format("MM/DD hh:mm:ss")}}-{{timeF(child.endDate).format("hh:mm:ss")}}</p>   
+                  <p class="tc mt10 f12">未开始</p>
+                  <p class="tc mt30 f12">{{child.gradeName}}</p>
+                  <p class="tc mt10 f12">{{child.syllabusName}}</p>
+                  <el-button class="banner_bar_content_button_future">敬请期待</el-button>
+               </div>
+               <div v-if="child.status=='PROGRAM_SUBSCRIBED'" class="banner_bar_content_future">
+                  <p class="tc mt30 f20">{{timeF(child.startDate).format("MM/DD hh:mm:ss")}}-{{timeF(child.endDate).format("hh:mm:ss")}}</p>   
+                  <p class="tc mt10 f12">未开始</p>
+                  <p class="tc mt30 f12">{{child.gradeName}}</p>
+                  <p class="tc mt10 f12">{{child.syllabusName}}</p>
+                  <el-button class="banner_bar_content_button_future">敬请期待</el-button>
+               </div>
+               <div v-if="child.status=='PROGRAM_NOT_SUBSCRIBED'" class="banner_bar_content_future">
+                  <p class="tc mt30 f20">{{timeF(child.startDate).format("MM/DD hh:mm:ss")}}-{{timeF(child.endDate).format("hh:mm:ss")}}</p>   
+                  <p class="tc mt10 f12">未开始</p>
+                  <p class="tc mt30 f12">{{child.gradeName}}</p>
+                  <p class="tc mt10 f12">{{child.syllabusName}}</p>
+                  <el-button class="banner_bar_content_button_future">敬请期待</el-button>
                </div>
 			       </div>
 			    </el-carousel-item>
@@ -35,32 +49,34 @@
 		<div class="living_table_foot">
     <div class="play_presentation">
       <p class="mt30 ml30 lh16 mb10 f16">直播简介</p>
-      <p class="l ml30 f14 lh18">课程名：</p><p class="l ml5 f14 lh18">春季小学二年级语文</p><p class="l ml10 f14 lh18">学校：</p><p class="l ml5 f14 lh18">苏州小学</p><p class="l ml10 f14 lh18">教师：</p><p class="l ml5 f14 lh18">James</p><p class="l ml10 f14 lh18">大纲进程:</p><p class="l ml5 f14 lh18">人教版课程——第一章——第一节——第一课</p>
+      <p class="l ml30 f14 lh18">课程名：</p><p class="l ml5 f14 lh18">{{profile.name}}</p><p class="l ml10 f14 lh18">学校：</p><p class="l ml5 f14 lh18">{{profile.schoolName}}</p><p class="l ml10 f14 lh18">教师：</p><p class="l ml5 f14 lh18">{{profile.teacherName}}</p><p class="l ml10 f14 lh18">大纲进程:</p><p class="l ml5 f14 lh18">{{profile.newprogram}}</p>
       <div class="cl"></div>
     </div>
 			<div class="allClass_body_tabs_fourth">
 				    		<p>全部评论（100）</p>
 				    		<div class="allClass_body_tabs_fourth_bar" v-for="comment in comments">
 				    			<div class="allClass_body_tabs_fourth_bar_img l">
-				    				<img src="../../../static/img/defualt/rar.png" width="60px" height="60px" />
+				    				<img :src="comment.userImg" width="60px" height="60px" />
 				    			</div>
 				    			<div class="allClass_body_tabs_fourth_bar_word l">
-				    				<p class="l">{{comment.name}}</p><p class="l ml10">{{comment.date}}</p><p class="l ml10">{{comment.what}}</p>
+				    				<p class="l">{{comment.userName}}</p><p class="l ml10">{{timeF(comment.createDate).format("YYYY-MM-DD HH:mm:ss")}}</p><p class="l ml10">{{comment.what}}</p>
 				    				<div class="cl"></div>
-				    				<p class="allClass_body_tabs_fourth_bar_word_content mt10">{{comment.content}}</p>
+				    				<p class="allClass_body_tabs_fourth_bar_word_content mt10">{{comment.comment}}</p>
 				    				<hr class="mt10" style="width:100%;background-color:#E5E5E5;">
 				    			</div>
 				    		</div>
 				    		<div class="allClass_body_tabs_fourth_pagging tc">
-				    			<page :totalNumber="totalfourth" @newNOdeEvents="parentLisenfourth"></page>
+				    			<el-pagination v-bind:current-Page="pageIndex" v-bind:page-size="pageSize" :total="total"
+                    layout="total,sizes,prev,pager,next,jumper" v-bind:page-sizes="pageSizes" :current-page="pageIndex"
+                    v-on:size-change="sizeChange" v-on:current-change="pageIndexChange"></el-pagination>
 				    		</div>
 				    		<div class="allClass_body_tabs_fourth_input">
 				    			<div class="allClass_body_tabs_fourth_input_img">
-				    				<img src="../../../static/img/defualt/rar.png" width="100px" height="100px" />
+				    				<img :src="user.img" width="100px" height="100px" />
 				    			</div>
-				    			<p class="allClass_body_tabs_fourth_input_img_name l">James</p>
+				    			<p class="allClass_body_tabs_fourth_input_img_name l">{{user.name}}</p>
 				    			<el-input class="allClass_body_tabs_fourth_input_textarea l" type="textarea" :rows="6" placeholder="不超过300字" v-model="textarea"></el-input>
-				    			<el-button class="r allClass_body_tabs_fourth_input_button" type="primary">发表评论</el-button>
+				    			<el-button class="r allClass_body_tabs_fourth_input_button" @click="saveComment" type="primary">发表评论</el-button>
 				    		</div>
 				    	</div>
 		</div>
@@ -72,139 +88,10 @@ export default {
   data () {
     return {
     	textarea:'',
-    	 items:[{
-        id:1,
-        childs:[{
-          type:'past',
-          date:'2017-09-03 08:00',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'now',
-          date:'2017-09-03 08:30',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'now',
-          date:'2017-09-03 09:00',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'future',
-          date:'2017-09-03 09:30',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'future',
-          date:'2017-09-03 10:00',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        }],
-      },{
-        id:2,
-        childs:[{
-          type:'past',
-          date:'2017-09-03 10:30',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'now',
-          date:'2017-09-03 11:00',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'now',
-          date:'2017-09-03 11:30',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'future',
-          date:'2017-09-03 12:00',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'future',
-          date:'2017-09-03 12:30',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        }],
-      },{
-        id:3,
-        childs:[{
-          type:'past',
-          date:'2017-09-03 13:00',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'now',
-          date:'2017-09-03 13:30',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'now',
-          date:'2017-09-03 14:00',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'future',
-          date:'2017-09-03 14:30',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'future',
-          date:'2017-09-03 15:00',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        }],
-      },{
-        id:4,
-       childs:[{
-          type:'past',
-          date:'2017-09-03 15:30',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'now',
-          date:'2017-09-03 16:00',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'now',
-          date:'2017-09-03 16:30',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'future',
-          date:'2017-09-03 17:00',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        },{
-          type:'future',
-          date:'2017-09-03 17:30',
-          state:'进行中',
-          class:'第二高中——二年纪三班',
-          course:'语文——第一讲——第三课',
-        }],
-      }],
+    	 items:[],
+       profile:{
+        newprogram:"",
+       },
       comments:[{
         	name:'James',
         	date:'2017-03-13',
@@ -223,25 +110,76 @@ export default {
         }],
         pageIndex:1,
         pageSize:10,
-        totalfourth:60,
+        total:60,
+        pageSizes:[1,10,20,50,100],
+        users:[],
+        user:{
+          name:"",
+          img:'',
+        },
      }
   },
   components:{page},
   created:function(){
-    var s = this.$route.params.part;
-    alert(s);
+    this.dataN();
   },
   methods:{
-  	parentLisenfourth:function(pageIndex,pageSize){
-	    this.pageIndex=pageIndex;
-	    this.pageSize=pageSize;
-	    this.fetchData();
-	},
-	fetchData:function(){
-	    alert("开课"+this.pageSize);
-	    alert("开课"+this.pageIndex);
-	},
-  	}
+  dataN:function(){
+    var s = this.$route.params.part;
+    this.postHttp(this,{programId:s,pageNum:1,pageSize:10},"programComment/study/queryProgramComments",function(obj,data){
+        obj.comments=data.result.list;
+        obj.total=data.result.total;
+    });
+     this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+          obj.user=data.result.user;
+        });
+     this.postHttp(this,{id:s},"program/getProgram",function(obj,data){
+          obj.profile=data.result;
+          obj.profile.newprogram=data.result.programSNameArray[0];
+          for(var i=1;i<data.result.programSNameArray.length;i++){
+            obj.profile.newprogram+=data.result.programSNameArray[i];
+          }
+        });
+     this.postHttp(this,{type:"LIVE",pageNum:1,pageSize:20},"program/study/queryStudyPrograms",function(obj,data){
+        obj.items=data.result.list;
+        var childNum=Math.ceil(obj.items.length/5);
+        var childs=[];
+        for(var l=0;l<childNum;l++){
+          var id=l+1;
+          var e=5*(l+1);
+          var s=e-5;
+          childs[l] = []
+          childs[l]["childs"]=obj.items.slice(s,e);
+          childs[l]["id"] = id;
+        }
+        obj.users=childs;
+    });
+    
+    },
+    sizeChange: function (pageSize) {   //每页显示条数
+        this.pageSize = pageSize;
+        this.fetchData();
+    },
+    pageIndexChange: function (pageIndex) {   //第几页
+        this.pageIndex = pageIndex;
+        this.fetchData();
+    },
+    fetchData:function(){
+      var s = this.$route.params.part;
+      this.postHttp(this,{programId:s,pageNum:this.pageIndex,pageSize:this.pageSize},"programComment/study/queryProgramComments",function(obj,data){
+        obj.comments=data.result.list;
+        obj.total=data.result.total;
+      });
+      },
+      saveComment:function(){
+        var s = this.$route.params.part;
+        this.postHttp(this,{programId:s,comment:this.textarea},"programComment/saveProgramComment",function(obj,data){
+          obj.textarea="";
+          obj.fetchData();
+      });
+
+      },
+  }
 }
 </script>
 <style>
@@ -348,7 +286,6 @@ export default {
 	width: 100px;
 	height: 100px;
 	border-radius: 50%;
-	background-color: red;
 	margin-left: 30px;
 	overflow: hidden;
 }

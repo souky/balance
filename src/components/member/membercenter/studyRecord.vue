@@ -147,7 +147,7 @@ export default{
 	overflow: hidden;
 }
 #studyrecord .studyrecord_header{
-	width: 90%;
+	width: 95%;
 	margin:34px auto 20px auto;
 }
 #studyrecord .ml42{
@@ -189,7 +189,7 @@ export default{
 }
 #studyrecord .studyrecord_body{
 	margin: 0 auto;
-	width: 90%;
+	width: 95%;
 	min-height: 360px;
 }
 #studyrecord .studyrecord_paging{

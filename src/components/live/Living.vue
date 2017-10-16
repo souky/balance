@@ -1,7 +1,38 @@
 <template>
 	<div id="living">
 		<div class="living_play">
-			<img src="../../../static/img/main.png" width="1200px" height="600px">
+      <div class="living_main">
+			   <img src="../../../static/img/main.png" width="900px" height="550px">
+         <div class="living_voidTitle">
+           <p class="voidtitle">{{profile.courseName}}</p>
+           <p class="progress">{{profile.newprogram}}</p>
+           <p class="playNumber">共播放{{profile.playNum}}次</p>
+         </div>
+      </div>
+      <div class="living_list">
+          <div class="mt10 allClass_body_tabs_first_content">
+                <div class="mt10 allClass_body_tabs_first_middle cl" v-for="proper in propers">
+                  <p class="l mt10">{{proper.name}}</p>
+                  <div class="cl"></div>
+                  <div class="mt10 allClass_body_tabs_first_middle_body cl" v-for="anotherchild in proper.teachingFiles">
+                  <p  @click="playButton(anotherchild.id)" class="l allClass_body_tabs_first_middle_bodyVipS mt10">{{anotherchild.name}}</p>
+                    <div class="cl"></div>
+                  </div>
+                  <div class="cl"></div>
+                  <div v-for="child in proper.childCourseSyllabus">
+                  <div class="mt10 allClass_body_tabs_first_middle_body cl">
+                    <p class="l allClass_body_tabs_first_middle_bodyVip mt10">{{child.name}}</p>
+                    <div class="cl"></div>
+                    <div class="mt10 allClass_body_tabs_first_middle_foot cl" v-for="grandchildren in child.teachingFiles">
+                      <p  @click="playButton(grandchildren.id)" class="l allClass_body_tabs_first_middle_bodyVVip mt10">{{grandchildren.name}}</p>
+                      <div class="cl"></div>
+                    </div>
+                  </div>
+                  <div class="cl"></div>
+                </div>
+                </div>
+              </div>
+      </div>
 		</div>
 		<div class="living_banner">
 			 <el-carousel indicator-position="outside" arrow="always" :autoplay="false">
@@ -26,7 +57,7 @@
 				    		<p>全部评论（{{total}}）</p>
 				    		<div class="allClass_body_tabs_fourth_bar" v-for="comment in comments">
 				    			<div class="allClass_body_tabs_fourth_bar_img l">
-				    				<img src="../../../static/img/defualt/rar.png" width="60px" height="60px" />
+				    				<img :src="comment.userImg" width="60px" height="60px" />
 				    			</div>
 				    			<div class="allClass_body_tabs_fourth_bar_word l">
 				    				<p class="l">{{comment.createUser}}</p><p class="l ml10">{{timeF(comment.createDate).format("YYYY-MM-DD HH:mm:ss")}}</p><p class="l ml10">{{comment.what}}</p>
@@ -42,9 +73,9 @@
 				    		</div>
 				    		<div class="allClass_body_tabs_fourth_input">
 				    			<div class="allClass_body_tabs_fourth_input_img">
-				    				<img src="../../../static/img/defualt/rar.png" width="100px" height="100px" />
+				    				<img :src="userU.img" width="100px" height="100px" />
 				    			</div>
-				    			<p class="allClass_body_tabs_fourth_input_img_name l">James</p>
+				    			<p class="allClass_body_tabs_fourth_input_img_name l">{{userU.name}}</p>
 				    			<el-input class="allClass_body_tabs_fourth_input_textarea l" type="textarea" :rows="6" placeholder="不超过300字" v-model="textarea"></el-input>
 				    			<el-button class="r allClass_body_tabs_fourth_input_button" @click="saveComment" type="primary">发表评论</el-button>
 				    		</div>
@@ -61,16 +92,21 @@ export default {
     	  items:[],
         comments:[],
         textarea:'',
+        propers:[],
         pageIndex:1,
         pageSize:10,
-        total:60,
+        total:0,
         pageSizes:[1,10,20,50,100],
+        lastTeachingFilesId:"",
+        profile:{
+          newprogram:"",
+       },
+        userU:{},
      }
   },
   created:function(){
     var s = this.$route.params.part;
-    //alert(s);
-    this.postHttp(this,{courseId:"e232cbdbcf5742e8be6da5ec65eb0df5",pageNum:"1",pageSize:"20"},"teachingfile/study/queryTeachingFilesByType",function(obj,data){
+    this.postHttp(this,{courseId:s,pageNum:"1",pageSize:"20"},"teachingfile/study/queryTeachingFilesByType",function(obj,data){
       obj.items=data.result.list;
     for(var i=0;i<obj.items.length;i++){
       obj.items[i].img="../../../static/img/defualt/"+obj.items[i].suffix+".png";
@@ -87,9 +123,23 @@ export default {
     }
     obj.users=childs;
     });
-    this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
+    this.postHttp(this,{courseId:s,pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
       obj.comments=data.result.list;
       obj.total=data.result.total;
+    });
+    this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+        obj.userU=data.result.user;
+    });
+    this.postHttp(this,{courseId:s},"course/study/queryCourseContent",function(obj,data){
+          obj.propers=data.result.resultSyllabus;
+
+          obj.postHttp(obj,{id:data.result.lastTeachingFilesId},"teachingfile/getTeachingFileById",function(obj1,data1){
+          obj1.profile=data1.result;
+          obj1.profile.newprogram=data1.result.courseSyllabusNameArray[0];
+          for(var i=1;i<data1.result.courseSyllabusNameArray.length;i++){
+            obj1.profile.newprogram+=data1.result.courseSyllabusNameArray[i];
+          }
+        });
     });
   },
   methods:{
@@ -102,17 +152,22 @@ export default {
         this.fetchData();
     },
     fetchData:function(){
-      this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
+      var s = this.$route.params.part;
+      this.postHttp(this,{courseId:s,pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
         obj.comments=data.result.list;
         obj.total=data.result.total;
       });
       },
     saveComment:function(){
-        this.postHttp(this,{courseId:"9fd9f42b80f04465a4cadbe4b669ace9",comment:this.textarea},"comment/saveComment",function(obj,data){
+      var s = this.$route.params.part;
+        this.postHttp(this,{courseId:s,comment:this.textarea},"comment/saveComment",function(obj,data){
         });
         this.textarea="";
         this.fetchData();
       },
+      playButton:function(ids){
+        alert(ids)
+      }
   	}
 }
 </script>
@@ -223,7 +278,6 @@ export default {
 	width: 100px;
 	height: 100px;
 	border-radius: 50%;
-	background-color: red;
 	margin-left: 30px;
 	overflow: hidden;
 }
@@ -241,5 +295,85 @@ export default {
 	margin-right: 50px; 
 	width: 125px;
 	height: 35px;
+}
+#living .living_list{
+  width: 300px;
+  height:600px;
+  background: #282828;
+  float: right;
+  overflow: auto;
+}
+#living .living_main{
+  width: 900px;
+  height: 550px;
+  float: left;
+}
+#living .living_voidTitle{
+  width: 900px;
+  height: 50px;
+  background: #282828;
+  margin-top:-5px;
+}
+#living .allClass_body_tabs_first_content{
+  width: 100%;
+  overflow: auto;
+}
+#living .allClass_body_tabs_first_middle{
+  width: 100%;
+  height: 23px;
+}
+#living .allClass_body_tabs_first_middle p{
+  height: 18px;
+  color:#fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 250px;
+}
+#living .allClass_body_tabs_first_middle_body{
+  width: 100%;
+  height: 23px;
+}
+#living .allClass_body_tabs_first_middle_foot{
+  width: 100%;
+  height: 23px;
+}
+#living .allClass_body_tabs_first_middle_bodyVip{
+  padding-left: 20px;
+}
+#living .allClass_body_tabs_first_middle_bodyVipS{
+  padding-left: 20px;
+}
+#living .allClass_body_tabs_first_middle_bodyVipS:hover{
+  color: #6ED56C;
+}
+#living .allClass_body_tabs_first_middle_bodyVVip{
+  padding-left: 40px;
+}
+#living .allClass_body_tabs_first_middle_bodyVVip:hover{
+  color: #6ED56C;
+}
+#living .living_voidTitle p{
+  color: #fff;
+  float: left;
+  font-size: 14px;
+}
+#living .living_voidTitle .voidtitle{
+  font-size: 24px;
+  margin-top: 8px;
+}
+#living .living_voidTitle .progress{
+  margin-top: 17px;
+  margin-left: 10px;
+  width:500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#living .living_voidTitle .playNumber{
+  margin-top: 17px;
+  float: right;
 }
 </style>

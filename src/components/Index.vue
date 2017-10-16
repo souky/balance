@@ -4,9 +4,11 @@
 		<div class="livePrograss">
 			<div class="common_title">
 				直播节目
-				<div class="title_more">查看更多</div>
+				<router-link to="/liveRoom">
+					<div class="title_more">查看更多</div>
+				</router-link>
 			</div>
-			<el-table :data="tableData" :show-header="false" :row-style="tableStyle" style="width: 100%;margin-top:20px">
+			<el-table :data="tableData" :show-header="false" :row-style="tableStyle" @row-click="goToLive" style="width: 100%;margin-top:20px">
 				<el-table-column prop="name" align="center" show-overflow-tooltip ></el-table-column>
 				<el-table-column prop="sourceName" align="center" show-overflow-tooltip ></el-table-column>
 				<el-table-column prop="startDate" :formatter="timeFormat" align="center" ></el-table-column>
@@ -23,11 +25,13 @@
 		<div v-if="showRecommend" class="recommend">
 			<div class="common_title">
 				推荐课程
-				<div class="title_more">查看更多</div>
+				<router-link to="/allClass">
+					<div class="title_more">查看更多</div>
+				</router-link>
 			</div>
 			<div class="recommend_mian fix">
 				
-				<div v-for="e in recommendList" class="recommend_items l">
+				<div v-for="e in recommendList" @click="goClass(e.id)" class="recommend_items l">
 					<div class="items_img">
 						<img v-if="e.coverImg!=''" :src="e.coverImg" width="100%" />
 						<img v-else src="../../static/img/temp/fm1.png" width="100%" />
@@ -52,10 +56,12 @@
 		<div v-if="showRecord" class="record">
 			<div class="common_title">
 				学习记录
-				<div class="title_more">查看更多</div>
+				<router-link to="/memberCenter/studyrecord">
+					<div class="title_more">查看更多</div>
+				</router-link>
 			</div>
 			<div class="record_main fix">
-				<div v-for="e in recordList" class="record_items l fix">
+				<div v-for="e in recordList" @click="goClass(e.id)" class="record_items l fix">
 					<div class="items_left l">
 						<img :src="e.src" width="100%"/>
 					</div>
@@ -89,7 +95,9 @@
 		<div class="last_update">
 			<div class="common_title">
 				最近更新
-				<div class="title_more">查看更多</div>
+				<router-link to="/allFile">
+					<div class="title_more">查看更多</div>
+				</router-link>
 				
 				<div v-if="isVideo" @click="changeVideo($event)" class="tab_update active">课堂视频</div>
 				<div v-else @click="changeVideo($event)" class="tab_update">课堂视频</div>
@@ -99,21 +107,23 @@
 			</div>
 			
 			<div class="last_update_main fix">
-				<div v-for="e in lastUpdateList" class="last_update_items l fix">
-					<div class="items_left l">
-						<img v-if="e.isVedio" src="../../static/img/defualt/video.png" width="100%" />
-						<img v-else :src="e.suffix" width="100%" />
-					</div>
-					<div class="items_right l">
-						<div class="items_name">{{e.name}}</div>
-						<div class="items_cross">课程: {{e.courseName}}</div>
-						
-						<div class="fix">
-							<div class="items_school l">学校: {{e.schoolName}}</div>
-							<div class="items_updateTime l">更新日期: {{e.updateDate}}</div>
+				<a target="_blank" v-for="e in lastUpdateList" :href="e.path">
+					<div class="last_update_items l fix">
+						<div class="items_left l">
+							<img v-if="e.isVedio" src="../../static/img/defualt/video.png" width="100%" />
+							<img v-else :src="e.suffix" width="100%" />
+						</div>
+						<div class="items_right l">
+							<div class="items_name">{{e.name}}</div>
+							<div class="items_cross">课程: {{e.courseName}}</div>
+							
+							<div class="fix">
+								<div class="items_school l">学校: {{e.schoolName}}</div>
+								<div class="items_updateTime l">更新日期: {{e.updateDate}}</div>
+							</div>
 						</div>
 					</div>
-				</div>
+				</a>
 			</div>
 			
 		</div>
@@ -167,6 +177,8 @@ export default {
   	this.postHttp(this,{pageNum:1,pageSize:10,tab:'ALL'},'studiedrecord/getStudiedRecList',function(obj,data){
   		if(data.code=="60000" || data.code=="50000"){
   			obj.recordList = []
+  			obj.showRecord = false;
+  			return;
   		}
   		var dataS = data.result.list;
   		//data deal
@@ -179,6 +191,7 @@ export default {
   			dataS[i] = objs;
   		}
   		obj.recordList = dataS;
+  		
   	});
   	
   	initUpdata(this)
@@ -202,6 +215,14 @@ export default {
 		}  
 		return this.timeF(date).format("YYYY-MM-DD HH:mm:ss");  
 	},
+	goToLive(row,event,column){
+		var ids = row.id;
+		this.$router.push({path:'/living/'+ids});
+	},
+	goClass(ids){
+		//console.log(ids)
+		this.$router.push({path:'/allClassMore/'+ids});
+	}
   }
 }
 
@@ -209,12 +230,14 @@ function initUpdata(objS){
 	//updata function
   	objS.postHttp(objS,{pageNum:1,pageSize:10,isVedio:objS.isVideo},'teachingfile/study/findTeachingFiles',function(obj,data){
   		var dataS = data.result.list;
+  		var baseUrl = obj.getBaseUrl();
   		//data deal
   		for(var i = 0;i < dataS.length;i++){
   			var objs = dataS[i];
   			objs.suffix = "../../static/img/defualt/"+objs.suffix+".png";
   			var time = obj.timeF(objs.updateDate).format("MM-DD");
   			objs.updateDate = time;
+  			objs.path = baseUrl + objs.path;
   			dataS[i] = objs;
   		}
   		obj.lastUpdateList = dataS;

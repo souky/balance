@@ -1,7 +1,7 @@
 <template>
 	<div id="orderrecord">
 		<p class="orderrecord_title">预约记录</p>
-		<hr style="width:890px;background-color:#E5E5E5;">
+		<hr style="width: 95%;background-color:#E5E5E5;">
 		<div class="orderrecord_body">
 			<el-form ref="form" :model="form" label-width="80px">
 				<el-form-item class="l" label="节目状态">
@@ -191,7 +191,7 @@ export default{
 #orderrecord .orderrecord_body{
 	margin: 0 auto;
 	margin-top: 20px;
-	width: 90%;
+	width: 95%;
 	overflow: hidden;
 	min-height: 360px;
 }

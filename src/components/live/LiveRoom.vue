@@ -58,14 +58,16 @@
 							</div>
 							<div class="cl"></div>
 							<div class="mt20 live_body_content_bar_vp">
-								<p class="l">{{tab.startDate}}</p><p class="l ml20 live_body_content_bar_color">{{tab.state}}</p>
+								<p class="l">{{timeF(tab.startDate).format("YYYY/MM/DD hh:mm:ss")}}</p><p class="l ml20 live_body_content_bar_color">{{tab.state}}</p>
 							</div>
 							<div class="cl"></div>
 							<div class="mt80 live_body_content_bar_vp">
 								<p class="l">教师：</p><p class="l">{{tab.teacherName}}</p><p class="l ml20">播放:&nbsp总{{tab.playedNum}}次</p>
-								<button v-if="tab.buttonName=='观看直播'" @click="tableButton(tab.id)" class="l mt-5 live_new_button"><span>{{tab.buttonName}}</span></button>
-								<button v-if="tab.buttonName=='预约'" class="l mt-5 live_new_button live_new_button_red"><span>{{tab.buttonName}}</span></button>
-								<button v-if="tab.buttonName=='已预约'" class="l mt-5 live_new_button live_new_button_blue"><span>{{tab.buttonName}}</span></button>
+								<button v-if="tab.status=='1_ONGOING'" @click="tableButton(tab.id)" class="l mt-5 live_new_button"><span>观看直播</span></button>
+								<button v-if="tab.status=='3_ENDED'"  @click="tableButton(tab.id)" class="l mt-5 live_new_button"><span>回看直播</span></button>
+								<button v-if="tab.status=='PROGRAM_NOT_SUBSCRIBED'" class="l mt-5 live_new_button live_new_button_red"><span>预约</span></button>
+								<button v-if="tab.status=='2_NOT_STARTED'" @click="tableAttion(tab.id)" class="l mt-5 live_new_button live_new_button_red"><span>预约</span></button>
+								<button v-if="tab.status=='PROGRAM_SUBSCRIBED'" @click="tableAttion(tab.id)" class="l mt-5 live_new_button live_new_button_blue"><span>已预约</span></button>
 							</div>
 						</div>
 					</div>
@@ -94,53 +96,24 @@ export default {
 		    date1: '',
 		    date2: '',
 		},
-	  tabs:[{
-	  		id:1,
-		    title:'语文第一章第一节',
-		    name:'春',
-		    school:'苏州小学',
-		    progress:'1-1-1-1-1-2',
-		    time:'今天：9:00-10:00',
-		    state:'直播中',
-		    teacherName:'张',
-		    number:'12313',
-		    buttonName:'观看直播',
-		},{
-			id:2,
-		    title:'数学第一章第一节',
-		    name:'春',
-		    school:'苏州小学',
-		    progress:'1-1-1-1-1-2',
-		    time:'今天：9:00-10:00',
-		    state:'直播中',
-		    teacherName:'张',
-		    number:'12313',
-		    buttonName:'预约',
-		},{
-			id:3,
-		    title:'英语第一章第一节',
-		    name:'春',
-		    school:'苏州小学',
-		    progress:'1-1-1-1-1-2',
-		    time:'今天：9:00-10:00',
-		    state:'直播中',
-		    teacherName:'张',
-		    number:'12313',
-		    buttonName:'已预约',
-		}],
+	  tabs:[],
 		schools:[],
 		grades:[],
 		teachers:[],
 		subjects:[],
 		pageIndex:1,
         pageSize:10,
-        total:60,
+        total:0,
         pageSizes:[1,10,20,50,100],
     }
   },
   components:{page},
   created:function(){
-  	this.postHttp(this,{pageNum:1,pageSize:10},"program/study/queryStudyLivePrograms",function(obj,data){
+  	this.newdata();
+  },
+  methods:{
+  	newdata:function(){
+  		this.postHttp(this,{type:"LIVE",pageNum:1,pageSize:10},"/program/study/queryStudyPrograms",function(obj,data){
      	obj.tabs=data.result.list;
      	obj.total=data.result.total;
     });
@@ -150,10 +123,9 @@ export default {
      	obj.teachers=data.result.teacherList;
      	obj.subjects=data.result.subjectList;
     });
-  },
-  methods:{
+  	},
 	query:function(){
-		this.postHttp(this,{pageNum:1,pageSize:10,schoolId:this.form.schoolid,gradeId:this.form.gradesid,teacherId:this.form.teachersid,subject:this.form.subjectsid,name:this.form.name,queryStartDate:this.form.date1,queryEndDate:this.form.date2},"program/study/queryStudyLivePrograms",function(obj,data){
+		this.postHttp(this,{pageNum:1,pageSize:10,schoolId:this.form.schoolid,gradeId:this.form.gradesid,teacherId:this.form.teachersid,subject:this.form.subjectsid,name:this.form.name,queryStartDate:this.form.date1,queryEndDate:this.form.date2,type:"LIVE",},"/program/study/queryStudyPrograms",function(obj,data){
      	obj.tabs=data.result.list;
      	obj.total=data.result.total;
      	obj.form.schoolid="";
@@ -174,13 +146,18 @@ export default {
         this.fetchData();
     },
     fetchData:function(){
-      this.postHttp(this,{pageNum:this.pageIndex,pageSize:this.pageSize},"program/study/queryStudyLivePrograms",function(obj,data){
+      this.postHttp(this,{pageNum:this.pageIndex,pageSize:this.pageSize,type:"LIVE",},"program/study/queryStudyPrograms",function(obj,data){
      	obj.tabs=data.result.list;
      	obj.total=data.result.total;
       });
       },
 	tableButton:function(ids){
 		this.$router.push({path:'/living/'+ids});
+	},
+	tableAttion:function(ids){
+		this.postHttp(this,{programId:ids},"subscription/saveSubscription",function(obj,data){
+			obj.newdata();
+		})
 	}
   },
   

@@ -18,7 +18,7 @@
 					<div class="cl"></div>
 					<p class="l allClass_body_content_word_color">授课老师：</p><p class="l">{{book.teacherName}}</p>
 					<div class="cl"></div>
-					<p class="l allClass_body_content_word_color">开课日期：</p><p class="l">{{book.startDate}}</p>
+					<p class="l allClass_body_content_word_color">开课日期：</p><p class="l">{{timeF(book.startDate).format("YYYY/MM/DD hh:mm:ss")}}</p>
 					<div class="cl"></div>
 					<p class="l allClass_body_content_word_color">学习时长：</p><p class="l">{{book.courseDuration}}</p>
 					<div class="cl"></div>
@@ -28,8 +28,8 @@
 					<div class="cl"></div>
 					<div class="allClass_body_content_button">
 						<el-button class="attention_button_public" @click="attentionButton(book.id)" type="primary">进入学习</el-button>
-						<el-button v-if="book.buttonName=='关注'" @click="attention(book.id)" class="attention_button_public attention_button">报名</el-button>
-						<el-button v-if="book.buttonName=='取消关注'" @click="unfollow(book.id)" class="attention_button_public attention_button_sure" type="primary">已报名</el-button>
+						<el-button v-if="book.buttonName==false" @click="attention(book.id)" class="attention_button_public attention_button">报名</el-button>
+						<el-button v-if="book.buttonName==true" class="attention_button_public attention_button_sure" type="primary">已报名</el-button>
 					</div>
 				</div>
 				<div class="cl"></div>
@@ -72,7 +72,7 @@
 				    <el-tab-pane label="授课老师" name="second">
 				    	<h3>教师简介</h3>
 				    	<div class="allClass_body_tabs_Vimg mt10 l">
-				    		<img src="../../../static/img/temp/fm7.png" width="125px" height="155px">
+				    		<img :src="teacherImg" width="125px" height="155px">
 				    	</div>
 				    	<p class="l allClass_body_tabs_word ml10 mt10">{{lessons}}</p>
 				    	<div class="cl"></div>
@@ -84,7 +84,7 @@
 				    				<img src="tab.coverImg" width="100%" height="100%">
 				    			</div>
 				    			<p>{{tab.name}}</p>
-				    			<p class="l">开课日期：</p><p class="l">{{tab.startDate}}</p>
+				    			<p class="l">开课日期：</p><p class="l">{{timeF(tab.startDate).format("YYYY/MM/DD hh:mm:ss")}}</p>
 				    			<p class="mr10 r">{{tab.playedNum}}</p><p class="r">播放次数：</p>
 				    			<div class="cl"></div>
 				    			<p class="l">学习时长：</p><p class="l">{{tab.courseDuration}}</p>
@@ -132,7 +132,7 @@
 				    		<p>全部评论（{{tabs4.total}}）</p>
 				    		<div class="allClass_body_tabs_fourth_bar" v-for="comment in comments">
 				    			<div class="allClass_body_tabs_fourth_bar_img l">
-				    				<img src="../../../static/img/defualt/rar.png" width="60px" height="60px" />
+				    				<img :src="comment.userImg" width="60px" height="60px" />
 				    			</div>
 				    			<div class="allClass_body_tabs_fourth_bar_word l">
 				    				<p class="l">{{comment.createUser}}</p><p class="l ml10">{{timeF(comment.createDate).format("YYYY-MM-DD HH:mm:ss")}}</p><p class="l ml10">{{comment.what}}</p>
@@ -148,9 +148,9 @@
 				    		</div>
 				    		<div class="allClass_body_tabs_fourth_input">
 				    			<div class="allClass_body_tabs_fourth_input_img">
-				    				<img src="../../../static/img/defualt/rar.png" width="100px" height="100px" />
+				    				<img :src="user.img" width="100px" height="100px" />
 				    			</div>
-				    			<p class="allClass_body_tabs_fourth_input_img_name l">James</p>
+				    			<p class="allClass_body_tabs_fourth_input_img_name l">{{user.name}}</p>
 				    			<el-input class="allClass_body_tabs_fourth_input_textarea l" type="textarea" :rows="6" placeholder="不超过300字" v-model="textarea"></el-input>
 				    			<el-button class="r allClass_body_tabs_fourth_input_button" @click="saveComment" type="primary">发表评论</el-button>
 				    		</div>
@@ -168,21 +168,7 @@ import page from '../member/page.vue'
 export default {
   data () {
     return {
-    	book:{
-    		/*id:1,
-	      	name:'苏州小学语文三年级下册',
-	      	class:'三年级',
-	      	subject:'语文',
-	      	textbook:'苏教办',
-	      	school:'苏州中学',
-	      	teacher:'James',
-	      	date:'2017-09-24 08:10',
-	      	time:'45分钟',
-	      	mannumber:'900',
-	      	playnumber:'123131',
-	      	attention:'156',
-	      	buttonName:'关注',*/
-      	},
+    	book:{},
       	tabs1:{
       		remark:""
       	},
@@ -195,99 +181,16 @@ export default {
         totalN:90,
         pageSizesN:[1,10,20,50,100],
         lessons:'这门课程讲述的很详细',
-      	tabs:[/*{
-      		titleName:'语文',
-      		date:'2015-09-11',
-      		manNumber:'123',
-      		time:'24小时',
-      		playNumber:'555',
-      	},{
-      		titleName:'数学',
-      		date:'2015-09-11',
-      		manNumber:'123',
-      		time:'24小时',
-      		playNumber:'555',
-      	},{
-      		titleName:'英语',
-      		date:'2015-09-11',
-      		manNumber:'123',
-      		time:'24小时',
-      		playNumber:'555',
-      	}*/],
-      	propers:[/*{
-      		name:'第一组',
-      		time:'共45分钟',
-      		childs:[{
-      			name:'1.古诗两首',
-      			time:'共45分钟',
-      			grandchildrens:[{
-      				name:'咏柳',
-      				time:'共45分钟',
-      			}],
-      		},{
-      			name:'1.古诗两首',
-      			time:'共45分钟',
-      		}],
-      	},{
-      		name:'第二组',
-      		time:'共45分钟',
-      		childs:[{
-      			name:'5.翠鸟',
-      			time:'共45分钟',
-      			grandchildrens:[{
-      				name:'6.燕子专列',
-      				time:'共45分钟',
-      			}],
-      		},{
-      			name:'第三组',
-      			time:'共45分钟',
-      			grandchildrens:[{
-      				name:'10.惊弓之鸟',
-      				time:'共45分钟',
-      			},{
-      				name:'11.画杨桃',
-      				time:'共45分钟',
-      			},{
-      				name:'12*想别人没想到的',
-      				time:'共45分钟',
-      			}],
-      		}],
-      	},{
-      		name:'第四组',
-      		time:'共45分钟',
-      		childs:[{
-      			name:'9.寓言两则',
-      			time:'共45分钟',
-      			grandchildrens:[{
-      				name:'亡羊补牢',
-      				time:'共45分钟',
-      			},{
-      				name:'南辕北辙',
-      				time:'共45分钟',
-      			}],
-      		}],
-      	}*/],
+        teacherImg:'',
+      	tabs:[],
+      	propers:[],
       	activeName: 'first',
       	textarea:'',
-        comments:[/*{
-        	name:'James',
-        	date:'2017-03-13',
-        	what:'评论了整体课程',
-        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
-        },{
-        	name:'James',
-        	date:'2017-03-13',
-        	what:'评论了整体课程',
-        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
-        },{
-        	name:'James',
-        	date:'2017-03-13',
-        	what:'评论了整体课程',
-        	content:'Java是一门面向对象编程语言，不仅吸收了C++语言的各种优点，还摒弃了C++里难以理解的多继承、指针等概念，因此Java语言具有功能强大和简单易用两个特征。Java语言作为静态面向',
-        }*/],
+        comments:[],
         tabs4:{
         	total:''
         },
+        user:{},
     }
   },
   components:{page},
@@ -299,12 +202,19 @@ export default {
   			var s = this.$route.params.part;
   			this.postHttp(this,{courseId:s},"course/study/queryCourseContent",function(obj,data){
   				obj.book=data.result.course;
+  				obj.book.buttonName=data.result.concernFlag;
+  				obj.book.login=data.result.loginFlag;
   				obj.propers=data.result.resultSyllabus;
   				obj.tabs1.remark=data.result.course.remark;
   			});
+  			this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+	          obj.user=data.result.user;
+	        });
   			this.postHttp(this,{courseId:s,pageNum:this.pageIndexN,pageSize:this.pageSizeN},"course/study/queryCourseTeacher",function(obj,data){
   				obj.tabs=data.result.courseList.list;
   				obj.totalN=data.result.courseList.total;
+  				obj.teacherImg=data.result.teacher.img;
+  				obj.lessons=data.result.teacher.remark;
   			});
   			this.postHttp(this,{courseId:s,pageNum:this.pageIndex,pageSize:this.pageSize},"comment/study/queryComments",function(obj,data){
   				obj.comments=data.result.list;
@@ -313,7 +223,6 @@ export default {
   			})
   		},
   	   handleClick(tab, event) {
-        console.log(tab, event);
       },
       saveComment:function(){
       	var s = this.$route.params.part;
@@ -356,13 +265,13 @@ export default {
 	 },
 	 attention:function(ids){
 	 	var s = this.$route.params.part;
-	 	this.postHttp(this,{programId:ids,},"subscription/saveSubscription",function(obj,data){
+	 	if(this.book.login==false){
+	 		this.notify_login();
+	 		return false;
+	 	}
+	 	this.postHttp(this,{courseId:s,},"studiedrecord/saveStudiedRecord",function(obj,data){
+	 		obj.getdata();
 		});
-		this.postHttp(this,{courseId:s},"course/study/queryCourseContent",function(obj,data){
-  			obj.book=data.result.course;
-  			obj.propers=data.result.resultSyllabus;
-  			obj.tabs1.remark=data.result.course.remark;
-  		});
 	 },
 	 unfollow:function(ids){
 	 	var s = this.$route.params.part;
@@ -498,7 +407,6 @@ export default {
 	width: 60px;
 	height: 60px;
 	border-radius: 50%;
-	background-color: red;
 	overflow: hidden;
 }
 #allClass .allClass_body_tabs_fourth_bar_word{
