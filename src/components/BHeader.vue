@@ -34,8 +34,8 @@
 				</router-link>
 			</div>
 			<div v-else class="inline__box">
-				<el-dropdown trigger="click">
-					<div class="l rightItems">
+				<el-dropdown trigger="click" >
+					<div class="l rightItems" @click="test">
 						<el-badge v-if="unReadMsgNum == 0" :is-dot= "false" class="item">
 						  <img src="../../static/img/header/message.png" />
 						</el-badge>
@@ -135,7 +135,6 @@
 </template>
 
 <script>
-// import {setCookie,getCookie,delCookie} from '../assets/cookie.js'
 export default {
   data () {
   	var validatePass = (rule, value, callback) => {
@@ -167,14 +166,14 @@ export default {
       ruleForm:{
       		loginName:'',
 	        passWord:'',
-	        checked:false
+	        checked:true
       	},
       	rules:{
       		loginName:[
       			{required:true, message: '请输入用户名',trigger:'blur'}
       		],
       		passWord: [
-            	{ validator: validatePass,trigger: 'blur' }
+            	{validator: validatePass,trigger: 'blur'}
           	]
           }
     }
@@ -186,24 +185,41 @@ export default {
   		var mypageNum = this.pageNum;
   		var mypageSize = this.pageSize;
   		var pageData = {pageNum:mypageNum,pageSize:mypageSize};
+  		var baseUU = this.getBaseUrl();
+
 	  	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
 	  		obj.person = data.result;
-	  		sessionStorage.setItem("jyids",data.result.id);
+			obj.result.user.img = baseUU + data.result.user.img;
 		});
 	  	this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
 	  		obj.notic = data.result;
 	  		obj.unReadMsgNum = data.result.navigatePages;
-	  		
 	  	});
 	  	
   	}else{
   		this.isshow = true;
+  		if(sessionStorage.getItem("remenber")!= null){
+			this.ruleForm.checked = sessionStorage.getItem("remenber");
+  			console.log(this.ruleForm.checked);
+  			this.ruleForm.loginName = sessionStorage.getItem("Name");
+  			this.ruleForm.passWord = sessionStorage.getItem("password");
+  		}else{
+  			this.ruleForm.checked = false
+  		}
   	}
   	
   },
   methods:{
   	handleIconClick(ev){
   		console.log(ev);
+  	},
+  	test(){
+  		var mypageNum = this.pageNum;
+  		var mypageSize = this.pageSize;
+  		var pageData = {pageNum:mypageNum,pageSize:mypageSize};
+  		this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
+	  		obj.notic = data.result;
+	  	});
   	},
   	//退出登陆操作
   	loginOut(){
@@ -217,20 +233,19 @@ export default {
   		//页面跳转
   	},
   	submitForm(formName) {
-	        this.$refs[formName].validate((valid) => {
-			if (valid) {
-				this.loading = true;
-	             var userName = this.ruleForm.loginName;
-		    	 var psw = this.ruleForm.passWord;
-		    	 var data = {userName:userName,psw:psw};
-		    	 //登陆请求
-		    	  this.postHttp(this,data,'login',login_press);
-		    
-		    } else {
+	    this.$refs[formName].validate((valid) => {
+		if (valid) {
+			this.loading = true;
+	        var userName = this.ruleForm.loginName;
+		    var psw = this.ruleForm.passWord;
+		    var data = {userName:userName,psw:psw};
+		    //登陆请求
+		    this.postHttp(this,data,'login',login_press);
+		}else {
 	            console.log('error submit!!');
 	            return false;
-	          }
-	        });
+	        }
+	    });
     },
 	resetForm(formName) {
 		this.$refs[formName].resetFields();
@@ -248,9 +263,9 @@ export default {
     		this.$router.push({path:'/register'})
     },
     changePoint(){
-    	console.log(this)
     	this.unReadMsgNum = 0;
     }
+
   }
 }
 function login_press(obj,data){
@@ -266,6 +281,16 @@ function login_press(obj,data){
   	}else{
   		// setCookie("jyname",obj.isshow,1000*60);
   		sessionStorage.setItem("jyname",obj.isshow);
+  		if(obj.ruleForm.checked == true){
+  			console.log(1);
+  			sessionStorage.setItem("remenber",obj.ruleForm.checked);
+  			sessionStorage.setItem("Name",obj.ruleForm.loginName);
+  			sessionStorage.setItem("password",obj.ruleForm.passWord);
+  		}else{
+  			sessionStorage.setItem("remenber",obj.ruleForm.checked);
+  			sessionStorage.setItem("Name",'');
+  			sessionStorage.setItem("password",'');
+  		}
   		obj.loading = false;
 		obj.dialogFormVisible = false;
 		obj.$router.go(0)
