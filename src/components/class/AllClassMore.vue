@@ -132,7 +132,7 @@
 				    		<p>全部评论（{{tabs4.total}}）</p>
 				    		<div class="allClass_body_tabs_fourth_bar" v-for="comment in comments">
 				    			<div class="allClass_body_tabs_fourth_bar_img l">
-				    				<img :src="comment.userImg" width="60px" height="60px" />
+				    				<img :src="baseUrl+comment.userImg" width="60px" height="60px" />
 				    			</div>
 				    			<div class="allClass_body_tabs_fourth_bar_word l">
 				    				<p class="l">{{comment.createUser}}</p><p class="l ml10">{{timeF(comment.createDate).format("YYYY-MM-DD HH:mm:ss")}}</p><p class="l ml10">{{comment.what}}</p>
@@ -191,6 +191,7 @@ export default {
         	total:''
         },
         user:{},
+        baseUrl:"",
     }
   },
   components:{page},
@@ -207,8 +208,11 @@ export default {
   				obj.propers=data.result.resultSyllabus;
   				obj.tabs1.remark=data.result.course.remark;
   			});
+  			var baseUU = this.getBaseUrl();
+  			this.baseUrl = baseUU;
   			this.postHttp(this,{},"user/getLoginUser",function(obj,data){
-	          obj.user=data.result.user;
+  				data.result.user.img = baseUU + data.result.user.img;
+	          	obj.user=data.result.user;
 	        });
   			this.postHttp(this,{courseId:s,pageNum:this.pageIndexN,pageSize:this.pageSizeN},"course/study/queryCourseTeacher",function(obj,data){
   				obj.tabs=data.result.courseList.list;

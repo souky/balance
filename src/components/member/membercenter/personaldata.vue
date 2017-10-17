@@ -125,7 +125,7 @@ export default {
       	var userid="";
       	var baseUU = this.getBaseUrl();
       	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
-      		//data.result.user.img = baseUU + data.result.user.img;
+      		data.result.user.img = baseUU + data.result.user.img;
 			obj.form=data.result.user;
 			obj.imageUrl=data.result.user.img;
 			obj.form.teacher=data.result.teacher.name;
@@ -139,8 +139,7 @@ export default {
 		});
       },
       onSubmit() {
-      	var baseUU = this.getBaseUrl();
-       this.postHttp(this,{img:baseUU+this.form.img,gradeId:this.form.class,sex:this.form.sex,teacherId:this.form.teacher,phone:this.form.phone,email:this.form.email,remark:this.form.remark,StudyNum:this.form.studentid,Id:this.form.id,},"/study/user/updateUser",function(obj,data){
+       this.postHttp(this,{img:this.form.img,gradeId:this.form.class,sex:this.form.sex,teacherId:this.form.teacher,phone:this.form.phone,email:this.form.email,remark:this.form.remark,StudyNum:this.form.studentid,Id:this.form.id,},"/study/user/updateUser",function(obj,data){
 			obj.getdata();
 		});
        this.isView=true;
