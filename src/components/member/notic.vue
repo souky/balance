@@ -38,7 +38,6 @@
 
 <script>
 export default {
-
   data () {
     return {
       currentPage: 5,

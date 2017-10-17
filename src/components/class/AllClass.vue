@@ -206,7 +206,7 @@ export default {
 			// sessionStorage.setItem("classID", ids); 
 			// this.$router.push({path:'/allClassMore/',params:{news_id: 123}});
 			//this.$router.push({ name: '课程详情', query: { userId: ids }})
-      		this.$router.push({path:'/allClassMore/'+ids});
+      this.$router.push({path:'/allClassMore/'+ids});
 		},
     handleSizeChange:function(val){
         this.pageSize = val;
@@ -228,14 +228,15 @@ export default {
                         fromDate:this.startTime,
                         toDate:this.endTime
                         }
+        var baseUU = this.getBaseUrl();
         this.postHttp(this,needData,"course/study/findCourses",function(obj,data){
           obj.recommendList  = data.result.list;
           obj.total = data.result.total;
-          // if(data.result.total >0){
-          //   for(var i = 0;i<obj.curriculum.length;i++){
-          //    obj.curriculum[i].imgsrc = "../../../static/img/defualt/"+obj.curriculum[i].suffix+".png";
-          //   }
-          // }
+          if(data.result.total >0){
+            for(var i = 0;i<obj.recommendList.length;i++){
+             obj.recommendList[i].coverImg = baseUU + data.result.list[i].img;
+            }
+          }
         });
       },
       itemInit:function(){

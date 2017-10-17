@@ -189,7 +189,7 @@ export default {
 
 	  	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
 	  		obj.person = data.result;
-			obj.result.user.img = baseUU + data.result.user.img;
+			obj.person.img = baseUU + data.result.user.img;
 		});
 	  	this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
 	  		obj.notic = data.result;
