@@ -56,7 +56,7 @@
 				    		<p>全部评论（100）</p>
 				    		<div class="allClass_body_tabs_fourth_bar" v-for="comment in comments">
 				    			<div class="allClass_body_tabs_fourth_bar_img l">
-				    				<img :src="comment.userImg" width="60px" height="60px" />
+				    				<img :src="baseUrl+comment.userImg" width="60px" height="60px" />
 				    			</div>
 				    			<div class="allClass_body_tabs_fourth_bar_word l">
 				    				<p class="l">{{comment.userName}}</p><p class="l ml10">{{timeF(comment.createDate).format("YYYY-MM-DD HH:mm:ss")}}</p><p class="l ml10">{{comment.what}}</p>
@@ -79,6 +79,7 @@
 				    			<el-button class="r allClass_body_tabs_fourth_input_button" @click="saveComment" type="primary">发表评论</el-button>
 				    		</div>
 				    	</div>
+              <div class="cl"></div>
 		</div>
 	</div>
 </template>
@@ -117,6 +118,7 @@ export default {
           name:"",
           img:'',
         },
+        baseUrl:"",
      }
   },
   components:{page},
@@ -130,7 +132,10 @@ export default {
         obj.comments=data.result.list;
         obj.total=data.result.total;
     });
+      var baseUU = this.getBaseUrl();
+      this.baseUrl = baseUU;
      this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+          data.result.user.img = baseUU + data.result.user.img;
           obj.user=data.result.user;
         });
      this.postHttp(this,{id:s},"program/getProgram",function(obj,data){
