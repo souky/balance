@@ -30,7 +30,7 @@ Vue.prototype.timeF = require('moment')
 
 var querystring = require('querystring');
 
-var baseUrl = "http://192.168.1.213:8080/balanced-education/"
+var baseUrl = "http://192.168.128.176:8080/balanced-education/"
 /* 
  * 封装ajax
  * obj : 全局this

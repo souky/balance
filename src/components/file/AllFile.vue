@@ -28,7 +28,7 @@
 			  <el-col :span="8">
 			  	<div class="labelItem">
 				<label>老师</label>
-				<el-select v-model="itemList.select1" @change="chooseTeacher" filterable placeholder="请选择">
+				<el-select v-model="itemList.select1" clearable @change="chooseTeacher" @clear="clearTeacher" filterable placeholder="请选择">
 				    <el-option
 				      v-for="item in select.options1"
 				      :key="item.id"
@@ -41,7 +41,7 @@
 			  <el-col :span="8">
 			  <div class="labelItem">
 				<label>课程</label>
-				<el-select v-model="itemList.select2" @change="chooseCourse" filterable placeholder="请选择">
+				<el-select v-model="itemList.select2" clearable @change="chooseCourse" @clear="clearCourse" filterable placeholder="请选择">
 				    <el-option
 				      v-for="item in select.options2"
 				      :key="item.id"
@@ -53,7 +53,7 @@
 			  <el-col :span="8">
 			  <div class="labelItem">
 				<label>教辅类型</label>
-				<el-select v-model="itemList.select3" @change="chooseFilesType" filterable placeholder="请选择">
+				<el-select v-model="itemList.select3" clearable @change="chooseFilesType" @clear="clearFilesType" filterable placeholder="请选择">
 				    <el-option
 				      v-for="item in select.options3"
 				      :key="item.id"
@@ -106,7 +106,7 @@
 							</div>
 							<div class="file-config">
 								更新日期：{{timeF(item.updateDate).format("YYYY/MM/DD")}}
-								<button @click="downloadC()">下载</button>
+								<button @click="downloadC(item.id)">下载</button>
 							</div>
 				  		</div>
 				  	</div>
@@ -228,12 +228,29 @@ export default {
         });
         this.filesInit();
       },
+      clearTeacher(){
+        this.itemList.select1 = '';
+        var teacherId ={teacherId:''}
+        this.postHttp(this,teacherId,"teachingfile/study/initParamList",function(obj,data){
+          obj.select.options2 = data.result.courseList;
+          obj.itemList.select2 = ''
+        });
+        this.filesInit();
+      },
       chooseCourse(val){
         this.itemList.select2 = val;
         this.filesInit();
       },
+      clearCourse(){
+        this.itemList.select2 = '';
+        this.filesInit();
+      },
       chooseFilesType(val){
         this.itemList.select3 = val;
+        this.filesInit();
+      },
+      clearFilesType(){
+        this.itemList.select3 = '';
         this.filesInit();
       },
 	    updataTime(strs){
@@ -251,8 +268,15 @@ export default {
         this.tab = 'DOWNLOADS';
         this.filesInit();
 	    },
-	    downloadC(){
-	    	console.log("下载课程");
+	    downloadC(val){
+        var ids = {id:val};
+	    	this.postHttp(this,ids,"teachingfile/study/downloadFile",function(obj,data){
+          if(data.code=='40000'){
+            alert(data.message);
+          }else{
+            console.log('下载成功')
+          }
+        });
 	    },
 	    handleSizeChange:function(val){
         this.pageSize = val;

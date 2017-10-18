@@ -57,7 +57,7 @@
 				    		<p>全部评论（{{total}}）</p>
 				    		<div class="allClass_body_tabs_fourth_bar" v-for="comment in comments">
 				    			<div class="allClass_body_tabs_fourth_bar_img l">
-				    				<img :src="comment.userImg" width="60px" height="60px" />
+				    				<img :src="baseUrl+comment.userImg" width="60px" height="60px" />
 				    			</div>
 				    			<div class="allClass_body_tabs_fourth_bar_word l">
 				    				<p class="l">{{comment.createUser}}</p><p class="l ml10">{{timeF(comment.createDate).format("YYYY-MM-DD HH:mm:ss")}}</p><p class="l ml10">{{comment.what}}</p>
@@ -80,6 +80,7 @@
 				    			<el-button class="r allClass_body_tabs_fourth_input_button" @click="saveComment" type="primary">发表评论</el-button>
 				    		</div>
 				    	</div>
+              <div class="cl"></div>
 		</div>
 	</div>
 </template>
@@ -102,6 +103,7 @@ export default {
           newprogram:"",
        },
         userU:{},
+        baseUrl:"",
      }
   },
   created:function(){
@@ -127,7 +129,10 @@ export default {
       obj.comments=data.result.list;
       obj.total=data.result.total;
     });
+    var baseUU = this.getBaseUrl();
+    this.baseUrl = baseUU;
     this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+        data.result.user.img = baseUU + data.result.user.img;
         obj.userU=data.result.user;
     });
     this.postHttp(this,{courseId:s},"course/study/queryCourseContent",function(obj,data){
@@ -323,7 +328,7 @@ export default {
   height: 23px;
 }
 #living .allClass_body_tabs_first_middle p{
-  height: 18px;
+  height: 20px;
   color:#fff;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -375,5 +380,9 @@ export default {
 #living .living_voidTitle .playNumber{
   margin-top: 17px;
   float: right;
+  margin-right: 10px;
+}
+#living .el-button{
+  border-radius: 32px;
 }
 </style>
