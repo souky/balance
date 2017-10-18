@@ -5,11 +5,13 @@ import router from './router'
 import VueRouter from 'vue-router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-import VideoJs from 'video-js'
-import 'video-js/dist/video-js.css'
 import '../static/css/main.css'
 import '../static/css/apps.css'
 import axios from 'axios'
+
+require('video.js/dist/video-js.css')
+require('vue-video-player/src/custom-theme.css')
+import VueVideoPlayer from 'vue-video-player'
 
 /* vue配置 */
 Vue.config.debug = process.env.NODE_ENV !== 'production'
@@ -18,7 +20,8 @@ Vue.config.productionTip = false
 /* 附加插件 */
 Vue.use(VueRouter)
 Vue.use(ElementUI)
-Vue.use(VideoJs)
+Vue.use(VueVideoPlayer)
+
 
 /* axios配置 */
 axios.defaults.withCredentials = true
@@ -30,7 +33,7 @@ Vue.prototype.timeF = require('moment')
 
 var querystring = require('querystring');
 
-var baseUrl = "http://192.168.128.176:8080/balanced-education/"
+var baseUrl = "http://192.168.1.213:8080/balanced-education/"
 /* 
  * 封装ajax
  * obj : 全局this
@@ -112,11 +115,11 @@ Vue.prototype.formatMsec = function(msec){
 	}
 	return s;
 }
-
+import { videoPlayer } from 'vue-video-player'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: { App,videoPlayer}
 })
