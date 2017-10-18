@@ -126,8 +126,9 @@ export default {
       	var userid="";
       	var baseUU = this.getBaseUrl();
       	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+      		console.log(data)
       		if(data.code == '60000' || data.code == '50000'){
-				obj.$router.push('/login')
+      			
 			}
       		data.result.user.img = baseUU + data.result.user.img;
 			obj.form=data.result.user;

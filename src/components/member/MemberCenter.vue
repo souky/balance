@@ -67,6 +67,7 @@ export default {
   	var s = this.$route.params.part;
 	this.personaldataS(''+s);
 	var baseUU = this.getBaseUrl();
+	
 	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
 		if(data.code == '60000' || data.code == '50000'){
 			obj.$router.push('/login')

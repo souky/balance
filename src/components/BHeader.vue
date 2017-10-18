@@ -188,7 +188,6 @@ export default {
   		var pageData = {pageNum:mypageNum,pageSize:mypageSize};
 	  	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
 	  		obj.person = data.result;
-	  		console.log(11)
 	  		sessionStorage.setItem("jyids",data.result.id);
 		});
 	  	this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
