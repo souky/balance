@@ -187,6 +187,7 @@ export default {
   		var mypageSize = this.pageSize;
   		var pageData = {pageNum:mypageNum,pageSize:mypageSize};
 	  	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+	  		alert(33)
 	  		obj.person = data.result;
 	  		sessionStorage.setItem("jyids",data.result.id);
 		});

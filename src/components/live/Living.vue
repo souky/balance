@@ -325,6 +325,7 @@ export default {
 #living .allClass_body_tabs_fourth_input_button{
 	margin-top:20px;
 	margin-right: 50px; 
+  margin-bottom: 50px;
 	width: 125px;
 	height: 35px;
 }
