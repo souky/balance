@@ -29,7 +29,7 @@
 			<!-- 未登录 -->
 			<div v-if="isshow" class="inline__box">
 				<div class="l rightItems" @click="dialogFormVisible = true">登录</div>
-				<router-link to="register">
+				<router-link to="/register">
 				<div class="l rightItems">注册</div>
 				</router-link>
 			</div>
@@ -188,6 +188,7 @@ export default {
   		var pageData = {pageNum:mypageNum,pageSize:mypageSize};
 	  	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
 	  		obj.person = data.result;
+	  		console.log(11)
 	  		sessionStorage.setItem("jyids",data.result.id);
 		});
 	  	this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
