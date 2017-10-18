@@ -3,7 +3,7 @@
 		<div class="live_header">
 			<el-form ref="form" :model="form" label-width="60px">
 				<el-form-item class="l ml30 mt20 live_select" label="学校">
-				    <el-select v-model="form.schoolid">
+				    <el-select v-model="form.schoolid"  @change="newGrades()">
 				      <el-option v-for="item in schools" :key="item.id" :label="item.name" :value="item.id"></el-option>
 				    </el-select>
 				</el-form-item>
@@ -117,11 +117,19 @@ export default {
      	obj.tabs=data.result.list;
      	obj.total=data.result.total;
     });
-    this.postHttp(this,{},"teachingfile/study/initParamList",function(obj,data){
-     	obj.schools=data.result.schoolList;
-     	obj.grades=data.result.gradeList;
-     	obj.teachers=data.result.teacherList;
-     	obj.subjects=data.result.subjectList;
+    this.postHttp(this,{parentId:"1293c5e6d1244c248b1635c9a98be564"},"organization/getOrganizations",function(obj,data){
+     	obj.schools=data.result;
+    });
+    this.postHttp(this,{role:"教师",pageNum:1,pageSize:30,},"user/queryUsers",function(obj,data){
+     	obj.teachers=data.result.list;
+    });
+    this.postHttp(this,{code:"SUBJECT"},"dictionary/getDictionarysBySupCode",function(obj,data){
+     	obj.subjects=data.result;
+    });
+  	},
+  	newGrades:function(){
+  	this.postHttp(this,{parentId:this.form.schoolid},"organization/getOrganizations",function(obj,data){
+     	obj.grades=data.result;
     });
   	},
 	query:function(){
