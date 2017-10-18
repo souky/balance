@@ -5,6 +5,8 @@ import router from './router'
 import VueRouter from 'vue-router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
+import VideoJs from 'video-js'
+import 'video-js/dist/video-js.css'
 import '../static/css/main.css'
 import '../static/css/apps.css'
 import axios from 'axios'
@@ -16,6 +18,7 @@ Vue.config.productionTip = false
 /* 附加插件 */
 Vue.use(VueRouter)
 Vue.use(ElementUI)
+Vue.use(VideoJs)
 
 /* axios配置 */
 axios.defaults.withCredentials = true
