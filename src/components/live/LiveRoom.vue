@@ -3,21 +3,21 @@
 		<div class="live_header">
 			<el-form ref="form" :model="form" label-width="60px">
 				<el-form-item class="l ml30 mt20 live_select" label="学校">
-				    <el-select v-model="form.schoolid"  @change="newGrades()">
+				    <el-select v-model="form.schoolid"  @change="newGrades()" clearable>
 				      <el-option v-for="item in schools" :key="item.id" :label="item.name" :value="item.id"></el-option>
 				    </el-select>
 				</el-form-item>
-				<el-form-item class="l ml30 mt20 live_select" label="年级">
+				<el-form-item class="l ml30 mt20 live_select" label="年级" clearable>
 				    <el-select v-model="form.gradesid">
 				      <el-option v-for="item in grades" :key="item.id" :label="item.name" :value="item.id"></el-option>
 				    </el-select>
 				</el-form-item>
-				<el-form-item class="l ml30 mt20 live_select" label="教师">
+				<el-form-item class="l ml30 mt20 live_select" label="教师" clearable>
 				    <el-select v-model="form.teachersid">
 				      <el-option v-for="item in teachers" :key="item.id" :label="item.name" :value="item.id"></el-option>
 				    </el-select>
 				</el-form-item>
-				<el-form-item class="l ml30 mt20 live_select" label="学科">
+				<el-form-item class="l ml30 mt20 live_select" label="学科" clearable>
 				    <el-select v-model="form.subjectsid">
 				      <el-option v-for="item in subjects" :key="item.id" :label="item.dicName" :value="item.dicCode"></el-option>
 				    </el-select>
@@ -117,13 +117,13 @@ export default {
      	obj.tabs=data.result.list;
      	obj.total=data.result.total;
     });
-    this.postHttp(this,{parentId:"1293c5e6d1244c248b1635c9a98be564"},"organization/getOrganizations",function(obj,data){
+    this.postHttp(this,{parentId:"1293c5e6d1244c248b1635c9a98be564"},"/organization/study/getOrganizations",function(obj,data){
      	obj.schools=data.result;
     });
-    this.postHttp(this,{role:"教师",pageNum:1,pageSize:30,},"user/queryUsers",function(obj,data){
+    this.postHttp(this,{role:"教师",pageNum:1,pageSize:30,},"study/user/queryUsers",function(obj,data){
      	obj.teachers=data.result.list;
     });
-    this.postHttp(this,{code:"SUBJECT"},"dictionary/getDictionarysBySupCode",function(obj,data){
+    this.postHttp(this,{code:"SUBJECT"},"dictionary/study/getDictionarysBySupCode",function(obj,data){
      	obj.subjects=data.result;
     });
   	},
@@ -136,13 +136,6 @@ export default {
 		this.postHttp(this,{pageNum:1,pageSize:10,schoolId:this.form.schoolid,gradeId:this.form.gradesid,teacherId:this.form.teachersid,subject:this.form.subjectsid,name:this.form.name,queryStartDate:this.form.date1,queryEndDate:this.form.date2,type:"LIVE",},"/program/study/queryStudyPrograms",function(obj,data){
      	obj.tabs=data.result.list;
      	obj.total=data.result.total;
-     	obj.form.schoolid="";
-     	obj.form.gradesid="";
-     	obj.form.teachersid="";
-     	obj.form.subjectsid="";
-     	obj.form.name="";
-     	obj.form.date1="";
-     	obj.form.date2="";
     });
 	},
 	sizeChange: function (pageSize) {   //每页显示条数

@@ -125,7 +125,6 @@ export default {
       	var userid="";
       	var baseUU = this.getBaseUrl();
       	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
-      		alert(1);
       		data.result.user.img = baseUU + data.result.user.img;
 			obj.form=data.result.user;
 			obj.imageUrl=data.result.user.img;
