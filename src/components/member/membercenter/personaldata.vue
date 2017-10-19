@@ -105,7 +105,9 @@
 export default {
     data() {
       return {
-       form:{},
+       form:{
+       	organization:{name:''}
+       },
        Sclass:[],
        Steacher:[],
        imageUrl:'../../../static/img/toux1.png',
@@ -121,10 +123,16 @@ export default {
     },
     methods: {
       getdata(){
-      	this.$emit('newfind');
       	var userid="";
       	var baseUU = this.getBaseUrl();
       	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+<<<<<<< HEAD
+=======
+      		console.log(data)
+      		if(data.code == '60000' || data.code == '50000'){
+      			
+			}
+>>>>>>> 3e20596896bc56eb75e3d3eafd59f569972bb371
       		data.result.user.img = baseUU + data.result.user.img;
 			obj.form=data.result.user;
 			obj.imageUrl=data.result.user.img;
@@ -135,7 +143,7 @@ export default {
 			if(data.result.sex==""||data.result.sex==null){
 				data.result.sex='M';
 			}
-			console.log(obj.form)
+			
 		});
       },
       onSubmit() {

@@ -2,13 +2,13 @@
 	<div id="allClassMain" class="main_body">
 		<div class="classSelect">
 			<div class="selectItem">
-				<div class="itemList">
-					<span class="itemLabel">年级:</span>
+        <div class="itemList">
+          <span class="itemLabel">学校:</span>
           <div class="itemDetail">
-            <span :class="active == -1? 'actives': ''" @click="chooseGrade(-1)">全部</span>
-  					<span v-for="(item,index) in Grade" :key="item.id" :class="active == item.id? 'actives': ''" @click="chooseGrade(item.id)">{{item.name}}</span>
+            <span :class="active3 == -1? 'actives': ''" @click="chooseSchool(-1)">全部</span>
+            <span v-for="(item,index) in School" :key="item.id" :class="active3 == item.id? 'actives': ''" @click="chooseSchool(item.id)">{{item.name}}</span>
           </div>
-				</div>
+        </div>
 				<div class="itemList">
 					<span class="itemLabel">学科:</span>
           <div class="itemDetail">
@@ -17,12 +17,12 @@
           </div>
 				</div>
 				<div class="itemList">
-					<span class="itemLabel">学校:</span>
+          <span class="itemLabel">年级:</span>
           <div class="itemDetail">
-            <span :class="active3 == -1? 'actives': ''" @click="chooseSchool(-1)">全部</span>
-  					<span v-for="(item,index) in School" :key="item.id" :class="active3 == item.id? 'actives': ''" @click="chooseSchool(item.id)">{{item.name}}</span>
+            <span :class="active == -1? 'actives': ''" @click="chooseGrade(-1)">全部</span>
+            <span v-for="(item,index) in Grade" :key="item.id" :class="active == item.id? 'actives': ''" @click="chooseGrade(item.id)">{{item.name}}</span>
           </div>
-				</div>
+        </div>
 			</div>
 		</div>
 		<div class="classMain">
@@ -206,7 +206,7 @@ export default {
 			// sessionStorage.setItem("classID", ids); 
 			// this.$router.push({path:'/allClassMore/',params:{news_id: 123}});
 			//this.$router.push({ name: '课程详情', query: { userId: ids }})
-      		this.$router.push({path:'/allClassMore/'+ids});
+      this.$router.push({path:'/allClassMore/'+ids});
 		},
     handleSizeChange:function(val){
         this.pageSize = val;
@@ -228,14 +228,15 @@ export default {
                         fromDate:this.startTime,
                         toDate:this.endTime
                         }
+        var baseUU = this.getBaseUrl();
         this.postHttp(this,needData,"course/study/findCourses",function(obj,data){
           obj.recommendList  = data.result.list;
           obj.total = data.result.total;
-          // if(data.result.total >0){
-          //   for(var i = 0;i<obj.curriculum.length;i++){
-          //    obj.curriculum[i].imgsrc = "../../../static/img/defualt/"+obj.curriculum[i].suffix+".png";
-          //   }
-          // }
+          if(data.result.total >0){
+            for(var i = 0;i<obj.recommendList.length;i++){
+             obj.recommendList[i].coverImg = baseUU + data.result.list[i].img;
+            }
+          }
         });
       },
       itemInit:function(){
