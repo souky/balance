@@ -75,7 +75,7 @@
 				<el-dropdown trigger="click">
 					<div class="l personRight el-dropdown-link">
 						<img v-bind:src="person.img" style="width:30px;height:30px;border-radius:15px;vertical-align:middle" />
-						<span>{{person.userName}}</span>
+						<span>{{person.name}}</span>
 					</div>
 					 <el-dropdown-menu slot="dropdown" size="middles">
 					    <el-dropdown-item>
@@ -188,7 +188,7 @@ export default {
   		var baseUU = this.getBaseUrl();
 
 	  	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
-	  		obj.person = data.result;
+	  		obj.person = data.result.user;
 			obj.person.img = baseUU + data.result.user.img;
 		});
 	  	this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
@@ -319,6 +319,7 @@ function login_press(obj,data){
 .inline__box .el-badge__content.is-fixed.is-dot{top:22px;right:8px;}
 .inline__box .el-dropdown-menu__item.is-disabled{color: #272727;}
 #header .rightPart .personRight {height:60px;text-align: center;cursor: pointer;font-size:16px;color:#666;margin-right: 30px;}
+#header .rightPart .personRight span{font-size:14px;}
 .menuStyle{text-decoration: none;color: #6ED56C;font-size: 16px;text-align: center;}
 .el-dropdown-menu__item a{text-decoration: none}
 .el-dropdown-menu--middles{width: 130px}

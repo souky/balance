@@ -2,13 +2,13 @@
 	<div id="allClassMain" class="main_body">
 		<div class="classSelect">
 			<div class="selectItem">
-				<div class="itemList">
-					<span class="itemLabel">年级:</span>
+        <div class="itemList">
+          <span class="itemLabel">学校:</span>
           <div class="itemDetail">
-            <span :class="active == -1? 'actives': ''" @click="chooseGrade(-1)">全部</span>
-  					<span v-for="(item,index) in Grade" :key="item.id" :class="active == item.id? 'actives': ''" @click="chooseGrade(item.id)">{{item.name}}</span>
+            <span :class="active3 == -1? 'actives': ''" @click="chooseSchool(-1)">全部</span>
+            <span v-for="(item,index) in School" :key="item.id" :class="active3 == item.id? 'actives': ''" @click="chooseSchool(item.id)">{{item.name}}</span>
           </div>
-				</div>
+        </div>
 				<div class="itemList">
 					<span class="itemLabel">学科:</span>
           <div class="itemDetail">
@@ -17,12 +17,12 @@
           </div>
 				</div>
 				<div class="itemList">
-					<span class="itemLabel">学校:</span>
+          <span class="itemLabel">年级:</span>
           <div class="itemDetail">
-            <span :class="active3 == -1? 'actives': ''" @click="chooseSchool(-1)">全部</span>
-  					<span v-for="(item,index) in School" :key="item.id" :class="active3 == item.id? 'actives': ''" @click="chooseSchool(item.id)">{{item.name}}</span>
+            <span :class="active == -1? 'actives': ''" @click="chooseGrade(-1)">全部</span>
+            <span v-for="(item,index) in Grade" :key="item.id" :class="active == item.id? 'actives': ''" @click="chooseGrade(item.id)">{{item.name}}</span>
           </div>
-				</div>
+        </div>
 			</div>
 		</div>
 		<div class="classMain">
