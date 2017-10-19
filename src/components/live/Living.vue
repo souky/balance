@@ -2,7 +2,14 @@
 	<div id="living">
 		<div class="living_play">
       <div class="living_main">
-			   <img src="../../../static/img/main.png" width="900px" height="550px">
+		<div class="video_playS">
+			<video-player  class="vjs-custom-skin"
+                 ref="videoPlayer"
+                 :options="playerOptions"
+                 :playsinline="true"
+                 customEventName="customstatechangedeventname">
+  			</video-player>
+		</div>
          <div class="living_voidTitle">
            <p class="voidtitle">{{profile.courseName}}</p>
            <p class="progress">{{profile.newprogram}}</p>
@@ -84,6 +91,7 @@
 		</div>
 	</div>
 </template>
+
 <script>
 export default {
   data () {
@@ -104,6 +112,18 @@ export default {
        },
         userU:{},
         baseUrl:"",
+        
+        playerOptions: {
+          // videojs options
+          muted: true,
+          language: 'zh',
+          aspectRatio:'900:550',
+          notSupportedMessage:'视频资源错误',
+          sources: [{
+            type: "video/mp4",
+            src: "../../../../static/video/mov_bbb.mp4"
+          }],
+        }
      }
   },
   created:function(){
@@ -181,6 +201,13 @@ export default {
 	padding-top:60px;
 	background-color: #F9F9F9;
 }	
+
+#living .video_playS{
+	width: 900px;
+	height:550px;
+	background: rgba(0,0,0,0.5);
+}
+
 #living .living_play{
 	width: 1200px;
 	height: 600px;
@@ -298,6 +325,7 @@ export default {
 #living .allClass_body_tabs_fourth_input_button{
 	margin-top:20px;
 	margin-right: 50px; 
+  margin-bottom: 50px;
 	width: 125px;
 	height: 35px;
 }
@@ -317,7 +345,6 @@ export default {
   width: 900px;
   height: 50px;
   background: #282828;
-  margin-top:-5px;
 }
 #living .allClass_body_tabs_first_content{
   width: 100%;

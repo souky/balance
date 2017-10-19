@@ -55,6 +55,7 @@ export default {
       	sex:'女',
       	class:'五年级',
       	school:'苏州二中',
+      	organization:{name:''}
       },
       showPage:'personaldata',
       datOabj:'',
@@ -66,22 +67,32 @@ export default {
   	var s = this.$route.params.part;
 	this.personaldataS(''+s);
 	var baseUU = this.getBaseUrl();
+	
 	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
-			data.result.user.img = baseUU + data.result.user.img;
-			obj.use=data.result.user;
-			obj.use.class=data.result.grade.name;
-			if(data.result.user.sex=="M"){
-				obj.use.sex="男";
-			}
-			if(data.result.user.sex=="W"){
-				obj.use.sex="女";
-			}
-		});
+		if(data.code == '60000' || data.code == '50000'){
+			obj.$router.push('/login')
+		}
+		data.result.user.img = baseUU + data.result.user.img;
+		obj.use=data.result.user;
+		obj.use.class = data.result.grade.name;
+		if(data.result.user.sex=="M"){
+			obj.use.sex="男";
+		}
+		if(data.result.user.sex=="W"){
+			obj.use.sex="女";
+		}
+	});
   },
   watch: {
     '$route' (to, from) {
   	 var s = this.$route.params.part;
-     this.personaldataS(''+s);
+  	 this.postHttp(this,{},"user/getLoginUser",function(obj,data){
+		if(data.code == '60000' || data.code == '50000'){
+			obj.$router.push('/login')
+		}
+		obj.personaldataS(''+s);
+	});
+     
     }
   },
   methods:{
