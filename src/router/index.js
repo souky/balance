@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import axios from 'axios'
 // 组件
 import Index from '@/components/Index'
 import Login from '@/components/Login'
@@ -20,7 +21,9 @@ import Playing from '@/components/live/playing.vue'
 
 Vue.use(Router)
 
-export default new Router({
+var querystring = require('querystring');
+
+var router = new Router({
 	mode:'history',
   routes: [
     {
@@ -51,28 +54,7 @@ export default new Router({
     {
       path: '/memberCenter/:part',
       component: MemberCenter,
-//    children:[
-//    {
-//      path:'/personaldata',
-//      name: '个人资料',
-//      component:PersonalData,
-//    },{
-//      path:'/accountsecurity',
-//      name: '',
-//      component: AccountSecurity,
-//    },{
-//      name: '',
-//      path:'/classesrecord',
-//      component: ClassesRecord,
-//    },{
-//      name: '',
-//      path:'/studyrecord',
-//      component: StudyRecord,
-//    },{
-//      name: '',
-//      path:'/orderrecord',
-//      component: OrderRecord, 
-//    }]
+      meta:{requireAuth:true}
     },
     {
       path: '/liveRoom',
@@ -121,3 +103,23 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(res => res.meta.requireAuth)) {// 判断是否需要登录权限
+	 	axios.defaults.withCredentials = true
+		axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+		var data = {};
+	 	axios.post("http://192.168.1.213:8080/balanced-education/user/getLoginUesr",querystring.stringify(data),{withCredentials : true}).then(response => {
+	  		if(response.data.code == "60000" || response.data.code == "50000"){
+	  			next({
+	  				path:'/login'
+	  			})
+	  		}else{
+	  			next();
+	  		}
+	    })
+    }else{
+    	next();
+    }
+ })
+export default router;
