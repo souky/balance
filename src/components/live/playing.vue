@@ -10,35 +10,35 @@
 			         <div v-if="child.status=='3_ENDED'" class="banner_bar_content_past">
                   <p class="tc mt30 f20">{{timeF(child.startDate).format("MM/DD hh:mm:ss")}}-{{timeF(child.endDate).format("hh:mm:ss")}}</p>   
                   <p class="tc mt10 f12">已结束</p>
-                  <p class="tc mt30 f12">{{child.gradeName}}</p>
+                  <p class="tc mt20 f12">{{child.gradeName}}</p>
                   <p class="tc mt10 f12">{{child.syllabusName}}</p>
                   <el-button class="banner_bar_content_button">查看回放</el-button>
                </div>
                <div v-if="child.status=='1_ONGOING'" class="banner_bar_content_now">
                   <p class="tc mt30 f20">{{timeF(child.startDate).format("MM/DD hh:mm:ss")}}-{{timeF(child.endDate).format("hh:mm:ss")}}</p>   
                   <p class="tc mt10 f12">进行中</p>
-                  <p class="tc mt30 f12">{{child.gradeName}}</p>
+                  <p class="tc mt20 f12">{{child.gradeName}}</p>
                   <p class="tc mt10 f12">{{child.syllabusName}}</p>
                   <el-button class="banner_bar_content_button_now">观看直播</el-button>
                </div>
                <div v-if="child.status=='2_NOT_STARTED'" class="banner_bar_content_future">
                   <p class="tc mt30 f20">{{timeF(child.startDate).format("MM/DD hh:mm:ss")}}-{{timeF(child.endDate).format("hh:mm:ss")}}</p>   
                   <p class="tc mt10 f12">未开始</p>
-                  <p class="tc mt30 f12">{{child.gradeName}}</p>
+                  <p class="tc mt20 f12">{{child.gradeName}}</p>
                   <p class="tc mt10 f12">{{child.syllabusName}}</p>
                   <el-button class="banner_bar_content_button_future">敬请期待</el-button>
                </div>
                <div v-if="child.status=='PROGRAM_SUBSCRIBED'" class="banner_bar_content_future">
                   <p class="tc mt30 f20">{{timeF(child.startDate).format("MM/DD hh:mm:ss")}}-{{timeF(child.endDate).format("hh:mm:ss")}}</p>   
                   <p class="tc mt10 f12">未开始</p>
-                  <p class="tc mt30 f12">{{child.gradeName}}</p>
+                  <p class="tc mt20 f12">{{child.gradeName}}</p>
                   <p class="tc mt10 f12">{{child.syllabusName}}</p>
                   <el-button class="banner_bar_content_button_future">敬请期待</el-button>
                </div>
                <div v-if="child.status=='PROGRAM_NOT_SUBSCRIBED'" class="banner_bar_content_future">
                   <p class="tc mt30 f20">{{timeF(child.startDate).format("MM/DD hh:mm:ss")}}-{{timeF(child.endDate).format("hh:mm:ss")}}</p>   
                   <p class="tc mt10 f12">未开始</p>
-                  <p class="tc mt30 f12">{{child.gradeName}}</p>
+                  <p class="tc mt20 f12">{{child.gradeName}}</p>
                   <p class="tc mt10 f12">{{child.syllabusName}}</p>
                   <el-button class="banner_bar_content_button_future">敬请期待</el-button>
                </div>
