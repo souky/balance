@@ -20,7 +20,7 @@
           <span class="itemLabel">年级:</span>
             <div class="itemDetail">
               <span :class="active == -1? 'actives': ''" @click="chooseGrade(-1)">全部</span>
-              <span v-for="item in Grade" :key="item.id" :class="active == item.id? 'actives': ''" @click="chooseGrade(item.id)">{{item.name}}</span>
+              <span v-for="item in Grade" :key="item.id"  :class="active == item.id? 'actives': ''" @click="chooseGrade(item.id)">{{item.name}}</span>
             </div>
         </div>
 			</div>
@@ -318,7 +318,7 @@ export default {
          obj.select.options2 = data.result.courseList;
          obj.select.options3 = data.result.teachingFileList;
         });
-       
+      
       }
 	}
 }
