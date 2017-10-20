@@ -188,14 +188,10 @@ export default {
   		var baseUU = this.getBaseUrl();
 
 	  	this.postHttp(this,{},"user/getLoginUser",function(obj,data){
-<<<<<<< HEAD
+
 			obj.person = data.result.user;
 			obj.person.img = baseUU + data.result.user.img;
 
-=======
-	  		obj.person = data.result.user;
-			obj.person.img = baseUU + data.result.user.img;
->>>>>>> c09cd7ee2cfd2573ab97030318815f50c6122edb
 		});
 	  	this.postHttp(this,pageData,"message/queryMessagesByUserId",function(obj,data){
 	  		obj.notic = data.result;
